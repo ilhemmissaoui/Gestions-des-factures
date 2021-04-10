@@ -12,6 +12,7 @@ import NewReport from "./pages/Dashboard/NewReport";
 import AdminLayout from "../ui/layouts/AdminLayout";
 import Public from "../ui/layouts/Public";
 import { SUPER_ADMIN } from "../api/roles";
+import ClientsList from "./pages/Dashboard/Clients/ClientsList";
 
 const Routes = (props) => {
   let loggingIn = true;
@@ -63,6 +64,38 @@ const Routes = (props) => {
               path="/admin/newreport"
               pathAfterFailure="/401"
               component={NewReport}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SUPER_ADMIN]}
+              path="/admin/clients"
+              pathAfterFailure="/401"
+              component={ClientsList}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SUPER_ADMIN]}
+              path="/admin/clients"
+              pathAfterFailure="/401"
+              component={ClientsList}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SUPER_ADMIN]}
+              path="/admin/clients"
+              pathAfterFailure="/401"
+              component={ClientsList}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SUPER_ADMIN]}
+              path="/admin/clients"
+              pathAfterFailure="/401"
+              component={ClientsList}
               {...props}
             />
           </Switch>
