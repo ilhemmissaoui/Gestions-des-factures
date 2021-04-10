@@ -1,5 +1,5 @@
 import { LinksCollection } from "../../../collections/links";
-import { CLIENT } from "../roles";
+import { CLIENT, COMPANY } from "../roles";
 import { Meteor } from "meteor/meteor";
 import shortid from "shortid";
 import { LinkSchema } from "../schemas/LinkSchema";
@@ -15,7 +15,7 @@ const userRegister = function (data) {
     },
   };
   const _id = Accounts.createUser(info); /// create a user account
-  Roles.addUsersToRoles(_id, CLIENT); /// give the created user a CLIENT role
+  Roles.addUsersToRoles(_id, COMPANY); /// give the created user a CLIENT role
   return _id;
 };
 

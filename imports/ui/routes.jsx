@@ -43,17 +43,24 @@ const Routes = (props) => {
         />
         <Public
           exact
+          path="/"
+          component={Login}
+          {...props}
+          authenticated={authenticated}
+        />
+        <Public
+          exact
           path="/forgot-password"
           component={Forgot}
           {...props}
           authenticated={authenticated}
         />
-        <AdminLayout path="/admin" {...props}>
+        <AdminLayout path="/super_admin" {...props}>
           <Switch>
             <Authorized
               exact
               allowedRoles={[SUPER_ADMIN]}
-              path="/admin/dashboard"
+              path="/super_admin/dashboard"
               pathAfterFailure="/401"
               component={DashboardAdmin}
               {...props}
@@ -61,7 +68,7 @@ const Routes = (props) => {
             <Authorized
               exact
               allowedRoles={[SUPER_ADMIN]}
-              path="/admin/newreport"
+              path="/super_admin/newreport"
               pathAfterFailure="/401"
               component={NewReport}
               {...props}
@@ -69,7 +76,7 @@ const Routes = (props) => {
             <Authorized
               exact
               allowedRoles={[SUPER_ADMIN]}
-              path="/admin/clients"
+              path="/super_admin/clients"
               pathAfterFailure="/401"
               component={ClientsList}
               {...props}
@@ -77,23 +84,7 @@ const Routes = (props) => {
             <Authorized
               exact
               allowedRoles={[SUPER_ADMIN]}
-              path="/admin/clients"
-              pathAfterFailure="/401"
-              component={ClientsList}
-              {...props}
-            />
-            <Authorized
-              exact
-              allowedRoles={[SUPER_ADMIN]}
-              path="/admin/clients"
-              pathAfterFailure="/401"
-              component={ClientsList}
-              {...props}
-            />
-            <Authorized
-              exact
-              allowedRoles={[SUPER_ADMIN]}
-              path="/admin/clients"
+              path="/super_admin"
               pathAfterFailure="/401"
               component={ClientsList}
               {...props}

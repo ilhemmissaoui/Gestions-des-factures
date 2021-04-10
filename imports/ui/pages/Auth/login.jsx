@@ -20,7 +20,9 @@ const Login = (props) => {
         setError(error.reason);
       } else {
         console.log(props);
-        props.history.push("/dashboard");
+        props.history.push(
+          Roles.getRolesForUser(Meteor.userId())[0].toLowerCase()
+        );
         //redirect him to the path you want
       }
     });
