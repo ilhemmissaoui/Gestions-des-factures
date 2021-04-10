@@ -9,6 +9,7 @@ import DashboardAdmin from "./pages/Dashboard/AdminDashboard";
 import Forgot from "./pages/Auth/ForgotPassword";
 import NewReport from "./pages/Dashboard/NewReport";
 import AdminLayout from "../ui/layouts/AdminLayout";
+import Public from "../ui/layouts/Public";
 
 const Routes = (props) => {
   let loggingIn = true;
@@ -22,27 +23,29 @@ const Routes = (props) => {
     <></>
   ) : (
     <BrowserRouter>
-      <AdminLayout path="/admin" {...props}>
-        <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={SignUp} />
-          <Route path="/forgot-password" component={Forgot} />
-          <Authenticated
-            path="/dashboard"
-            exact
-            component={DashboardAdmin}
-            authenticated={authenticated}
-            loggingIn={loggingIn}
-          />
-          <Authenticated
-            path="/newreport"
-            exact
-            component={NewReport}
-            authenticated={authenticated}
-            loggingIn={loggingIn}
-          />
-        </Switch>
-      </AdminLayout>
+      <Switch>
+        <Public exact path="/login" component={Login} {...props} />
+        <Public exact path="/signup" component={SignUp} {...props} />
+        <Public exact path="/forgot-password" component={Forgot} {...props} />
+        <AdminLayout path="/admin" {...props}>
+          <Switch>
+            <Authenticated
+              path="/dashboard"
+              exact
+              component={DashboardAdmin}
+              authenticated={authenticated}
+              loggingIn={loggingIn}
+            />
+            <Authenticated
+              path="/newreport"
+              exact
+              component={NewReport}
+              authenticated={authenticated}
+              loggingIn={loggingIn}
+            />
+          </Switch>
+        </AdminLayout>
+      </Switch>
     </BrowserRouter>
   );
 };
