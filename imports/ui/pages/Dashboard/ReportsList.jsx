@@ -21,23 +21,27 @@ const ReportsList = (props) => {
 
   return (
     <>
-      <div>Link List</div>
+      <div className="page-wrapper">
+        <div className="container-xl">
+          <div>Link List</div>
 
-      <div className="card">
-        <div className="table-responsive">
-          <table className="table table-vcenter card-table">
-            <thead>
-              <tr>
-                <th>Link</th>
-                <th class="w-1">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {links?.map((link) => (
-                <ReportItems key={link._id} url={link.url} id={link._id} />
-              ))}
-            </tbody>
-          </table>
+          <div className="card">
+            <div className="table-responsive">
+              <table className="table table-vcenter card-table">
+                <thead>
+                  <tr>
+                    <th>Link</th>
+                    <th class="w-1">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {links?.map((link) => (
+                    <ReportItems key={link._id} url={link.url} id={link._id} />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </>

@@ -8,7 +8,6 @@ const Public = ({
   loggingIn,
   authenticated,
   roles,
-  afterLoginPath,
   component,
   path,
   exact,
@@ -27,11 +26,7 @@ const Public = ({
           roles,
         })
       ) : (
-        <Redirect
-          to={
-            afterLoginPath || roles.length ? `/${roles[0].toLowerCase()}` : "/"
-          }
-        />
+        <Redirect to={roles.length ? `/${roles[0].toLowerCase()}` : "/"} />
       )
     }
   />
