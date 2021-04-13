@@ -13,6 +13,7 @@ import AdminLayout from "../ui/layouts/AdminLayout";
 import Public from "../ui/layouts/Public";
 import { SUPER_ADMIN } from "../api/roles";
 import ClientsList from "./pages/Dashboard/Clients/ClientsList";
+import AboutPage from "../ui/pages/AboutPage";
 
 const Routes = (props) => {
   let loggingIn = true;
@@ -87,6 +88,14 @@ const Routes = (props) => {
               path="/super_admin"
               pathAfterFailure="/401"
               component={ClientsList}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SUPER_ADMIN]}
+              path="/super_admin/about"
+              pathAfterFailure="/401"
+              component={AboutPage}
               {...props}
             />
           </Switch>

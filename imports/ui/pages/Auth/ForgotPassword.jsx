@@ -33,12 +33,6 @@ const ForgotPassword = (props) => {
       </div>
     </div>
   );
-  {
-    /* Libs JS */
-  }
-  {
-    /* Tabler Core */
-  }
 };
 
 export default ForgotPassword;

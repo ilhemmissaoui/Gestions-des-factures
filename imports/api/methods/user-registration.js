@@ -1,8 +1,8 @@
 import { LinksCollection } from "../../../collections/links";
 import { CLIENT, COMPANY } from "../roles";
 import { Meteor } from "meteor/meteor";
-import shortid from "shortid";
-import { LinkSchema } from "../schemas/LinkSchema";
+
+
 
 const userRegister = function (data) {
   console.log(data);

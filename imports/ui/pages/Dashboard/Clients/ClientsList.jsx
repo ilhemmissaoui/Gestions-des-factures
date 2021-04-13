@@ -54,6 +54,15 @@ const ClientsList = () => {
           </div>
         </div>
       </div>
+      <div className="text-center text-muted mt-3">
+        <button
+          type="submit"
+          className="btn btn-primary w-100"
+          onClick={(_) => Meteor.logout()}
+        >
+          Logout
+        </button>
+      </div>
     </div>
   );
 };
