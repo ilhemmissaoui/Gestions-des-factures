@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CompanySchema } from "../../api/schemas/CompanySchema";
-
+import { Button, Modal } from "react-bootstrap";
 const AboutPage = () => {
+  const [isOpened, setIsOpened] = useState(false);
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(CompanySchema),
   });
@@ -13,6 +14,8 @@ const AboutPage = () => {
       if (e) console.log(e);
     });
   };
+  const handleClose = () => setIsOpened(false);
+  const handleShow = () => setIsOpened(true);
 
   return (
     <div>
@@ -154,7 +157,10 @@ const AboutPage = () => {
                             </div>
 
                             <div className="col-6 col-sm-4 col-md-2 col-xl mb-3">
-                              <button className="btn btn-dark w-100">
+                              <button
+                                onClick={handleShow}
+                                className="btn btn-dark w-100"
+                              >
                                 Add
                               </button>
                             </div>
@@ -169,6 +175,36 @@ const AboutPage = () => {
           </div>
         </div>
       </div>
+      <Modal
+        show={isOpened}
+        // fade={false}
+        animation={true}
+        // style={{ width: "200px", display: "block" }}
+        onHide={handleClose}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Added succesfully</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form onSubmit={handleClose}>
+            <button
+              onHide={handleClose}
+              type="submit"
+              className="btn btn-primary w-100"
+            >
+              ok
+            </button>
+          </form>
+        </Modal.Body>
+        {/* <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer> */}
+      </Modal>
     </div>
   );
 };

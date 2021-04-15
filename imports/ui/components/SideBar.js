@@ -5,7 +5,7 @@ import cslx from "classnames";
 
 const element = [
   { label: "Home", icon: <Home />, path: "/super_admin/about" },
-  { label: "documentation", icon: <Image />, path: "/dashboard" },
+  { label: "Sells", icon: <Image />, path: "/super_admin/sells" },
 ];
 
 const SideBar = (props) => {

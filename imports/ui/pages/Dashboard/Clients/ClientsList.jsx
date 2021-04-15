@@ -10,8 +10,15 @@ const ClientsList = () => {
     });
   };
 
+  const getInfo = () => {
+    Meteor.call("getInfo", (e, r) => {
+      console.log(r);
+    });
+  };
+
   useEffect(() => {
     getCLients();
+    getInfo();
   }, []);
 
   return (
@@ -21,6 +28,7 @@ const ClientsList = () => {
         <div className="page-header d-print-none">
           <div className="row align-items-center">
             <div className="col">
+              <p>{getInfo()}</p>
               <h2 className="page-title">Clients List</h2>
             </div>
           </div>

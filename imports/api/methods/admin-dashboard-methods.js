@@ -4,12 +4,15 @@ import CompanyCollection from "../../../collections/company";
 const getClients = function () {
   return Meteor.users.find({ _id: { $ne: this.userId } }).fetch();
 };
-
+const getInfo = function () {
+  console.log(CompanyCollection.find({ userId: this.userId }).fetch());
+  return CompanyCollection.find({ userId: this.userId }).fetch();
+};
 const addInfo = async function (data) {
   console.log(data);
   CompanyCollection.insert({
     ...data,
-    userId: this.user,
+    userId: this.userId,
   });
 };
 const getUserInfo = async function () {
@@ -30,4 +33,6 @@ const getUserInfo = async function () {
 Meteor.methods({
   getClients,
   addInfo,
+  getInfo,
+  getUserInfo,
 });
