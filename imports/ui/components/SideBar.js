@@ -4,8 +4,15 @@ import { Link } from "react-router-dom";
 import cslx from "classnames";
 
 const element = [
-  { label: "Home", icon: <Home />, path: "/super_admin/about" },
-  { label: "Sells", icon: <Image />, path: "/super_admin/sells" },
+  { label: "Home", icon: <Home />, path: "/super_admin" },
+  { label: "Sells", path: "/super_admin/sells" },
+
+  {
+    label: "Client Command",
+
+    path: "/super_admin/clientcommand",
+  },
+  { label: "About company", path: "/super_admin/about" },
 ];
 
 const SideBar = (props) => {
@@ -33,6 +40,45 @@ const SideBar = (props) => {
               ))}
             </ul>
           </div>
+        </div>
+      </div>
+      <div className="nav-item dropdown">
+        <a
+          href="#"
+          className="nav-link d-flex lh-1 text-reset p-0 show"
+          data-bs-toggle="dropdown"
+          aria-label="Open user menu"
+          aria-expanded="true"
+        >
+          <span
+            className="avatar avatar-sm"
+            style={{ backgroundImage: "url(./static/avatars/000m.jpg)" }}
+          />
+          <div className="d-none d-xl-block ps-2">
+            <div>Paweł Kuna</div>
+            <div className="mt-1 small text-muted">UI Designer</div>
+          </div>
+        </a>
+        <div
+          className="dropdown-menu dropdown-menu-end dropdown-menu-arrow show"
+          data-bs-popper="none"
+        >
+          <a href="#" className="dropdown-item">
+            Set status
+          </a>
+          <a href="#" className="dropdown-item">
+            Profile &amp; account
+          </a>
+          <a href="#" className="dropdown-item">
+            Feedback
+          </a>
+          <div className="dropdown-divider" />
+          <a href="#" className="dropdown-item">
+            Settings
+          </a>
+          <a href="#" className="dropdown-item">
+            Logout
+          </a>
         </div>
       </div>
     </div>

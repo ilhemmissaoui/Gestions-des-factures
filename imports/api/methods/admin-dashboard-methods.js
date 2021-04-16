@@ -30,9 +30,29 @@ const getUserInfo = async function () {
     ])
     .toArray();
 };
+const deleteClient = (id) => {
+  console.log(id);
+  Meteor.users.remove({ id });
+};
+
+const updateClient = async function (id, data) {
+  console.log(data);
+  const client = Meteor.users.findOne(id);
+  console.log(client);
+  await Meteor.users.update(
+    { userId: this.userId },
+    {
+      $set: {
+        userId: data,
+      },
+    }
+  );
+};
 Meteor.methods({
   getClients,
   addInfo,
   getInfo,
   getUserInfo,
+  deleteClient,
+  updateClient,
 });

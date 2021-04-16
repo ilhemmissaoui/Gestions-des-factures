@@ -15,6 +15,7 @@ import { SUPER_ADMIN } from "../api/roles";
 import ClientsList from "./pages/Dashboard/Clients/ClientsList";
 import AboutPage from "../ui/pages/AboutPage";
 import Devis from "./pages/Dashboard/ventes/Devis";
+import ClientComand from "./pages/Dashboard/ventes/ClientComand";
 
 const Routes = (props) => {
   let loggingIn = true;
@@ -105,6 +106,14 @@ const Routes = (props) => {
               path="/super_admin/sells"
               pathAfterFailure="/401"
               component={Devis}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SUPER_ADMIN]}
+              path="/super_admin/clientcommand"
+              pathAfterFailure="/401"
+              component={ClientComand}
               {...props}
             />
           </Switch>
