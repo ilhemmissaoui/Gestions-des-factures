@@ -5,8 +5,14 @@ import SideBar from "../components/SideBar";
 
 const AdminLayout = ({ children, location, store, ...props }) => (
   <div className="page-wrapper">
-    <SideBar location={location} {...props} />
-    <main>{children}</main>
+    {Meteor.userId() ? (
+      <>
+        <SideBar location={location} {...props} />
+        <main>{children}</main>
+      </>
+    ) : (
+      props.history.push("/login")
+    )}
   </div>
 );
 

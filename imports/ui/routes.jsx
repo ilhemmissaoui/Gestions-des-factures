@@ -117,6 +117,7 @@ const Routes = (props) => {
               {...props}
             />
           </Switch>
+          <Route path="*" component={ClientComand} />
         </AdminLayout>
       </Switch>
     </BrowserRouter>
