@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import ClientItem from "../Clients/ClientItem";
 
-
-
 const Devis = () => {
   const [date, setDate] = useState(new Date());
   const [clients, setClients] = useState([]);
-  
+
   const getCLients = () => {
     Meteor.call("getClients", (e, r) => {
       if (!e) setClients(r);
@@ -20,8 +18,6 @@ const Devis = () => {
   const onChange = (date) => {
     setDate(date);
   };
-
-  
 
   return (
     <div className="col-12">
@@ -39,7 +35,7 @@ const Devis = () => {
             </thead>
             <tbody>
               {clients.map((e) => (
-                <ClientItem clientInfo={e} />
+                <ClientItem clientInfo={e} refreshUsers={getCLients} />
               ))}
             </tbody>
           </table>

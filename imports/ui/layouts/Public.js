@@ -26,7 +26,7 @@ const Public = ({
           roles,
         })
       ) : (
-        <Redirect to={roles.length ? `/${roles[0].toLowerCase()}` : "/"} />
+        <Redirect to={roles.length ? `/${roles[0].toLowerCase()}` : "/login"} />
       )
     }
   />

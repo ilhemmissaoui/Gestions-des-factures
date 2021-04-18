@@ -3,7 +3,9 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 
-const ClientItem = ({ clientInfo }) => {
+const ClientItem = ({ clientInfo, refreshUsers }) => {
+  console.log(refreshUsers);
+
   const [isOpened, setIsOpened] = useState(false);
   const { register, handleSubmit, errors } = useForm({});
 
@@ -16,13 +18,17 @@ const ClientItem = ({ clientInfo }) => {
     console.log(clientInfo);
     // console.log(id);
     Meteor.call("deleteClient", clientInfo._id, (e, r) => {
-      if (e) console.log(e);
+      if (!e) refreshUsers();
     });
   };
   const onUpdate = (newClient) => {
-    console.log(id);
-    Meteor.call("updateClient", id, newClient, (e, r) => {
+    console.log(clientInfo._id);
+    console.log(newClient);
+    Meteor.call("updateClient", clientInfo._id, newClient, (e, r) => {
       if (e) console.log(e);
+      else {
+        refreshUsers();
+      }
       handleClose();
     });
   };

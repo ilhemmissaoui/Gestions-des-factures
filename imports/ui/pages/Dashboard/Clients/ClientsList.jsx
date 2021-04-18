@@ -52,7 +52,7 @@ const ClientsList = () => {
                     </thead>
                     <tbody>
                       {clients.map((e) => (
-                        <ClientItem clientInfo={e} />
+                        <ClientItem clientInfo={e} refreshUsers={getCLients} />
                       ))}
                     </tbody>
                   </table>
