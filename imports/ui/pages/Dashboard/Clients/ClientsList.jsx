@@ -22,54 +22,41 @@ const ClientsList = () => {
   }, []);
 
   return (
-    <div className="page-wrapper">
-      <div className="container-xl">
-        {/* Page title */}
-        <div className="page-header d-print-none">
-          <div className="row align-items-center">
-            <div className="col">
-              <p>{getInfo()}</p>
-              <h2 className="page-title">Clients List</h2>
+    <div>
+      <div className="container has-text-centered">
+        <div className="columns is-mobile is-centered">
+          <div className="column is-8">
+            <div>
+              <h1 className="title">User Information</h1>
+              <hr />
             </div>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>userId</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th className="w-1" />
+                </tr>
+              </thead>
+              <tbody>
+                {clients.map((e) => (
+                  <ClientItem clientInfo={e} refreshUsers={getCLients} />
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
-      </div>
-      <div className="page-body">
-        <div className="container-xl">
-          <div className="row row-cards">
-            <div className="col-12">
-              <div className="card">
-                <div className="table-responsive">
-                  <table className="table table-vcenter card-table">
-                    <thead>
-                      <tr>
-                        <th>userId</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th className="w-1" />
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {clients.map((e) => (
-                        <ClientItem clientInfo={e} refreshUsers={getCLients} />
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="text-center text-muted mt-3">
+          <button
+            type="submit"
+            className="btn btn-primary w-100"
+            onClick={(_) => Meteor.logout()}
+          >
+            Logout
+          </button>
         </div>
-      </div>
-      <div className="text-center text-muted mt-3">
-        <button
-          type="submit"
-          className="btn btn-primary w-100"
-          onClick={(_) => Meteor.logout()}
-        >
-          Logout
-        </button>
       </div>
     </div>
   );

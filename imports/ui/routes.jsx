@@ -3,20 +3,23 @@ import React from "react";
 import { Switch, Route, Redirect, BrowserRouter } from "react-router-dom";
 import { useTracker } from "meteor/react-meteor-data";
 import Login from "./pages/Auth/login";
-import Authenticated from "./components/authenticated";
 import Authorized from "./components/authorized";
 import SignUp from "./pages/Auth/signup";
 import DashboardAdmin from "./pages/Dashboard/AdminDashboard";
 import Forgot from "./pages/Auth/ForgotPassword";
-import NewReport from "./pages/Dashboard/NewReport";
 import AdminLayout from "../ui/layouts/AdminLayout";
 import Public from "../ui/layouts/Public";
-import { SUPER_ADMIN } from "../api/roles";
-import ClientsList from "./pages/Dashboard/Clients/ClientsList";
+import { SUPER_ADMIN, COMPANY } from "../api/roles";
 import AboutPage from "../ui/pages/AboutPage";
 import Devis from "./pages/Dashboard/ventes/Devis";
-import ClientComand from "./pages/Dashboard/ventes/ClientComand";
-
+import CompanyLayout from "../ui/layouts/CompanyLayout";
+import ClientsList from "../ui/pages/Dashboard/Clients/ClientsList";
+import Print from "./pages/Print";
+import Profile from "./pages/Dashboard/ventes/Profile";
+import Setting from "./pages/Dashboard/ventes/Setting";
+import Home from "../ui/pages/Dashboard/Clients/Home";
+import Notification from "./pages/Dashboard/ventes/Notification";
+import ContactUs from "./ContactUs";
 const Routes = (props) => {
   let loggingIn = true;
   let user;
@@ -58,12 +61,58 @@ const Routes = (props) => {
           {...props}
           authenticated={authenticated}
         />
+        <CompanyLayout path="/company" {...props}>
+          <Switch>
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/about"
+              pathAfterFailure="/401"
+              component={AboutPage}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/home"
+              pathAfterFailure="/401"
+              component={Home}
+              {...props}
+            />
+
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/dashboard"
+              pathAfterFailure="/401"
+              component={DashboardAdmin}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/home"
+              pathAfterFailure="/401"
+              component={Home}
+              {...props}
+            />
+
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/sells"
+              pathAfterFailure="/401"
+              component={Devis}
+              {...props}
+            />
+          </Switch>
+        </CompanyLayout>
         <AdminLayout path="/super_admin" {...props}>
           <Switch>
             <Authorized
               exact
               allowedRoles={[SUPER_ADMIN]}
-              path="/super_admin/dashboard"
+              path="/super_admin"
               pathAfterFailure="/401"
               component={DashboardAdmin}
               {...props}
@@ -71,53 +120,54 @@ const Routes = (props) => {
             <Authorized
               exact
               allowedRoles={[SUPER_ADMIN]}
-              path="/super_admin/newreport"
-              pathAfterFailure="/401"
-              component={NewReport}
-              {...props}
-            />
-            <Authorized
-              exact
-              allowedRoles={[SUPER_ADMIN]}
-              path="/super_admin/clients"
+              path="/super_admin/clientslist"
               pathAfterFailure="/401"
               component={ClientsList}
               {...props}
             />
+
             <Authorized
               exact
               allowedRoles={[SUPER_ADMIN]}
-              path="/super_admin"
+              path="/super_admin/contact_us"
               pathAfterFailure="/401"
-              component={ClientsList}
+              component={ContactUs}
               {...props}
             />
             <Authorized
               exact
               allowedRoles={[SUPER_ADMIN]}
-              path="/super_admin/about"
+              path="/super_admin/print"
               pathAfterFailure="/401"
-              component={AboutPage}
+              component={Print}
               {...props}
             />
             <Authorized
               exact
               allowedRoles={[SUPER_ADMIN]}
-              path="/super_admin/sells"
+              path="/super_admin/profile"
               pathAfterFailure="/401"
-              component={Devis}
+              component={Profile}
+              {...props}
+            />
+
+            <Authorized
+              exact
+              allowedRoles={[SUPER_ADMIN]}
+              path="/super_admin/notification"
+              pathAfterFailure="/401"
+              component={Notification}
               {...props}
             />
             <Authorized
               exact
               allowedRoles={[SUPER_ADMIN]}
-              path="/super_admin/clientcommand"
+              path="/super_admin/setting"
               pathAfterFailure="/401"
-              component={ClientComand}
+              component={Setting}
               {...props}
             />
           </Switch>
-          <Route path="*" component={ClientComand} />
         </AdminLayout>
       </Switch>
     </BrowserRouter>

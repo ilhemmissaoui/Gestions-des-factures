@@ -40,22 +40,21 @@ const ClientItem = ({ clientInfo, refreshUsers }) => {
     <>
       <tr>
         <td>{clientInfo?._id}</td>
-        <td className="text-muted">{clientInfo?.profile?.firstName}</td>
-        <td className="text-muted">
-          <a href="#" className="text-reset">
-            {clientInfo?.emails[0]?.address}
-          </a>
-        </td>
-        <td className="text-muted">Client</td>
+        <td>{clientInfo?.profile?.firstName}</td>
         <td>
-          <Link to="#" onClick={(_) => onDelete()} className="btn btn-danger">
+          <a>{clientInfo?.emails[0]?.address}</a>
+        </td>
+        <td>Client</td>
+        <td>
+          <Link to="#" onClick={(_) => onDelete()}>
             Delete
           </Link>
-          <Link to="#" onClick={handleShow} className="btn btn-warning">
+          <Link to="#" onClick={handleShow}>
             Update
           </Link>
         </td>
       </tr>
+
       <Modal
         show={isOpened}
         // fade={false}

@@ -42,7 +42,7 @@ const Authorized = (props) => {
       render={(props) => React.createElement(component, { ...rest, ...props })}
     />
   ) : (
-    <div />
+    <Redirect to="/login" />
   );
 };
 

@@ -4,13 +4,13 @@ import { withRouter } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
 
-const AdminLayout = ({ children, location, store, ...props }) => (
+const CompanyLayout = ({ children, location, store, ...props }) => (
   <div className="page-wrapper">
     {Meteor.userId() ? (
       <>
         <NavBar location={location} {...props} />
-        <main>{children}</main>
         <SideBar location={location} {...props} />
+        <main>{children}</main>
       </>
     ) : (
       props.history.push("/login")
@@ -18,4 +18,4 @@ const AdminLayout = ({ children, location, store, ...props }) => (
   </div>
 );
 
-export default withRouter(AdminLayout);
+export default withRouter(CompanyLayout);

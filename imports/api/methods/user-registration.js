@@ -1,8 +1,6 @@
 import { LinksCollection } from "../../../collections/links";
-import { CLIENT, COMPANY } from "../roles";
+import { COMPANY } from "../roles";
 import { Meteor } from "meteor/meteor";
-
-
 
 const userRegister = function (data) {
   console.log(data);
@@ -35,7 +33,7 @@ const updatelinks = async function (id, data) {
   //} catch (e) {
   //  throw new Meteor.Error(e.message);
   // }
-  await LinksCollection.update(
+  LinksCollection.update(
     { _id: id },
     {
       $set: {

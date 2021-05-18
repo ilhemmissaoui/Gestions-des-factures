@@ -1,6 +1,7 @@
 import React from "react";
 import Typical from "react-typical";
-const DashboardAdmin = () => {
+
+const About_Admin = () => {
   return (
     <div>
       <div className="column is-10-desktop is-offset-2-desktop is-9-tablet is-offset-3-tablet is-12-mobile">
@@ -8,6 +9,7 @@ const DashboardAdmin = () => {
           <div className="columns is-variable is-desktop">
             <div className="column">
               <h1 className="title is-1">
+                
                 <Typical
                   loop={Infinity}
                   wrapper="b"
@@ -110,4 +112,4 @@ const DashboardAdmin = () => {
   );
 };
 
-export default DashboardAdmin;
+export default About_Admin;

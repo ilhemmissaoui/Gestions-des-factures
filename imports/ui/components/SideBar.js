@@ -1,88 +1,90 @@
 import React from "react";
-import { Home, Image } from "react-feather";
+import { Clipboard, Users } from "react-feather";
 import { Link } from "react-router-dom";
 import cslx from "classnames";
 
+
+
 const element = [
-  { label: "Home", icon: <Home />, path: "/super_admin" },
-  { label: "Sells", path: "/super_admin/sells" },
+  {
+    label: "Dashboard",
+    icon: <Clipboard />,
+    path: "clientslist",
+    role: ["COMPANY,SUPER_ADMIN"],
+  },
+  {
+    label: "Customers",
+    icon: <Users />,
+    path: "customers",
+    role: ["COMPANY,SUPER_ADMIN"],
+  },
+  { label: "Sells", path: "sells", role: ["COMPANY,SUPER_ADMIN"] },
 
   {
     label: "Client Command",
 
-    path: "/super_admin/clientcommand",
+    path: "clientcommand",
+    role: ["COMPANY,SUPER_ADMIN"],
   },
-  { label: "About company", path: "/super_admin/about" },
+  { label: "About company", path: "about", role: ["COMPANY"] },
 ];
 
 const SideBar = (props) => {
+
+  $(document).ready(function () {
+    $('.toggler').on('click', function () {
+      $('.menu-container').toggleClass('active');
+    });
+    $('.nav-toggler').on('click', function () {
+      $('.navbar-toggler').toggleClass('is-active');
+      $('.navbar-menu').toggleClass('is-active');
+    });
+  
+    function setMenuHeight() {
+      var navbarHeight = $('.navbar').outerHeight();
+      $('.menu-wrapper').outerHeight(document.documentElement.clientHeight - navbarHeight).niceScroll({
+        emulatetouch: true
+      });
+    }
+  
+    setMenuHeight();
+    $(window).on('resize', function () {
+      setMenuHeight();
+    });
+  });
   console.log(props.location.pathname);
   return (
-    <div className="navbar-expand-md">
-      <div className="collapse navbar-collapse" id="navbar-menu">
-        <div className="navbar navbar-light">
-          <div className="container-xl">
-            <ul className="navbar-nav">
-              {element.map((e) => (
-                <li
-                  className={cslx("nav-item", {
-                    active: e.path === props.location.pathname,
-                  })}
-                >
-                  <Link to={e.path} className="nav-link">
-                    <span className="nav-link-icon d-md-none d-lg-inline-block">
-                      {/* Download SVG icon from http://tabler-icons.io/i/home */}
+    <div>
+    <div className="columns is-variable is-0">
+      <div>
+        <div className="menu-container px-1 has-background-white">
+          <div className="menu-wrapper py-1">
+            <aside className="menu">
+              <p className="menu-label has-text-lighter">General</p>
+              <ul  className="menu-list">
+              
+              {elements.map((e, i) => (
+                <li className="nav-item">
+                  <Link
+                    to={e.route}
+                    className={clsx("nav-link", {
+                      active: i === selectedIndex,
+                    })}
+                  >
+               <span className="nav-link-icon d-md-none d-lg-inline-block">
+                      {e.icon}
                     </span>
-                    {e.icon}
-                    <span className="nav-link-title">{e.label}</span>
+                    <span className="fas fa-tachometer-alt icon" >{e.label}</span>
                   </Link>
                 </li>
               ))}
             </ul>
-          </div>
+                   
+        </aside>  
         </div>
       </div>
-      <div className="nav-item dropdown">
-        <a
-          href="#"
-          className="nav-link d-flex lh-1 text-reset p-0 show"
-          data-bs-toggle="dropdown"
-          aria-label="Open user menu"
-          aria-expanded="true"
-        >
-          <span
-            className="avatar avatar-sm"
-            style={{ backgroundImage: "url(./static/avatars/000m.jpg)" }}
-          />
-          <div className="d-none d-xl-block ps-2">
-            <div>Paweł Kuna</div>
-            <div className="mt-1 small text-muted">UI Designer</div>
-          </div>
-        </a>
-        <div
-          className="dropdown-menu dropdown-menu-end dropdown-menu-arrow show"
-          data-bs-popper="none"
-        >
-          <a href="#" className="dropdown-item">
-            Set status
-          </a>
-          <a href="#" className="dropdown-item">
-            Profile &amp; account
-          </a>
-          <a href="#" className="dropdown-item">
-            Feedback
-          </a>
-          <div className="dropdown-divider" />
-          <a href="#" className="dropdown-item">
-            Settings
-          </a>
-          <a href="#" className="dropdown-item">
-            Logout
-          </a>
-        </div>
-      </div>
-    </div>
+    </div> 
+    </div></div>
   );
 };
-
 export default SideBar;

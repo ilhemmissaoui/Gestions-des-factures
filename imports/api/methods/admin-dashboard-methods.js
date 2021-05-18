@@ -8,12 +8,7 @@ const getClients = function () {
 const getInfo = function () {
   return CompanyCollection.find({ userId: this.userId }).fetch();
 };
-const addInfo = async function (data) {
-  CompanyCollection.insert({
-    ...data,
-    userId: this.userId,
-  });
-};
+
 const getUserInfo = async function () {
   return await Meteor.users
     .rawCollection()
@@ -45,7 +40,6 @@ const updateClient = async function (id, data) {
 };
 Meteor.methods({
   getClients,
-  addInfo,
   getInfo,
   getUserInfo,
   deleteClient,
