@@ -2,7 +2,7 @@ import React from "react";
 import { Clipboard, Users } from "react-feather";
 import { Link } from "react-router-dom";
 import cslx from "classnames";
-
+import Script from "./Script";
 
 
 const element = [
@@ -54,37 +54,71 @@ const SideBar = (props) => {
   });
   console.log(props.location.pathname);
   return (
-    <div>
     <div className="columns is-variable is-0">
       <div>
         <div className="menu-container px-1 has-background-white">
           <div className="menu-wrapper py-1">
             <aside className="menu">
               <p className="menu-label has-text-lighter">General</p>
-              <ul  className="menu-list">
-              
-              {elements.map((e, i) => (
-                <li className="nav-item">
-                  <Link
-                    to={e.route}
-                    className={clsx("nav-link", {
-                      active: i === selectedIndex,
-                    })}
-                  >
-               <span className="nav-link-icon d-md-none d-lg-inline-block">
-                      {e.icon}
-                    </span>
-                    <span className="fas fa-tachometer-alt icon" >{e.label}</span>
-                  </Link>
+              <ul className="menu-list">
+            
+                <li>
+                
+                  <a href="#" className="has-text-black">
+                    <i className="fas fa-tachometer-alt icon" />
+                    Dashboard
+                  </a>
                 </li>
-              ))}
-            </ul>
-                   
-        </aside>  
+              </ul>
+              <p className="menu-label has-text-lighter">Administration</p>
+              <ul className="menu-list">
+                <li>
+                  <a href="#" className="is-active has-background-primary">
+                    <i className="fas fa-cogs icon" />
+                    Settings
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="has-text-black">
+                    <i className="fas fa-users-cog icon" />
+                    Manage Team
+                  </a>
+                  <ul>
+                    <li>
+                      <a href="#" className="has-text-black">
+                        <i className="fas fa-users icon" />
+                        Members
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" className="has-text-black">
+                        <i className="fas fa-user-plus icon" />
+                        Add New
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <p className="menu-label has-text-lighter">Other</p>
+              <ul className="menu-list">
+                <li>
+                  <a href="#" className="has-text-black">
+                    <i className="fas fa-comments icon" />
+                    Chats
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="has-text-black">
+                    <i className="fas fa-info-circle icon" />
+                    Extras
+                  </a>
+                </li>
+              </ul>
+            </aside>
+          </div>
         </div>
       </div>
-    </div> 
-    </div></div>
+    </div>
   );
 };
 export default SideBar;
