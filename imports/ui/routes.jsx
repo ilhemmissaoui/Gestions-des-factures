@@ -167,6 +167,14 @@ const Routes = (props) => {
               component={Setting}
               {...props}
             />
+            <Authorized
+              exact
+              allowedRoles={[SUPER_ADMIN]}
+              path="/super_admin/pricing"
+              pathAfterFailure="/401"
+              component={Devis}
+              {...props}
+            />
           </Switch>
         </AdminLayout>
       </Switch>
