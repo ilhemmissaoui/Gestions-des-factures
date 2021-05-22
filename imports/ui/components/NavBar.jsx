@@ -21,7 +21,8 @@ const NavBar = () => {
             to="/super_admin"
             className="navbar-item has-text-weight-bold has-text-black"
           >
-            Admin Dashboard
+            {Meteor.userId() && Roles.getRolesForUser(Meteor.userId())[0]}{" "}
+            Dashboard
           </Link>
           <a
             role="button"
@@ -37,11 +38,17 @@ const NavBar = () => {
         <div className="navbar-menu has-background-white">
           <div className="navbar-start">
             <div className="navbar-item">
-              <Link to="/super_admin/contact_us" className="fnavbar-item">
+              <Link
+                to={`/${
+                  Meteor.userId() &&
+                  Roles.getRolesForUser(Meteor.userId())[0].toLowerCase()
+                }/contact_us`}
+                className="fnavbar-item"
+              >
                 Home
               </Link>
 
-              <Link to="/super_admin/contact_us" className="navbar-item">
+              <Link to="/contact_us" className="navbar-item">
                 About
               </Link>
               <Link to="/super_admin/print" className="navbar-item">
