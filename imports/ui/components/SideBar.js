@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
-import { Clipboard, Users, ShoppingCart } from "react-feather";
+import { Clipboard, Users, ShoppingCart, Plus, Compass } from "react-feather";
 
 const element = [
   {
@@ -13,15 +13,18 @@ const element = [
     children: [
       {
         path: "",
-        label: "",
+        label: "Add new",
+        icon: <Plus />,
       },
       {
         path: "",
-        label: "",
+        label: "idk",
+        icon: <Clipboard />,
       },
       {
         path: "",
-        label: "",
+        label: "yes",
+        icon: <Compass />,
       },
     ],
   },
@@ -102,6 +105,18 @@ const SideBar = (props) => {
                           {e.icon}
                           {e.label}
                         </Link>
+                        {e.children && (
+                          <ul>
+                            {e.children.map((child) => (
+                              <li>
+                                <Link to={e.path} className="has-text-black">
+                                  {child.icon}
+                                  {child.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </li>
                     )
                 )}
