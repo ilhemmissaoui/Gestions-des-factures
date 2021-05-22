@@ -10,11 +10,25 @@ const element = [
     icon: <ShoppingCart />,
     path: "pricing",
     role: ["COMPANY", "SUPER_ADMIN"],
+    children: [
+      {
+        path: "",
+        label: "",
+      },
+      {
+        path: "",
+        label: "",
+      },
+      {
+        path: "",
+        label: "",
+      },
+    ],
   },
   {
     label: "Customers",
     icon: <Users />,
-    path: "/customers",
+    path: "customers",
     role: ["COMPANY", "SUPER_ADMIN"],
   },
   { label: "Sells", path: "sells", role: ["COMPANY,SUPER_ADMIN"] },
@@ -22,7 +36,7 @@ const element = [
   {
     label: "Client Command",
 
-    path: "/clientcommand",
+    path: "clientcommand",
     role: ["COMPANY", "SUPER_ADMIN"],
   },
   { label: "About company", path: "about", role: ["COMPANY"] },
@@ -80,12 +94,13 @@ const SideBar = (props) => {
                       <li>
                         <Link
                           to={`/${role}/${e.path}`}
-                          className={clsx("nav-link", {
-                            active: e.path === `${currentPath}`,
+                          className={clsx("", {
+                            "has-background-primary is-active":
+                              e.path === currentPath,
                           })}
                         >
-                          <span>{e.icon}</span>
-                          <span className="nav-link">{e.label}</span>
+                          {e.icon}
+                          {e.label}
                         </Link>
                       </li>
                     )
