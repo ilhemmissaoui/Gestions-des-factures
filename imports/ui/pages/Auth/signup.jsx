@@ -108,7 +108,7 @@ const SingUp = (props) => {
                       <input
                         className="input is-medium"
                         name="password"
-                        type="text"
+                        type="password"
                         ref={register}
                         placeholder="Enter the password"
                         autoComplete="off"
@@ -124,7 +124,7 @@ const SingUp = (props) => {
                       <input
                         className="input is-medium"
                         name="confirmPassword"
-                        type="text"
+                        type="password"
                         ref={register}
                         placeholder="Confirm your password"
                         autoComplete="off"

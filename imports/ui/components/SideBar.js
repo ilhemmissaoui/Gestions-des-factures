@@ -2,52 +2,12 @@ import React, { useState } from "react";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
-import { Clipboard, Users, ShoppingCart, Plus, Compass } from "react-feather";
-
-const element = [
-  {
-    label: "Sales",
-    icon: <ShoppingCart />,
-    path: "pricing",
-    role: ["COMPANY", "SUPER_ADMIN"],
-    children: [
-      {
-        path: "",
-        label: "Add new",
-        icon: <Plus />,
-      },
-      {
-        path: "",
-        label: "idk",
-        icon: <Clipboard />,
-      },
-      {
-        path: "",
-        label: "yes",
-        icon: <Compass />,
-      },
-    ],
-  },
-  {
-    label: "Customers",
-    icon: <Users />,
-    path: "customers",
-    role: ["COMPANY", "SUPER_ADMIN"],
-  },
-  { label: "Sells", path: "sells", role: ["COMPANY,SUPER_ADMIN"] },
-
-  {
-    label: "Client Command",
-
-    path: "clientcommand",
-    role: ["COMPANY", "SUPER_ADMIN"],
-  },
-  { label: "About company", path: "about", role: ["COMPANY"] },
-];
+import SideBarElements from "./sideBarELements";
 
 const SideBar = (props) => {
   console.log(props);
-  const role = Roles.getRolesForUser(Meteor.userId())[0].toLowerCase();
+  const role =
+    Meteor.userId() && Roles.getRolesForUser(Meteor.userId())[0].toLowerCase();
   console.log(role);
 
   $(document).ready(function () {
@@ -91,7 +51,7 @@ const SideBar = (props) => {
               <p className="menu-label has-text-lighter">General</p>
 
               <ul className="menu-list">
-                {element.map(
+                {SideBarElements.map(
                   (e, i) =>
                     e.role.includes(role.toUpperCase()) && (
                       <li>
