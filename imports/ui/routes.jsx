@@ -20,6 +20,8 @@ import Setting from "./pages/Dashboard/ventes/Setting";
 import Home from "../ui/pages/Dashboard/Clients/Home";
 import Notification from "./pages/Dashboard/ventes/Notification";
 import ContactUs from "./ContactUs";
+import CustomersList from "./pages/company/customers/list";
+import AddCustomer from "./pages/company/customers/AddCustomer";
 const Routes = (props) => {
   let loggingIn = true;
   let user;
@@ -66,47 +68,22 @@ const Routes = (props) => {
             <Authorized
               exact
               allowedRoles={[COMPANY]}
-              path="/company/about"
+              path="/company/customers"
               pathAfterFailure="/401"
-              component={AboutPage}
+              component={CustomersList}
               {...props}
             />
             <Authorized
               exact
               allowedRoles={[COMPANY]}
-              path="/company/home"
+              path="/company/customers/add"
               pathAfterFailure="/401"
-              component={Home}
-              {...props}
-            />
-
-            <Authorized
-              exact
-              allowedRoles={[COMPANY]}
-              path="/company/dashboard"
-              pathAfterFailure="/401"
-              component={DashboardAdmin}
-              {...props}
-            />
-            <Authorized
-              exact
-              allowedRoles={[COMPANY]}
-              path="/company/home"
-              pathAfterFailure="/401"
-              component={Home}
-              {...props}
-            />
-
-            <Authorized
-              exact
-              allowedRoles={[COMPANY]}
-              path="/company/sells"
-              pathAfterFailure="/401"
-              component={Devis}
+              component={Profile}
               {...props}
             />
           </Switch>
         </CompanyLayout>
+
         <AdminLayout path="/super_admin" {...props}>
           <Switch>
             <Authorized
@@ -165,6 +142,7 @@ const Routes = (props) => {
               path="/super_admin/setting"
               pathAfterFailure="/401"
               component={Setting}
+              
               {...props}
             />
             <Authorized
