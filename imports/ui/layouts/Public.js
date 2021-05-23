@@ -26,7 +26,7 @@ const Public = ({
           roles,
         })
       ) : (
-        <Redirect to={roles.length ? `/${roles[0].toLowerCase()}` : "/login"} />
+        <Redirect to={roles.length ? `/${roles[0]?.toLowerCase()}` : "/login"} />
       )
     }
   />
@@ -50,4 +50,6 @@ Public.propTypes = {
   exact: PropTypes.bool,
 };
 
-export default withRouter(withTracker(({}) => {})(Public));
+export default withRouter(withTracker(({ }) => {
+  console.log('Logged Out');
+})(Public));

@@ -7,7 +7,7 @@ import SideBarElements from "./sideBarELements";
 const SideBar = (props) => {
   console.log(props);
   const role =
-    Meteor.userId() && Roles.getRolesForUser(Meteor.userId())[0].toLowerCase();
+    Meteor.userId() && Roles.getRolesForUser(Meteor.userId())[0]?.toLowerCase();
   console.log(role);
 
   $(document).ready(function () {
@@ -53,7 +53,7 @@ const SideBar = (props) => {
               <ul className="menu-list">
                 {SideBarElements.map(
                   (e, i) =>
-                    e.role.includes(role.toUpperCase()) && (
+                    e.role.includes(role?.toUpperCase()) && (
                       <li>
                         <Link
                           to={`/${role}/${e.path}`}

@@ -39,10 +39,9 @@ const NavBar = () => {
           <div className="navbar-start">
             <div className="navbar-item">
               <Link
-                to={`/${
-                  Meteor.userId() &&
-                  Roles.getRolesForUser(Meteor.userId())[0].toLowerCase()
-                }/contact_us`}
+                to={`/${Meteor.userId() &&
+                  Roles.getRolesForUser(Meteor.userId())[0]?.toLowerCase()
+                  }/contact_us`}
                 className="fnavbar-item"
               >
                 Home
@@ -63,7 +62,7 @@ const NavBar = () => {
 
             <div className="navbar-item has-dropdown is-hoverable">
               <a href="#" className="navbar-link">
-                Admin
+                {Meteor.userId() && Roles.getRolesForUser(Meteor.userId())[0]}{" "}
               </a>
               <div className="navbar-dropdown is-right">
                 <Link to="/super_admin/profile" className="navbar-item">
