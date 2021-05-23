@@ -15,6 +15,23 @@ const companyItems = [
     path: "sales",
     icon: <ShoppingCart className="icon icon-sm mr-2" />,
     role: ["COMPANY"],
+    children: [
+      {
+        path: "",
+        label: "Add new",
+        icon: <Plus className="icon icon-sm mr-2" />,
+      },
+      {
+        path: "",
+        label: "idk",
+        icon: <Clipboard className="icon icon-sm mr-2" />,
+      },
+      {
+        path: "",
+        label: "yes",
+        icon: <Compass className="icon icon-sm mr-2" />,
+      },
+    ],
   },
   {
     label: "Purchase",
@@ -34,6 +51,7 @@ const companyItems = [
     icon: <Box className="icon icon-sm mr-2" />,
     role: ["COMPANY"],
   },
+  
 ];
 
 const adminItems = [
