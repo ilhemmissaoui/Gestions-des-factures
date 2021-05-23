@@ -7,6 +7,7 @@ export const CompanySchema = yup.object().shape({
   firstname: yup.string().required("first name is required"),
   lastname: yup.string().required("last name is required"),
   location: yup.string().required("company name is required"),
-  postalcode: yup.string().required(" required"),
+  postalcode: yup.string().required("required"),
   country: yup.string().required("country is required"),
 });
+

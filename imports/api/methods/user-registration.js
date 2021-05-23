@@ -3,7 +3,6 @@ import { COMPANY } from "../roles";
 import { Meteor } from "meteor/meteor";
 
 const userRegister = function (data) {
-  console.log(data);
   const info = {
     email: data.email,
     password: data.password,

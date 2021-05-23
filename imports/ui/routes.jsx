@@ -78,7 +78,7 @@ const Routes = (props) => {
               allowedRoles={[COMPANY]}
               path="/company/customers/add"
               pathAfterFailure="/401"
-              component={Profile}
+              component={AddCustomer}
               {...props}
             />
           </Switch>
@@ -142,7 +142,7 @@ const Routes = (props) => {
               path="/super_admin/setting"
               pathAfterFailure="/401"
               component={Setting}
-              
+
               {...props}
             />
             <Authorized

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { SignUpSchema } from "../../../api/schemas/SignUpSchema";
@@ -21,7 +20,6 @@ const SingUp = (props) => {
       } else {
         console.log(props);
         props.history.push("/login");
-        //redirect him to the path you want
       }
     });
   };

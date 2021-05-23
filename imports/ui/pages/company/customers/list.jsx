@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import "flatpickr/dist/themes/material_green.css";
-import Flatpickr from "react-flatpickr";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const CustomersList = () => {
   const [value, onChange] = useState(new Date());
@@ -11,7 +10,7 @@ const CustomersList = () => {
           <div className="columns is-variable is-desktop">
             <div className="column">
               <div className="mr-4 mb-5">
-                <button className="button is-primary is-rounded">Add</button>
+                <Link to="/company/customers/add" className="button is-primary is-rounded">Add</Link>
               </div>
               <div className="container">
                 <table className="table is-bordered is-striped is-fullwidth">
