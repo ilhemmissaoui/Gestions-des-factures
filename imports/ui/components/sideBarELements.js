@@ -17,7 +17,7 @@ const companyItems = [
     role: ["COMPANY"],
     children: [
       {
-        path: "",
+        path: "estimate",
         label: "Estimate",
         
       },

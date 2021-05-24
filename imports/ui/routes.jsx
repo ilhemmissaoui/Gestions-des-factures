@@ -22,6 +22,7 @@ import Notification from "./pages/Dashboard/ventes/Notification";
 import ContactUs from "./ContactUs";
 import CustomersList from "./pages/company/customers/list";
 import AddCustomer from "./pages/company/customers/AddCustomer";
+import Estimate from "./pages/company/sale/Estimate";
 const Routes = (props) => {
   let loggingIn = true;
   let user;
@@ -69,6 +70,14 @@ const Routes = (props) => {
               exact
               allowedRoles={[COMPANY]}
               path="/company/customers"
+              pathAfterFailure="/401"
+              component={CustomersList}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/sales/estimate"
               pathAfterFailure="/401"
               component={CustomersList}
               {...props}
@@ -142,7 +151,6 @@ const Routes = (props) => {
               path="/super_admin/setting"
               pathAfterFailure="/401"
               component={Setting}
-
               {...props}
             />
             <Authorized

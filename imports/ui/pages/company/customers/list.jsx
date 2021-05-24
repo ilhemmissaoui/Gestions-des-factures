@@ -1,12 +1,61 @@
 import React, { useState, useEffect } from "react";
+import { Meteor } from "meteor/meteor";
 import { Link } from "react-router-dom";
 import Customer from "./Customer";
 import Search from "../../../components/Search";
-import Customers from "../../../../../collections/customers";
+import Pager from "../../../components/Pagination";
+import { Notyf } from "notyf";
 
 const CustomersList = () => {
+  const [page, setPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [search, setSearch] = useState("");
+  const [sorting, setSorting] = useState({
+    field: "_id",
+    sortDirection: "asc",
+  });
+  const { field, sortDirection } = sorting;
+  const itemsPerPage = 5;
+  const headers = [
+    { name: "Type", field: "customertype", sortable: true },
+    { name: "Reference", field: "customerreference", sortable: true },
+    { name: "Name", field: "customername", sortable: true },
+    { name: "Phone", field: "customerphone", sortable: true },
+    { name: "TurnOver", field: "customerturnover", sortable: true },
+    { name: "Creation Date", field: "customercreationdate", sortable: true },
+    { name: "Action", field: "customeraction", sortable: true },
+  ];
+
   const [value, onChange] = useState(new Date());
   const [list, setList] = useState([]);
+
+  const fetch = () => {
+    Meteor.call(
+      "getCustomers",
+      { page, itemsPerPage, search, sortBy: field, sortOrder: sortDirection },
+      (err, { items, totalCount }) => {
+        setList(items);
+        setTotalItems(totalCount);
+      }
+    );
+  };
+  useEffect(() => {
+    fetch();
+  }, [search, page, sorting]);
+  const handleSort = (field, sortDirection) => {
+    setSorting({
+      field,
+      sortDirection,
+    });
+  };
+  const notyf = new Notyf({
+    duration: 2000,
+    position: {
+      x: "center",
+      y: "top",
+    },
+  });
+
   useEffect(() => {
     Meteor.call("getCustomers", (e, r) => {
       if (!e) setList(r);
@@ -23,7 +72,12 @@ const CustomersList = () => {
               {/* Left side */}
               <div className="level-right">
                 <div className="level-item">
-                  <Search />
+                <Search
+                    onSearch={(value) => {
+                      setSearch(value);
+                      setPage(1);
+                    }}
+                  />
 
                   <div className="mr-4 mb-5">
                     <Link
@@ -39,22 +93,45 @@ const CustomersList = () => {
                 <table className="table is-bordered is-striped is-fullwidth">
                   <tbody>
                     <tr className="th is-selected">
-                      <th>Type </th>
-                      <th>Reference</th>
-                      <th>Name</th>
-                      <th>PHONE</th>
-                      <th>TurnOver</th>
-                      <th>Creation Date</th>
-                      <th>Actions</th>
+                      {headers.map(({ name, sortable, field }) => (
+                        <th
+                          key={name}
+                          onClick={() =>
+                            handleSort(
+                              field,
+                              sorting.field === field
+                                ? sorting.sortDirection == "asc"
+                                  ? "desc"
+                                  : "asc"
+                                : "asc"
+                            )
+                          }
+                        >
+                          {sorting.field === field ? (
+                            sorting.sortDirection === "asc" ? (
+                              <i className="fas fa-arrow-up"></i>
+                            ) : (
+                              <i className="fas fa-arrow-down"></i>
+                            )
+                          ) : null}{" "}
+                          {name}
+                        </th>
+                      ))}
                     </tr>
                     {list?.map((customer) => (
-                      <Customer key={customer._id} customer={customer} />
+                      <Customer
+                        key={customer._id}
+                        customer={customer}
+                        fetch={fetch}
+                      />
                     ))}
                   </tbody>
                 </table>
               </div>
             </div>
+          
           </div>
+          <Pager />
         </div>
       </div>
     </div>

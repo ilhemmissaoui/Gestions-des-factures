@@ -15,7 +15,10 @@ const AddCustomer = () => {
   const onSubmit = (data) => {
     console.log(data);
     Meteor.call("addCustomer", data, (e, _) => {
-      if (e) console.log(e);
+      if (e) {
+        console.log("+++++ERROR+++++");
+        console.log(e);
+      } else console.log("+++++ Added");
     });
   };
 
@@ -241,14 +244,13 @@ const AddCustomer = () => {
                                 </div>
                                 <div className="columns is-desktop mt-0 mx-2">
                                   <div className="control">
-                                    <Link
+                                    <button
                                       to="#"
                                       type="submit"
-                                      onClick={() => handleShow(true)}
                                       className="button is-primary"
                                     >
                                       Submit
-                                    </Link>
+                                    </button>
                                   </div>
                                 </div>
                               </form>
@@ -264,7 +266,7 @@ const AddCustomer = () => {
           </div>
         </div>
       </div>
-      <div className="modal" show={isOpened} onHide={handleClose} >
+      <div className="modal" show={isOpened} onHide={handleClose}>
         <div className="modal-background" />
         <div className="modal-card">
           <header className="modal-card-head">
