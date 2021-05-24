@@ -33,6 +33,8 @@
     "react-hook-form": "^6.15.7",
     "react-js-pagination": "^3.0.3",
     "react-modal": "^3.13.1",
+    "react-redux": "^7.2.4",
+    "react-redux-toastr": "^7.6.5",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-typical": "^0.1.3",
@@ -40,6 +42,7 @@
     "react-typist": "^2.0.5",
     "react-typist-loop": "^1.0.0",
     "react-use-clipboard": "1.0.7",
+    "redux-thunk": "^2.3.0",
     "shortid": "^2.2.16",
     "yup": "^0.32.9"
   },

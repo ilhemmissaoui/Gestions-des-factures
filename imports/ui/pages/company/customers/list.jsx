@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Customer from "./Customer";
 import Search from "../../../components/Search";
 import Pager from "../../../components/Pagination";
+import TableCol from "../../../utils/TableCols";
 import { Notyf } from "notyf";
 
 const CustomersList = () => {
@@ -15,7 +16,7 @@ const CustomersList = () => {
     sortDirection: "asc",
   });
   const { field, sortDirection } = sorting;
-  const itemsPerPage = 5;
+  const itemsPerPage = 2;
   const headers = [
     { name: "Type", field: "customertype", sortable: true },
     { name: "Reference", field: "customerreference", sortable: true },
@@ -26,9 +27,7 @@ const CustomersList = () => {
     { name: "Action", field: "customeraction", sortable: true },
   ];
 
-  const [value, onChange] = useState(new Date());
   const [list, setList] = useState([]);
-  const [info, setInfo] = useState({});
 
   const fetch = () => {
     Meteor.call(
@@ -37,9 +36,6 @@ const CustomersList = () => {
       (err, { items, totalCount }) => {
         setList(items);
         setTotalItems(totalCount);
-        console.log(totalCount);
-        console.log(itemsPerPage);
-        console.log(page);
       }
     );
   };
@@ -122,22 +118,28 @@ const CustomersList = () => {
                         </th>
                       ))}
                     </tr>
-                    {list?.map((customer) => (
-                      <Customer
-                        key={customer._id}
-                        customer={customer}
-                        fetch={fetch}
-                      />
-                    ))}
+                    {list?.length === 0 ? (
+                      <TableCol col={7} />
+                    ) : (
+                      list?.map((customer) => (
+                        <Customer
+                          key={customer._id}
+                          customer={customer}
+                          fetch={fetch}
+                        />
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
-          {/* <Pager total={totalItems}
-                  itemsPerPage={itemsPerPage}
-                  currentPage={page}
-                  onPageChange={(page) => setPage(page)}/> */}
+          <Pager
+            total={totalItems}
+            itemsPerPage={itemsPerPage}
+            currentPage={page}
+            onPageChange={(page) => setPage(page)}
+          />
         </div>
       </div>
     </div>

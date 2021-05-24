@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 
+import Pagination from "react-bootstrap/Pagination";
 const Pager = ({
   total = 0,
   itemsPerPage = 5,
@@ -29,32 +30,17 @@ const Pager = ({
   }, [totalPages, currentPage]);
   // if ( totalPages === 0 ) return null ;
   return (
-    <>
-      <nav
-        className="pagination is-small"
-        role="navigation"
-        aria-label="pagination"
-      >
-        <a
-          className="pagination-previous"
-          onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </a>
-        <ul className="pagination-list">
-          <li> {paginationItems} </li>
-        </ul>
-        <a
-          className="pagination-next"
-          onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          Next page
-        </a>
-      </nav>{" "}
-    </>
+    <Pagination>
+      <Pagination.Prev
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+      />
+      {paginationItems}
+      <Pagination.Next
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+      />
+    </Pagination>
   );
 };
-
 export default Pager;

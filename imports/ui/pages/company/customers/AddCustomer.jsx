@@ -4,7 +4,8 @@ import { useForm } from "react-hook-form";
 import { AddCustomerSchema } from "../../../../api/schemas/CustomerSchema";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
-const AddCustomer = () => {
+import { toastr } from "react-redux-toastr";
+const AddCustomer = (props) => {
   const [isOpened, setIsOpened] = useState(false);
   const handleClose = () => setIsOpened(false);
   const handleShow = () => setIsOpened(true);
@@ -18,7 +19,10 @@ const AddCustomer = () => {
       if (e) {
         console.log("+++++ERROR+++++");
         console.log(e);
-      } else console.log("+++++ Added");
+      } else {
+        toastr.success("", "Customer has Been Added");
+        props.history.push("/company/customers");
+      }
     });
   };
 
