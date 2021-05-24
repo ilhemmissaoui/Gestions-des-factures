@@ -18,19 +18,30 @@ const companyItems = [
     children: [
       {
         path: "",
-        label: "Add new",
-        icon: <Plus className="icon icon-sm mr-2" />,
+        label: "Estimate",
+        
       },
       {
         path: "",
-        label: "idk",
-        icon: <Clipboard className="icon icon-sm mr-2" />,
+        label: "Client Order",
+        
       },
       {
         path: "",
-        label: "yes",
-        icon: <Compass className="icon icon-sm mr-2" />,
+        label: "Delivery Note",
+       
       },
+      {
+        path: "",
+        label: "Invoice",
+       
+      },
+      {
+        path: "",
+        label: "Note issue",
+        
+      },
+      
     ],
   },
   {
@@ -38,18 +49,67 @@ const companyItems = [
     path: "purchase",
     icon: <ShoppingBag className="icon icon-sm mr-2" />,
     role: ["COMPANY"],
+    children: [
+      {
+        path: "",
+        label: "Supplier Order",
+       
+      },
+      {
+        path: "",
+        label: "Supplier Delivery Note",
+        
+      },
+      {
+        path: "",
+        label: "Supplier Invoice",
+       
+      },
+     
+    ],
   },
   {
     label: "Customers",
     path: "customers",
     icon: <Users className="icon icon-sm mr-2" />,
     role: ["COMPANY"],
+    
+    
   },
   {
     label: "Supplier",
     path: "suppliers",
     icon: <Box className="icon icon-sm mr-2" />,
     role: ["COMPANY"],
+    
+  },
+  {
+    label: "Product And Service",
+    path: "product_service",
+    icon: <Box className="icon icon-sm mr-2" />,
+    role: ["COMPANY"],
+    
+  },
+  {
+    label: "Stock",
+    path: "stock",
+    icon: <Box className="icon icon-sm mr-2" />,
+    role: ["COMPANY"],
+    children: [
+      {
+        path: "",
+        label: "Stock Managment",
+       
+      },
+      {
+        path: "",
+        label: "Inventory",
+        
+      },
+     
+     
+    ],
+    
   },
   
 ];

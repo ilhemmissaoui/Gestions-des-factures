@@ -54,7 +54,7 @@ const SideBar = (props) => {
                 {SideBarElements.map(
                   (e, i) =>
                     e.role.includes(role?.toUpperCase()) && (
-                      <li>
+                      <li >
                         <Link
                           to={`/${role}/${e.path}`}
                           className={clsx("", {
@@ -68,7 +68,7 @@ const SideBar = (props) => {
                         {e.children && (
                           <ul>
                             {e.children.map((child) => (
-                              <li>
+                              <li >
                                 <Link to={e.path} className="has-text-black">
                                   {child.icon}
                                   {child.label}
