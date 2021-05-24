@@ -1,6 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import CompanyCollection from "../../../collections/company";
 import Customers from "../../../collections/customers";
+import CustomerSchema from "../schemas/CustomerSchema";
 
 const addInfo = async function (data) {
   CompanyCollection.insert({
@@ -54,6 +55,23 @@ const getCustomers = function ({
   return { items: Customers.find(query, options).fetch(), totalCount };
 };
 //*******updateProduct in the db*********
+const updateCustomer = async function ({ id, data }) {
+  console.log(data);
+  const customer = Customers.findOne({ _id: id, userId: this.userId });
+  if (!customer) {
+    throw new Meteor.Error("Customer not found");
+  }
+  try {
+    await CustomerSchema.validate(data);
+  } catch (e) {
+    throw new Meteor.Error(e.message);
+  }
+  Customers.update({ _id: id }, { $set: data });
+};
+
+const deleteCustomer = function (_id) {
+  Customers.remove({ _id, userId: this.userId });
+};
 
 const getCustomerInfo = async function () {
   return await Customers.rawCollection()
@@ -75,4 +93,6 @@ Meteor.methods({
   addCustomer,
   getCustomerInfo,
   getCustomers,
+  updateCustomer,
+  deleteCustomer
 });

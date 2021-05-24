@@ -28,6 +28,7 @@ const CustomersList = () => {
 
   const [value, onChange] = useState(new Date());
   const [list, setList] = useState([]);
+  const [info, setInfo] = useState({});
 
   const fetch = () => {
     Meteor.call(
@@ -36,6 +37,9 @@ const CustomersList = () => {
       (err, { items, totalCount }) => {
         setList(items);
         setTotalItems(totalCount);
+        console.log(totalCount);
+        console.log(itemsPerPage);
+        console.log(page);
       }
     );
   };
@@ -72,7 +76,7 @@ const CustomersList = () => {
               {/* Left side */}
               <div className="level-right">
                 <div className="level-item">
-                <Search
+                  <Search
                     onSearch={(value) => {
                       setSearch(value);
                       setPage(1);
@@ -129,9 +133,11 @@ const CustomersList = () => {
                 </table>
               </div>
             </div>
-          
           </div>
-          <Pager />
+          {/* <Pager total={totalItems}
+                  itemsPerPage={itemsPerPage}
+                  currentPage={page}
+                  onPageChange={(page) => setPage(page)}/> */}
         </div>
       </div>
     </div>
