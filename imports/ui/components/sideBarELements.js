@@ -19,29 +19,23 @@ const companyItems = [
       {
         path: "estimate",
         label: "Estimate",
-        
       },
       {
         path: "",
         label: "Client Order",
-        
       },
       {
         path: "",
         label: "Delivery Note",
-       
       },
       {
         path: "",
         label: "Invoice",
-       
       },
       {
         path: "",
         label: "Note issue",
-        
       },
-      
     ],
   },
   {
@@ -53,19 +47,15 @@ const companyItems = [
       {
         path: "",
         label: "Supplier Order",
-       
       },
       {
         path: "",
         label: "Supplier Delivery Note",
-        
       },
       {
         path: "",
         label: "Supplier Invoice",
-       
       },
-     
     ],
   },
   {
@@ -73,22 +63,18 @@ const companyItems = [
     path: "customers",
     icon: <Users className="icon icon-sm mr-2" />,
     role: ["COMPANY"],
-    
-    
   },
   {
     label: "Supplier",
     path: "suppliers",
     icon: <Box className="icon icon-sm mr-2" />,
     role: ["COMPANY"],
-    
   },
   {
     label: "Product And Service",
     path: "product_service",
     icon: <Box className="icon icon-sm mr-2" />,
     role: ["COMPANY"],
-    
   },
   {
     label: "Stock",
@@ -99,19 +85,13 @@ const companyItems = [
       {
         path: "",
         label: "Stock Managment",
-       
       },
       {
         path: "",
         label: "Inventory",
-        
       },
-     
-     
     ],
-    
   },
-  
 ];
 
 const adminItems = [

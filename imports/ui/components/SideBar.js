@@ -5,10 +5,10 @@ import Avatar from "@material-ui/core/Avatar";
 import SideBarElements from "./sideBarELements";
 
 const SideBar = (props) => {
-  console.log(props);
+  const [currentPage, setCurrentPage] = useState("");
+
   const role =
     Meteor.userId() && Roles.getRolesForUser(Meteor.userId())[0]?.toLowerCase();
-  console.log(role);
 
   $(document).ready(function () {
     $(".toggler").on("click", function () {
@@ -54,7 +54,7 @@ const SideBar = (props) => {
                 {SideBarElements.map(
                   (e, i) =>
                     e.role.includes(role?.toUpperCase()) && (
-                      <li>
+                      <li onClick={(_) => setCurrentPage(e.path)}>
                         <Link
                           to={`/${role}/${e.path}`}
                           className={clsx("", {
@@ -65,11 +65,17 @@ const SideBar = (props) => {
                           {e.icon}
                           {e.label}
                         </Link>
-                        {e.path === currentPath && e.children && (
+                        {e.path === currentPage && e.children && (
                           <ul>
                             {e.children.map((child) => (
                               <li>
-                                <Link to={e.path} className="has-text-black">
+                                <Link
+                                  className={clsx("has-text-black", {
+                                    "has-background-primary is-active":
+                                      child.path === currentPath,
+                                  })}
+                                  to={child.path}
+                                >
                                   {child.icon}
                                   {child.label}
                                 </Link>
