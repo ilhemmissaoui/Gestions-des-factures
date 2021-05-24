@@ -14,9 +14,11 @@ const Pager = ({
   }, [total, itemsPerPage]);
   const paginationItems = useMemo(() => {
     const pages = [];
+
     for (let i = 1; i <= totalPages; i++) {
       pages.push(
         <Pagination.Item
+          className="pagination-link"
           key={i}
           active={i === currentPage}
           onClick={() => onPageChange(i)}
@@ -30,16 +32,18 @@ const Pager = ({
   }, [totalPages, currentPage]);
   // if ( totalPages === 0 ) return null ;
   return (
-    <Pagination>
+    <Pagination className="pagination is-small">
       <Pagination.Prev
+        className="pagination-previous"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
       />
-      {paginationItems}
       <Pagination.Next
+        className="pagination-next"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       />
+      <ul className="pagination-list">{paginationItems}</ul>
     </Pagination>
   );
 };

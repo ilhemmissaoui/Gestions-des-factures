@@ -77,9 +77,9 @@ const Routes = (props) => {
             <Authorized
               exact
               allowedRoles={[COMPANY]}
-              path="/company/sales/estimate"
+              path="/company/estimate"
               pathAfterFailure="/401"
-              component={CustomersList}
+              component={Estimate}
               {...props}
             />
             <Authorized

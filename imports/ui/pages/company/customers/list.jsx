@@ -16,7 +16,7 @@ const CustomersList = () => {
     sortDirection: "asc",
   });
   const { field, sortDirection } = sorting;
-  const itemsPerPage = 2;
+  const itemsPerPage = 8;
   const headers = [
     { name: "Type", field: "customertype", sortable: true },
     { name: "Reference", field: "customerreference", sortable: true },
