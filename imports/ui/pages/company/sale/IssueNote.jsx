@@ -10,7 +10,7 @@ import Search from "../../../components/Search";
 import Customer from "../customers/Customer";
 
 
-const DeliveryNote = () => {
+const IssueNote = () => {
     const [page, setPage] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
     const [search, setSearch] = useState("");
@@ -205,4 +205,4 @@ const DeliveryNote = () => {
   );
 }; 
 
-export default DeliveryNote;
+export default IssueNote;

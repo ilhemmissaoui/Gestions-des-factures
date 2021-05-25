@@ -23,6 +23,10 @@ import ContactUs from "./ContactUs";
 import CustomersList from "./pages/company/customers/list";
 import AddCustomer from "./pages/company/customers/AddCustomer";
 import Estimate from "./pages/company/sale/Estimate";
+import ClientOrder from "./pages/company/sale/ClientOrder";
+import DeliveryNote from "./pages/company/sale/DeliveryNote";
+import Invoice from "./pages/company/sale/Invoice";
+import IssueNote from "./pages/company/sale/IssueNote";
 const Routes = (props) => {
   let loggingIn = true;
   let user;
@@ -77,9 +81,41 @@ const Routes = (props) => {
             <Authorized
               exact
               allowedRoles={[COMPANY]}
+              path="/company/delivery_note"
+              pathAfterFailure="/401"
+              component={DeliveryNote}
+              {...props}
+            />
+             <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/client_order"
+              pathAfterFailure="/401"
+              component={ClientOrder}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
               path="/company/estimate"
               pathAfterFailure="/401"
               component={Estimate}
+              {...props}
+            />
+             <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/invoice"
+              pathAfterFailure="/401"
+              component={Invoice}
+              {...props}
+            />
+             <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/issue_note"
+              pathAfterFailure="/401"
+              component={IssueNote}
               {...props}
             />
             <Authorized

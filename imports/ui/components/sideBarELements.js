@@ -12,7 +12,7 @@ import React from "react";
 const companyItems = [
   {
     label: "Sale",
-    path: "sales",
+    path: "sale",
     icon: <ShoppingCart className="icon icon-sm mr-2" />,
     role: ["COMPANY"],
     children: [
@@ -21,20 +21,20 @@ const companyItems = [
         label: "Estimate",
       },
       {
-        path: "",
+        path: "client_order",
         label: "Client Order",
       },
       {
-        path: "",
+        path: "delivery_note",
         label: "Delivery Note",
       },
       {
-        path: "",
+        path: "invoice",
         label: "Invoice",
       },
       {
-        path: "",
-        label: "Note issue",
+        path: "issue_note",
+        label: "Issue Note",
       },
     ],
   },

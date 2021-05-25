@@ -24,7 +24,7 @@ const Estimate = () => {
     { name: "January", field: "January", sortable: true },
     { name: "February", field: "February", sortable: true },
     { name: "March", field: "March", sortable: true },
-    { name: "April", field: "customeApril", sortable: true },
+    { name: "April", field: "April", sortable: true },
     { name: "May", field: "May", sortable: true },
     { name: "June", field: "June", sortable: true },
     { name: "July", field: "July", sortable: true },
@@ -35,12 +35,12 @@ const Estimate = () => {
     { name: "December", field: "December", sortable: true },
   ];
   const informations = [
-    { name: "January", field: "January", sortable: true },
-    { name: "February", field: "February", sortable: true },
-    { name: "March", field: "March", sortable: true },
-    { name: "April", field: "customeApril", sortable: true },
-    { name: "May", field: "May", sortable: true },
-    { name: "June", field: "June", sortable: true },
+    { name: "Reference", field: "Reference", sortable: true },
+    { name: "Date", field: "Date", sortable: true },
+    { name: "Customer", field: "Customer", sortable: true },
+    { name: "Amount INCL.taxes", field: "Amount INCL.taxes", sortable: true },
+    { name: "Status", field: "Status", sortable: true },
+    { name: "Action", field: "Action", sortable: true },
   
    
   ];
@@ -177,17 +177,7 @@ const Estimate = () => {
                             {name}
                           </th>
                         ))} </tr> 
-                      {list?.length === 0 ? (
-                        <TableCol col={7} />
-                      ) : (
-                        list?.map((customer) => (
-                          <Customer
-                            key={customer._id}
-                            customer={customer}
-                            fetch={fetch}
-                          />
-                        ))
-                      )}
+                 
                     
                       </tbody>
                   </table>
