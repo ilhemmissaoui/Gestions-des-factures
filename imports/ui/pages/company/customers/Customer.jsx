@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { Link } from "react-router-dom";
 const Customer = ({ customer, fetch }) => {
   console.log(customer);
   const deleteCustomer = () => {
@@ -31,10 +31,10 @@ const Customer = ({ customer, fetch }) => {
         <td>gggggg</td>
         <td>gggggg</td>
 
-        <button class="button is-danger is-inverted" onClick={UpdateCustomer}>
+        <button className="button is-danger is-inverted" onClick={UpdateCustomer}>
           update
         </button>
-        <button class="button is-danger is-inverted" onClick={deleteCustomer}>
+        <button className="button is-danger is-inverted" onClick={deleteCustomer}>
           delete
         </button>
       </tr>
