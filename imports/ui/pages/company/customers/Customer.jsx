@@ -5,20 +5,12 @@ import moment from "moment";
 import { useForm } from "react-hook-form";
 import { Notyf } from "notyf";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { AddCustomerSchema } from "../../../../api/schemas/CustomerSchema";
+import { UpdateCustomerSchema } from "../../../../api/schemas/CustomerSchema";
 import { toastr } from "react-redux-toastr";
 
 const Customer = ({ customer, fetch }) => {
   const { register, handleSubmit, errors } = useForm({
-    // resolver: yupResolver(AddCustomerSchema),
-    // defaultValues: {
-    //   customername: customer.fullName,
-    //   customerphone: customer.phoneNumber,
-    //   customeremail: customer.email,
-    //   customerregion: customer.region,
-    //   customersocialreason: customer.socialReason,
-    //   customerpostalcode: customer.postalCode,
-    // },
+    resolver: yupResolver(UpdateCustomerSchema),
   });
   const [update, setUpdate] = useState(customer);
   const [show, setShow] = useState(false);
@@ -63,12 +55,13 @@ const Customer = ({ customer, fetch }) => {
         <form onSubmit={handleSubmit(UpdateCustomer)} id="customer-update">
           <section className="modal-card-body">
             <label htmlFor="customername" className="label">
-              Name
+              Customer Name
             </label>
             <p className="control">
               <input
+                defaultvalue={customer.fullName}
                 type="text"
-                name="customername"
+                name="fullName"
                 ref={register}
                 placeholder="Customer Name"
                 className="input"
@@ -77,90 +70,53 @@ const Customer = ({ customer, fetch }) => {
             {errors.fullName && (
               <p className="alert alert-danger">{errors.fullName.message}</p>
             )}
-            <label htmlFor="customername" className="label">
-              Name
+            <label htmlFor="customeremail" className="label">
+              Customer Email
             </label>
             <p className="control">
               <input
+                defaultvalue={customer.email}
                 type="text"
-                name="productdescription"
+                name="email"
                 ref={register}
-                placeholder="Customer Name"
+                placeholder="Customer Email"
                 className="input"
               />
             </p>{" "}
-            {errors.productdescription && (
-              <p className="alert alert-danger">
-                {errors.productdescription.message}
-              </p>
+            {errors.email && (
+              <p className="alert alert-danger">{errors.email.message}</p>
             )}
-            <label htmlFor="customerphone" className="label">
-              Name
+            <label htmlFor="phoneNumber" className="label">
+              Customer Phone
             </label>
             <p className="control">
               <input
+                defaultvalue={customer.phoneNumber}
                 type="text"
-                name="customerphone"
+                name="phoneNumber"
                 ref={register}
                 placeholder="Customer Name"
                 className="input"
               />
             </p>{" "}
-            {errors.productdescription && (
-              <p className="alert alert-danger">
-                {errors.productdescription.message}
-              </p>
+            {errors.phoneNumber && (
+              <p className="alert alert-danger">{errors.phoneNumber.message}</p>
             )}
-            <label htmlFor="customername" className="label">
-              Name
+            <label htmlFor="customerregion" className="label">
+              Customer Region
             </label>
             <p className="control">
               <input
+                defaultvalue={customer.region}
                 type="text"
-                name="productdescription"
+                name="region"
                 ref={register}
-                placeholder="Customer Name"
+                placeholder="Customer Region"
                 className="input"
               />
             </p>{" "}
-            {errors.productdescription && (
-              <p className="alert alert-danger">
-                {errors.productdescription.message}
-              </p>
-            )}
-            <label htmlFor="customername" className="label">
-              Name
-            </label>
-            <p className="control">
-              <input
-                type="text"
-                name="productdescription"
-                ref={register}
-                placeholder="Customer Name"
-                className="input"
-              />
-            </p>{" "}
-            {errors.productdescription && (
-              <p className="alert alert-danger">
-                {errors.productdescription.message}
-              </p>
-            )}
-            <label htmlFor="customername" className="label">
-              Name
-            </label>
-            <p className="control">
-              <input
-                type="text"
-                name="productdescription"
-                ref={register}
-                placeholder="Customer Name"
-                className="input"
-              />
-            </p>{" "}
-            {errors.productdescription && (
-              <p className="alert alert-danger">
-                {errors.productdescription.message}
-              </p>
+            {errors.region && (
+              <p className="alert alert-danger">{errors.region.message}</p>
             )}
           </section>
         </form>

@@ -2,7 +2,9 @@ import { Meteor } from "meteor/meteor";
 import CompanyCollection from "../../../collections/company";
 import Customers from "../../../collections/customers";
 import Sales from "../../../collections/sales";
-import CustomerSchema from "../schemas/CustomerSchema";
+import CustomerSchema, {
+  UpdateCustomerSchema,
+} from "../schemas/CustomerSchema";
 import SaleSchema from "../schemas/SaleSchema";
 
 const addInfo = async function (data) {
@@ -104,16 +106,16 @@ const getSale = function ({
 //*******updateProduct in the db*********
 const updateCustomer = async function ({ id, data }) {
   console.log(data);
-  // const customer = Customers.findOne({ _id: id, userId: this.userId });
-  // if (!customer) {
-  //   throw new Meteor.Error("Customer not found");
-  // }
-  // try {
-  //   await AddCustomerSchema.validate(data);
-  // } catch (e) {
-  //   throw new Meteor.Error(e.message);
-  // }
-  // Customers.update({ _id: id }, { $set: data });
+  const customer = Customers.findOne({ _id: id, userId: this.userId });
+  if (!customer) {
+    throw new Meteor.Error("Customer not found");
+  }
+  try {
+    await UpdateCustomerSchema.validate(data);
+  } catch (e) {
+    throw new Meteor.Error(e.message);
+  }
+  Customers.update({ _id: id }, { $set: data });
 };
 
 const updateSale = async function ({ id, data }) {
