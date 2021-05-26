@@ -110,7 +110,7 @@ const Estimate = () => {
 
                     <div className="mr-4 mb-5">
                       <Link
-                        to="/company/customers/add"
+                        to="/company/estimate/add_sale"
                         className="button is-primary is-rounded"
                       >
                         Add

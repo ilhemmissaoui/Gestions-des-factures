@@ -27,6 +27,7 @@ import ClientOrder from "./pages/company/sale/ClientOrder";
 import DeliveryNote from "./pages/company/sale/DeliveryNote";
 import Invoice from "./pages/company/sale/Invoice";
 import IssueNote from "./pages/company/sale/IssueNote";
+import AddSales from "./pages/company/sale/AddSales";
 const Routes = (props) => {
   let loggingIn = true;
   let user;
@@ -81,12 +82,20 @@ const Routes = (props) => {
             <Authorized
               exact
               allowedRoles={[COMPANY]}
+              path="/company/estimate/add_sale"
+              pathAfterFailure="/401"
+              component={AddSales}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
               path="/company/delivery_note"
               pathAfterFailure="/401"
               component={DeliveryNote}
               {...props}
             />
-             <Authorized
+            <Authorized
               exact
               allowedRoles={[COMPANY]}
               path="/company/client_order"
@@ -102,7 +111,7 @@ const Routes = (props) => {
               component={Estimate}
               {...props}
             />
-             <Authorized
+            <Authorized
               exact
               allowedRoles={[COMPANY]}
               path="/company/invoice"
@@ -110,7 +119,7 @@ const Routes = (props) => {
               component={Invoice}
               {...props}
             />
-             <Authorized
+            <Authorized
               exact
               allowedRoles={[COMPANY]}
               path="/company/issue_note"
@@ -122,6 +131,14 @@ const Routes = (props) => {
               exact
               allowedRoles={[COMPANY]}
               path="/company/customers/add"
+              pathAfterFailure="/401"
+              component={AddCustomer}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/sale"
               pathAfterFailure="/401"
               component={AddCustomer}
               {...props}

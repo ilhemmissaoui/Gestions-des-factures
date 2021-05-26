@@ -4,6 +4,10 @@
 @import "../../node_modules/react-redux-toastr/src/styles/index";
 
 html,
+/* Rounded border */
+hr.solid {
+  border-top: 3px solid rgb(1, 153, 140);
+}
 body {
   height: 100%;
   background-color: #efefef;

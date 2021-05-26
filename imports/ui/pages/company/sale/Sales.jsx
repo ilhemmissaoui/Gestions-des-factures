@@ -5,21 +5,21 @@ import { Meteor } from "meteor/meteor";
 import { useForm } from "react-hook-form";
 import { Notyf } from "notyf";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { AddCustomerSchema } from "../../../../api/schemas/CustomerSchema";
+import { SaleSchema } from "../../../../api/schemas/SaleSchema";
 
 const Sales = ({ customer, fetch }) => {
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(AddCustomerSchema),
     defaultValues: {
-      customername: customer.fullName,
-      customerphone: customer.phoneNumber,
-      customeremail: customer.email,
-      customerregion: customer.region,
-      customersocialreason: customer.socialReason,
-      customerpostalcode: customer.postalCode,
+      reference: sale.designation,
+      quantity: sale.quantity,
+      htprice: sale.htprice,
+      vat: sale.vat,
+      totalht: sale.totalht,
+    
     },
   });
-  const [update, setUpdate] = useState(customer);
+  const [update, setUpdate] = useState(sale);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -31,13 +31,13 @@ const Sales = ({ customer, fetch }) => {
     },
   });
 
-  const deleteCustomer = () => {
-    Meteor.call("deleteCustomer", customer._id, (e, r) => {
+  const deleteSale = () => {
+    Meteor.call("deleteSale", customer._id, (e, r) => {
       if (!e) fetch();
     });
   };
-  const UpdateCustomer = (data) => {
-    Meteor.call("updateCustomer", { id: customer._id, data }, (err) => {
+  const UpdateSale = (data) => {
+    Meteor.call("updateUpdate", { id: customer._id, data }, (err) => {
       if (!err) {
         fetch();
         setShow(false);
@@ -53,12 +53,12 @@ const Sales = ({ customer, fetch }) => {
     <>
       {" "}
       <tr>
-        <td>active</td>
-        <td> {customer._id}</td>
-        <td>{customer.fullName}</td>
-        <td>{customer.phoneNumber}</td>
-        <td>{customer.email}</td>
-        <td>{customer.region}</td>
+       
+        <td> {sale.designation}</td>
+        <td>{sale.quantity}</td>
+        <td>{sale.htprice}</td>
+        <td>{sale.vat}</td>
+        <td>{sale.totalht}</td>
 <td>
        <div className="dropdown">
   <div className="dropdown-trigger">

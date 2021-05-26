@@ -9,6 +9,8 @@ const ModalWrapper = ({
   title,
   confirm,
   refuse,
+  formId,
+  form,
 }) => {
   return (
     <div id="modal-ter" className={clsx("modal", { "is-active": isActive })}>
@@ -16,11 +18,11 @@ const ModalWrapper = ({
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">{title}</p>
-          <button className="delete" aria-label="close" />
+          <button className="delete" onClick={refuse} />
         </header>
         <section className="modal-card-body">{children}</section>
         <footer className="modal-card-foot">
-          <button className="button is-success" onClick={confirm}>
+          <button className="button is-success" form={formId} type="submit">
             Save changes
           </button>
           <button className="button" onClick={refuse}>

@@ -6,18 +6,19 @@ import { useForm } from "react-hook-form";
 import { Notyf } from "notyf";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AddCustomerSchema } from "../../../../api/schemas/CustomerSchema";
+import { toastr } from "react-redux-toastr";
 
 const Customer = ({ customer, fetch }) => {
   const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(AddCustomerSchema),
-    defaultValues: {
-      customername: customer.fullName,
-      customerphone: customer.phoneNumber,
-      customeremail: customer.email,
-      customerregion: customer.region,
-      customersocialreason: customer.socialReason,
-      customerpostalcode: customer.postalCode,
-    },
+    // resolver: yupResolver(AddCustomerSchema),
+    // defaultValues: {
+    //   customername: customer.fullName,
+    //   customerphone: customer.phoneNumber,
+    //   customeremail: customer.email,
+    //   customerregion: customer.region,
+    //   customersocialreason: customer.socialReason,
+    //   customerpostalcode: customer.postalCode,
+    // },
   });
   const [update, setUpdate] = useState(customer);
   const [show, setShow] = useState(false);
@@ -37,14 +38,15 @@ const Customer = ({ customer, fetch }) => {
     });
   };
   const UpdateCustomer = (data) => {
+    console.log(data);
     Meteor.call("updateCustomer", { id: customer._id, data }, (err) => {
       if (!err) {
+        toastr.success("", "Customer Updated Successfully");
         fetch();
         setShow(false);
       } else {
-        notyf.error({
-          message: "unable to update Customer check this inputs ",
-        });
+        toastr.error("unable to update Customer check this inputs ");
+        setShow(false);
       }
     });
   };
@@ -54,10 +56,114 @@ const Customer = ({ customer, fetch }) => {
       <ModalRoot
         title="Modify Customer"
         refuse={handleClose}
-        confirm={UpdateCustomer}
+        formId="customer-update"
         isActive={show}
+        form={UpdateCustomer}
       >
-        <div>Hello</div>
+        <form onSubmit={handleSubmit(UpdateCustomer)} id="customer-update">
+          <section className="modal-card-body">
+            <label htmlFor="customername" className="label">
+              Name
+            </label>
+            <p className="control">
+              <input
+                type="text"
+                name="customername"
+                ref={register}
+                placeholder="Customer Name"
+                className="input"
+              />
+            </p>{" "}
+            {errors.fullName && (
+              <p className="alert alert-danger">{errors.fullName.message}</p>
+            )}
+            <label htmlFor="customername" className="label">
+              Name
+            </label>
+            <p className="control">
+              <input
+                type="text"
+                name="productdescription"
+                ref={register}
+                placeholder="Customer Name"
+                className="input"
+              />
+            </p>{" "}
+            {errors.productdescription && (
+              <p className="alert alert-danger">
+                {errors.productdescription.message}
+              </p>
+            )}
+            <label htmlFor="customerphone" className="label">
+              Name
+            </label>
+            <p className="control">
+              <input
+                type="text"
+                name="customerphone"
+                ref={register}
+                placeholder="Customer Name"
+                className="input"
+              />
+            </p>{" "}
+            {errors.productdescription && (
+              <p className="alert alert-danger">
+                {errors.productdescription.message}
+              </p>
+            )}
+            <label htmlFor="customername" className="label">
+              Name
+            </label>
+            <p className="control">
+              <input
+                type="text"
+                name="productdescription"
+                ref={register}
+                placeholder="Customer Name"
+                className="input"
+              />
+            </p>{" "}
+            {errors.productdescription && (
+              <p className="alert alert-danger">
+                {errors.productdescription.message}
+              </p>
+            )}
+            <label htmlFor="customername" className="label">
+              Name
+            </label>
+            <p className="control">
+              <input
+                type="text"
+                name="productdescription"
+                ref={register}
+                placeholder="Customer Name"
+                className="input"
+              />
+            </p>{" "}
+            {errors.productdescription && (
+              <p className="alert alert-danger">
+                {errors.productdescription.message}
+              </p>
+            )}
+            <label htmlFor="customername" className="label">
+              Name
+            </label>
+            <p className="control">
+              <input
+                type="text"
+                name="productdescription"
+                ref={register}
+                placeholder="Customer Name"
+                className="input"
+              />
+            </p>{" "}
+            {errors.productdescription && (
+              <p className="alert alert-danger">
+                {errors.productdescription.message}
+              </p>
+            )}
+          </section>
+        </form>
       </ModalRoot>
       <tr>
         <td>active</td>
