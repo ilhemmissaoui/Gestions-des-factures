@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ModalRoot from "../../../components/ModalView";
 import { Meteor } from "meteor/meteor";
-
+import moment from "moment";
 import { useForm } from "react-hook-form";
 import { Notyf } from "notyf";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -171,7 +171,7 @@ const Customer = ({ customer, fetch }) => {
         <td>{customer.fullName}</td>
         <td>{customer.phoneNumber}</td>
         <td>{customer.email}</td>
-        <td>{customer.region}</td>
+        <td>{moment(customer.creationDate).format("MMM DD YYYY")}</td>
 
         <button className="button is-danger is-inverted" onClick={handleShow}>
           update
