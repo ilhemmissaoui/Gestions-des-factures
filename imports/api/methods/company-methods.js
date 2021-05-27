@@ -134,19 +134,15 @@ const getProducts = function ({
   if (search && search.length) {
     query.$or = [
       {
-        fullName: {
-          $regex: `.*${search}.*`,
-          $options: "i",
-        },
-      },
-      {
-        country: {
+        manufacturerreference: {
           $regex: `.*${search}.*`,
           $options: "i",
         },
       },
     ];
   }
+  var data = { items: Products.find(query, options).fetch(), totalCount };
+  console.log(data);
   return { items: Products.find(query, options).fetch(), totalCount };
 };
 

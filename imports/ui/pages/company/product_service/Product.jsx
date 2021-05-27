@@ -9,7 +9,7 @@ import { UpdateCustomerSchema } from "../../../../api/schemas/CustomerSchema";
 import { toastr } from "react-redux-toastr";
 import product from "../../../../../collections/product";
 
-const Product = ({ Product, fetch }) => {
+const Product = ({ product, fetch }) => {
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(UpdateCustomerSchema),
   });
@@ -26,19 +26,19 @@ const Product = ({ Product, fetch }) => {
   });
 
   const deleteProduct = () => {
-    Meteor.call("deleteProduct", customer._id, (e, r) => {
+    Meteor.call("deleteProduct", product._id, (e, r) => {
       if (!e) fetch();
     });
   };
   const UpdateProduct = (data) => {
     console.log(data);
-    Meteor.call("updateProduct", { id: customer._id, data }, (err) => {
+    Meteor.call("updateProduct", { id: product._id, data }, (err) => {
       if (!err) {
-        toastr.success("", "Customer Updated Successfully");
+        toastr.success("", "product Updated Successfully");
         fetch();
         setShow(false);
       } else {
-        toastr.error("unable to update Customer check this inputs ");
+        toastr.error("unable to update product check this inputs ");
         setShow(false);
       }
     });
@@ -104,11 +104,11 @@ const Product = ({ Product, fetch }) => {
               <p className="alert alert-danger">{errors.price.message}</p>
             )}
             <label htmlFor="brand" className="label">
-            Product BRAND
+              Product BRAND
             </label>
             <p className="control">
               <input
-                defaultvalue={customer.brand}
+                defaultvalue={product.brand}
                 type="text"
                 name="region"
                 ref={register}
@@ -124,15 +124,14 @@ const Product = ({ Product, fetch }) => {
       </ModalRoot>
       <tr>
         <td>active</td>
-        <td> {product.type}</td>
-        <td>{product.picture}</td>
-        <td>{product.in_stock}</td>
+        <td>{product.name}</td>
+        <td>{product.barcode}</td>
+        <td>{product.internalReference}</td>
         <td>{product.price}</td>
-        <td>{product.internal_reference}</td>
-        <td>{product.category}</td>
+        <td>{product.manufacturerreference}</td>
+        <td>{product.type}</td>
         <td>{product.vat}</td>
         <td>{product.tax}</td>
-       
 
         <button className="button is-danger is-inverted" onClick={handleShow}>
           update

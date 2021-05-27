@@ -9,66 +9,63 @@ import TableCol from "../../../utils/TableCols";
 import Search from "../../../components/Search";
 import Product from "../product_service/Product";
 
-
 const ListProducts = () => {
-    const [page, setPage] = useState(1);
-    const [totalItems, setTotalItems] = useState(0);
-    const [search, setSearch] = useState("");
-    const [sorting, setSorting] = useState({
-      field: "_id",
-      sortDirection: "asc",
-    });
-    const { field, sortDirection } = sorting;
-    const itemsPerPage = 8;
-    const headers = [
-      { name: "Type", field: "producttype", sortable: true },
-      { name: "Picture", field: "picture", sortable: true },
-      { name: "In Stock", field: "In Stock", sortable: true },
-      { name: "Selling Price", field: "Selling Price", sortable: true },
-      { name: "Internal Reference", field: "Internal Reference", sortable: true },
-      { name: "Categories", field: "Categories", sortable: true },
-      { name: "BRAND", field: "BRAND", sortable: true },
-      { name: "TAX", field: "TAX", sortable: true },
-      { name: "VAT", field: "VAT", sortable: true },
-    ];
+  const [page, setPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [search, setSearch] = useState("");
+  const [sorting, setSorting] = useState({
+    field: "_id",
+    sortDirection: "asc",
+  });
+  const { field, sortDirection } = sorting;
+  const itemsPerPage = 8;
+  const headers = [
+    { name: "Type", field: "producttype", sortable: true },
+    { name: "Picture", field: "picture", sortable: true },
+    { name: "In Stock", field: "In Stock", sortable: true },
+    { name: "Selling Price", field: "Selling Price", sortable: true },
+    { name: "Internal Reference", field: "Internal Reference", sortable: true },
+    { name: "Categories", field: "Categories", sortable: true },
+    { name: "BRAND", field: "BRAND", sortable: true },
+    { name: "TAX", field: "TAX", sortable: true },
+    { name: "VAT", field: "VAT", sortable: true },
+  ];
 
-    
-    const [list, setList] = useState([]);
-    
-    const fetch = () => {
-      Meteor.call(
-        "getProducts",
-        { page, itemsPerPage, search, sortBy: field, sortOrder: sortDirection },
-        (err, { items, totalCount }) => {
+  const [list, setList] = useState([]);
+
+  const fetch = () => {
+    Meteor.call(
+      "getProducts",
+      { page, itemsPerPage, search, sortBy: field, sortOrder: sortDirection },
+      (err, { items, totalCount }) => {
+        if (!err) {
           setList(items);
           setTotalItems(totalCount);
+        } else {
+          console.log("ERRRRRRRROR");
+          console.log(err);
         }
-      );
-    };
-    useEffect(() => {
-      fetch();
-    }, [search, page, sorting]);
-    const handleSort = (field, sortDirection) => {
-      setSorting({
-        field,
-        sortDirection,
-      });
-    };
-    const notyf = new Notyf({
-      duration: 2000,
-      position: {
-        x: "center",
-        y: "top",
-      },
+      }
+    );
+  };
+
+  useEffect(() => {
+    fetch();
+  }, [search, page, sorting]);
+
+  const handleSort = (field, sortDirection) => {
+    setSorting({
+      field,
+      sortDirection,
     });
-    
-    useEffect(() => {
-      Meteor.call("getProducts", (e, r) => {
-        if (!e) setList(r);
-        else console.log(e);
-      });
-    }, []);
-    
+  };
+
+  // useEffect(() => {
+  //   Meteor.call("getProducts", (e, r) => {
+  //     if (!e) setList(r);
+  //     else console.log(e);
+  //   });
+  // }, []);
 
   return (
     <div>
@@ -128,10 +125,10 @@ const ListProducts = () => {
                     {list?.length === 0 ? (
                       <TableCol col={9} />
                     ) : (
-                      list?.map((customer) => (
+                      list?.map((product) => (
                         <Product
-                          key={customer._id}
-                          customer={customer}
+                          key={product._id}
+                          product={product}
                           fetch={fetch}
                         />
                       ))
