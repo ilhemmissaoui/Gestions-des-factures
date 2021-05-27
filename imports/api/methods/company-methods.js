@@ -103,6 +103,69 @@ const getSale = function ({
   }
   return { items: Sales.find(query, options).fetch(), totalCount };
 };
+const addProduct = function (data) {
+  console.log(data);
+  Products.insert({
+    ...data,
+    userId: this.userId,
+    creationDate: new Date(),
+  });
+};
+
+const getProducts = function ({
+  page,
+  itemsPerPage,
+  search,
+  sortBy = "_id",
+  sortOrder = "asc",
+}) {
+  const query = { userId: this.userId };
+  const options = {
+    skip: (page - 1) * itemsPerPage,
+    limit: itemsPerPage,
+    sort: {
+      [sortBy]: sortOrder === "asc" ? 1 : -1,
+    },
+  };
+  const totalCount = Sales.find({ userId: this.userId }).count();
+  const totalPages = Math.ceil(totalCount / itemsPerPage);
+  // IF SEARCH IS DEFINED && SEARCH LENGTH != 0 THEN WE ADD SEARCH STEP TO QUERY OBJECT
+  if (search && search.length) {
+    query.$or = [
+      {
+        fullName: {
+          $regex: `.*${search}.*`,
+          $options: "i",
+        },
+      },
+      {
+        country: {
+          $regex: `.*${search}.*`,
+          $options: "i",
+        },
+      },
+    ];
+  }
+  return { items: Products.find(query, options).fetch(), totalCount };
+};
+
+const updateProduct = async function ({ id, data }) {
+  console.log(data);
+  const product = Products.findOne({ _id: id, userId: this.userId });
+  if (!product) {
+    throw new Meteor.Error("Product not found");
+  }
+  try {
+    await ProductSchema.validate(data);
+  } catch (e) {
+    throw new Meteor.Error(e.message);
+  }
+  Product.update({ _id: id }, { $set: data });
+};
+
+const deleteProduct = function (_id) {
+  Products.remove({ _id, userId: this.userId });
+};
 //*******updateProduct in the db*********
 const updateCustomer = async function ({ id, data }) {
   console.log(data);
@@ -165,4 +228,8 @@ Meteor.methods({
   updateSale,
   deleteSale,
   getSale,
+  addProduct,
+  deleteProduct,
+  getProducts,
+  updateProduct,
 });

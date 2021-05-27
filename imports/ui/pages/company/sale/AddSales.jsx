@@ -29,6 +29,7 @@ const AddSales = () => {
 
   const [list, setList] = useState([]);
   const [pickedCustomer, setPickedCustomer] = useState(null);
+  const [pickedProduct, setPickedProduct] = useState(null);
   const fetch = () => {
     Meteor.call(
       "getCustomers",
@@ -144,6 +145,64 @@ const AddSales = () => {
                                               </tbody>
                                             </table>
                                           )}
+                                        <div className="column">
+                                          <div className="level-right">
+                                            <div className="level-item">
+                                              <Flatpickr
+                                                className="mr-5"
+                                                placeholder="Date "
+                                                data-enable-time
+                                                onChange={(date) =>
+                                                  setState(date)
+                                                }
+                                              />
+                                              <div>
+                                                <br />
+                                                <br />{" "}
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="level-item">
+                                          <div className="field-label is-normal">
+                                            <label className="label">
+                                              Project
+                                            </label>
+                                          </div>{" "}
+                                          <div className="field-body">
+                                            <div className="field is-narrow">
+                                              <div className="control">
+                                                <div>
+                                                  <input
+                                                    className="input is-small"
+                                                    type="text"
+                                                    placeholder="Small input"
+                                                  />
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>{" "}
+                                        </div>{" "}
+                                        <div className="column">
+                                          <div className="level-left">
+                                            <div className="level-item">
+                                              <div className="field-label is-normal">
+                                                <label className="label">
+                                                  Note
+                                                </label>
+                                              </div>
+                                              <div className="field">
+                                                <div className="control">
+                                                  <textarea
+                                                    className="textarea is-small"
+                                                    placeholder="Small textarea"
+                                                    defaultValue={""}
+                                                  />
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -159,66 +218,12 @@ const AddSales = () => {
                                     <hr className="solid" />
                                   </div>
                                 </div>
-                                <div className="column">
-                                  <div className="level-right">
-                                    <div className="level-item">
-                                      <Flatpickr
-                                        className="mr-5"
-                                        placeholder="Date "
-                                        data-enable-time
-                                        onChange={(date) => setState(date)}
-                                      />
-                                      <div>
-                                        <br />
-                                        <br />{" "}
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="column">
-                                  <div className="level-right">
-                                    <div className="level-item">
-                                      <div className="field-label is-normal">
-                                        <label className="label">Project</label>
-                                      </div>{" "}
-                                      <div className="field-body">
-                                        <div className="field is-narrow">
-                                          <div className="control">
-                                            <div>
-                                              <input
-                                                className="input is-small"
-                                                type="text"
-                                                placeholder="Small input"
-                                              />
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
+
                                 <div>
                                   <br />
-                                  <br />{" "}
+                                  <br />
                                 </div>
-                                <div className="column">
-                                  <div className="level-right">
-                                    <div className="level-item">
-                                      <div className="field-label is-normal">
-                                        <label className="label">Note</label>
-                                      </div>
-                                      <div className="field">
-                                        <div className="control">
-                                          <textarea
-                                            className="textarea is-small"
-                                            placeholder="Small textarea"
-                                            defaultValue={""}
-                                          />
-                                        </div>
-                                      </div>{" "}
-                                    </div>
-                                  </div>
-                                </div>
+
                                 <hr className="solid" />
                                 <div className="table-container">
                                   <table className="table is-bordered is-striped is-fullwidth">
@@ -255,7 +260,74 @@ const AddSales = () => {
                                       </tr>
                                     </tbody>
                                   </table>
-                                </div>{" "}
+                                </div>
+                                <div className="field-body">
+                                  <div className="field">
+                                    <p className="control is-expanded has-icons-left">
+                                      <div className="control">
+                                        <div>
+                                          <select
+                                            name="selected"
+                                            onChange={(e) => {
+                                              if (e.target.value === "")
+                                                setPickedProduct(null);
+                                              setPickedProduct(
+                                                list.filter(
+                                                  (product) =>
+                                                    product._id ===
+                                                    e.target.value
+                                                )
+                                              );
+                                              console.log(pickedProduct);
+                                            }}
+                                          >
+                                            <option value="">
+                                              --- Select ---
+                                            </option>
+                                            {list.map((e) => (
+                                              <option key={e._id} value={e._id}>
+                                                {e.productname}
+                                              </option>
+                                            ))}
+                                          </select>
+                                        </div>
+                                      </div>{" "}
+                                    </p>
+                                  </div>
+
+                                  <div className="field">
+                                    <input
+                                      className="input is-small"
+                                      type="number"
+                                      placeholder="1"
+                                    />
+                                  </div>
+
+                                  <div className="field">
+                                    <input
+                                      className="input is-small"
+                                      type="text"
+                                      defaultValue="1"
+                                    />
+                                  </div>
+                                  <div className="field">
+                                    <input
+                                      className="input is-small"
+                                      type="text"
+                                      placeholder="0%"
+                                    />
+                                  </div>
+                                  <div className="field">
+                                    <input
+                                      className="input is-small"
+                                      type="text"
+                                      defaultValue="0.000TND"
+                                    />
+                                  </div>
+                                </div>
+
+                                <hr className="solid" />
+
                                 <div className="field has-addons">
                                   <p className="control">
                                     <button className="button">

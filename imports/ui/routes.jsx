@@ -28,6 +28,8 @@ import DeliveryNote from "./pages/company/sale/DeliveryNote";
 import Invoice from "./pages/company/sale/Invoice";
 import IssueNote from "./pages/company/sale/IssueNote";
 import AddSales from "./pages/company/sale/AddSales";
+import ListProducts from "./pages/company/product_service/ListProducts";
+import AddProduct from "./pages/company/product_service/AddProduct"
 const Routes = (props) => {
   let loggingIn = true;
   let user;
@@ -122,6 +124,14 @@ const Routes = (props) => {
             <Authorized
               exact
               allowedRoles={[COMPANY]}
+              path="/company/product_service"
+              pathAfterFailure="/401"
+              component={ListProducts}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
               path="/company/issue_note"
               pathAfterFailure="/401"
               component={IssueNote}
@@ -135,14 +145,16 @@ const Routes = (props) => {
               component={AddCustomer}
               {...props}
             />
+            
             <Authorized
               exact
               allowedRoles={[COMPANY]}
-              path="/company/sale"
+              path="/company/product_service/add"
               pathAfterFailure="/401"
-              component={AddCustomer}
+              component={AddProduct}
               {...props}
             />
+            
           </Switch>
         </CompanyLayout>
 
