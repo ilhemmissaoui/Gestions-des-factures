@@ -11,10 +11,11 @@ const AddProduct = (props) => {
   const handleShow = () => setIsOpened(true);
 
   const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(ProductSchema),
+    // resolver: yupResolver(ProductSchema),
   });
   const onSubmit = (data) => {
     console.log(data);
+
     Meteor.call("addProduct", data, (e, _) => {
       if (e) {
         console.log("+++++ERROR+++++");
@@ -169,6 +170,7 @@ const AddProduct = (props) => {
                                       </div>
                                     </div>
                                   </div>
+
                                   <div className="column">
                                     <div className="field">
                                       <label className="label">BRAND</label>{" "}
@@ -245,84 +247,127 @@ const AddProduct = (props) => {
                                     <div className="field">
                                       <div className="column">
                                         <div className="field">
-                                          <label className="label">
-                                            Product Type
-                                          </label>
                                           <div className="control">
                                             <label className="radio">
                                               <input
                                                 ref={register}
                                                 type="radio"
-                                                name="answer"
+                                                name="salesPrices"
                                               />
-                                              Material
+                                              Incl.Taxes
                                             </label>
                                             <label className="radio">
                                               <input
                                                 ref={register}
                                                 type="radio"
-                                                name="answer"
+                                                name="salesPrices"
                                               />
-                                              Service
+                                              Excl.Taxes
                                             </label>
                                           </div>
                                         </div>
                                       </div>
-                                    </div>
-                                  </div>{" "}
-                                  <div className="column">
-                                    <div className="field">
-                                      <label className="label">Product</label>
-                                      <div className="control">
-                                        <input
-                                          ref={register}
-                                          className="input"
-                                          name="name"
-                                          type="text"
-                                          placeholder="Product"
-                                        />
+                                    </div>{" "}
+                                    <div className="column">
+                                      <div className="field">
+                                        <label className="label">
+                                          Product Price
+                                        </label>
+                                        <div className="control">
+                                          <input
+                                            ref={register}
+                                            className="input"
+                                            name="price"
+                                            type="text"
+                                            placeholder="Product Price"
+                                          />
+                                        </div>
+                                        <div className="help is-danger d-block">
+                                          {errors.price?.message}
+                                        </div>
                                       </div>
-                                      <div className="help is-danger d-block">
-                                        {errors.name?.message}
+                                    </div>
+                                    <div className="column">
+                                      <div className="field">
+                                        <label className="label">Result</label>
+                                        <div className="control">
+                                          <input
+                                            ref={register}
+                                            className="input"
+                                            name="result"
+                                            type="number"
+                                            placeholder="Product"
+                                          />
+                                        </div>
+                                        <div className="help is-danger d-block">
+                                          {errors.result?.message}
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="column">
-                                    <div className="field">
-                                      <label className="label">Product</label>
-                                      <div className="control">
-                                        <input
-                                          ref={register}
-                                          className="input"
-                                          name="name"
-                                          type="text"
-                                          placeholder="Product"
-                                        />
-                                      </div>
-                                      <div className="help is-danger d-block">
-                                        {errors.name?.message}
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="column">
-                                  <div className="field">
-                                    <label className="label">BRAND</label>{" "}
-                                  </div>
-                                  <div className="control">
-                                    <div className="select">
-                                      <select name="type" ref={register}>
-                                        <option value="">-- Select --</option>
-                                        <option value="ff">ccc</option>
-                                        <option value="gg">hngg</option>
-                                      </select>
-                                    </div>
-                                    <div className="help is-danger d-block">
-                                      {errors.brand?.message}
-                                    </div>
-                                  </div>
-                                </div>
 
+                                  <div className="column">
+                                    <div className="field">
+                                      <div className="column">
+                                        <div className="field">
+                                          <label className="label">BRAND</label>{" "}
+                                        </div>
+                                        <div className="control">
+                                          <div className="select">
+                                            <select name="type" ref={register}>
+                                              <option value="">
+                                                -- Select --
+                                              </option>
+                                              <option value="ff">ccc</option>
+                                              <option value="gg">hngg</option>
+                                            </select>
+                                          </div>
+                                          <div className="help is-danger d-block">
+                                            {errors.brand?.message}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="column">
+                                      <div className="field">
+                                        <label className="label">TAX</label>{" "}
+                                      </div>
+                                      <div className="control">
+                                        <div className="select">
+                                          <select name="tax" ref={register}>
+                                            <option value="">
+                                              -- Select --
+                                            </option>
+                                            <option value="ff">ccc</option>
+                                            <option value="gg">hngg</option>
+                                          </select>
+                                        </div>
+                                        <div className="help is-danger d-block">
+                                          {errors.tax?.message}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="column">
+                                      <div className="field">
+                                        <label className="label">VAT</label>{" "}
+                                      </div>
+                                      <div className="control">
+                                        <div className="select">
+                                          <select name="vat" ref={register}>
+                                            <option value="">
+                                              -- Select --
+                                            </option>
+                                            <option value="ff">ccc</option>
+                                            <option value="gg">hngg</option>
+                                          </select>
+                                        </div>
+                                        <div className="help is-danger d-block">
+                                          {errors.vat?.message}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                                 <div className="columns is-desktop mt-0 mx-2">
                                   <div className="control">
                                     <button

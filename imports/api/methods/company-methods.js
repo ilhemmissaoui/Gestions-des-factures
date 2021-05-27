@@ -2,6 +2,7 @@ import { Meteor } from "meteor/meteor";
 import CompanyCollection from "../../../collections/company";
 import Customers from "../../../collections/customers";
 import Sales from "../../../collections/sales";
+import Products from "../../../collections/product";
 import CustomerSchema, {
   UpdateCustomerSchema,
 } from "../schemas/CustomerSchema";
