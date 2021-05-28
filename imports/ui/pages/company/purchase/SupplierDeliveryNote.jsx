@@ -9,7 +9,7 @@ import TableCol from "../../../utils/TableCols";
 import Search from "../../../components/Search";
 import Customer from "../customers/Customer";
 
-const DeliveryNote = () => {
+const SupplierDeliveryNote = () => {
   const [page, setPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [search, setSearch] = useState("");
@@ -110,7 +110,7 @@ const DeliveryNote = () => {
 
                     <div className="mr-4 mb-5">
                       <Link
-                        to="/company/delivery_note/add_sale"
+                        to="/company/supplier_delivery_note/add_purchases"
                         className="button is-primary is-rounded"
                       >
                         Add
@@ -194,4 +194,4 @@ const DeliveryNote = () => {
      
   );
 };
-export default DeliveryNote;
+export default SupplierDeliveryNote;

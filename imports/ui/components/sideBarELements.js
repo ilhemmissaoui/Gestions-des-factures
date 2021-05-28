@@ -45,15 +45,15 @@ const companyItems = [
     role: ["COMPANY"],
     children: [
       {
-        path: "",
+        path: "supplier_order",
         label: "Supplier Order",
       },
       {
-        path: "",
+        path: "supplier_delivery_note",
         label: "Supplier Delivery Note",
       },
       {
-        path: "",
+        path: "supplier_invoice",
         label: "Supplier Invoice",
       },
     ],

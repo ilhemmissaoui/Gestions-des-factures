@@ -7,7 +7,8 @@ import CustomerSchema, {
   UpdateCustomerSchema,
 } from "../schemas/CustomerSchema";
 import SaleSchema from "../schemas/SaleSchema";
-
+import { SupplierSchema } from "../schemas/SupplierSchema";
+import Suppliers from "../../../collections/Supplier";
 const addInfo = async function (data) {
   CompanyCollection.insert({
     ...data,
@@ -24,6 +25,14 @@ const addCustomer = function (data) {
   });
 };
 
+const addSupplier = function (data) {
+  console.log(data);
+  Suppliers.insert({
+    ...data,
+    userId: this.userId,
+    creationDate: new Date(),
+  });
+};
 const addSale = function (data) {
   console.log(data);
   Sales.insert({
@@ -67,6 +76,43 @@ const getCustomers = function ({
     ];
   }
   return { items: Customers.find(query, options).fetch(), totalCount };
+};
+
+const getSuppliers= function ({
+  page,
+  itemsPerPage,
+  search,
+  sortBy = "_id",
+  sortOrder = "asc",
+}) {
+  const query = { userId: this.userId };
+  const options = {
+    skip: (page - 1) * itemsPerPage,
+    limit: itemsPerPage,
+    sort: {
+      [sortBy]: sortOrder === "asc" ? 1 : -1,
+    },
+  };
+  const totalCount = Suppliers.find({ userId: this.userId }).count();
+  const totalPages = Math.ceil(totalCount / itemsPerPage);
+  // IF SEARCH IS DEFINED && SEARCH LENGTH != 0 THEN WE ADD SEARCH STEP TO QUERY OBJECT
+  if (search && search.length) {
+    query.$or = [
+      {
+        fullName: {
+          $regex: `.*${search}.*`,
+          $options: "i",
+        },
+      },
+      {
+        country: {
+          $regex: `.*${search}.*`,
+          $options: "i",
+        },
+      },
+    ];
+  }
+  return { items: Suppliers.find(query, options).fetch(), totalCount };
 };
 const getSale = function ({
   page,
@@ -178,6 +224,20 @@ const updateCustomer = async function ({ id, data }) {
   Customers.update({ _id: id }, { $set: data });
 };
 
+const updateSupplier = async function ({ id, data }) {
+  console.log(data);
+  const supplier = Suppliers.findOne({ _id: id, userId: this.userId });
+  if (!supplier) {
+    throw new Meteor.Error("Customer not found");
+  }
+  try {
+    await SupplierSchema.validate(data);
+  } catch (e) {
+    throw new Meteor.Error(e.message);
+  }
+  Suppliers.update({ _id: id }, { $set: data });
+};
+
 const updateSale = async function ({ id, data }) {
   console.log(data);
   const sale = Sales.findOne({ _id: id, userId: this.userId });
@@ -197,6 +257,10 @@ const deleteSale = function (_id) {
 };
 const deleteCustomer = function (_id) {
   Customers.remove({ _id, userId: this.userId });
+};
+
+const deleteSupplier = function (_id) {
+  Suppliers.remove({ _id, userId: this.userId });
 };
 
 const getCustomerInfo = async function () {
@@ -229,4 +293,9 @@ Meteor.methods({
   deleteProduct,
   getProducts,
   updateProduct,
+  addSupplier,
+  getSuppliers,
+  deleteSupplier,
+  updateSupplier,
+  
 });

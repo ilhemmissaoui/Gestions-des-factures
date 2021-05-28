@@ -9,79 +9,79 @@ import TableCol from "../../../utils/TableCols";
 import Search from "../../../components/Search";
 import Customer from "../customers/Customer";
 
-
 const IssueNote = () => {
-    const [page, setPage] = useState(1);
-    const [totalItems, setTotalItems] = useState(0);
-    const [search, setSearch] = useState("");
-    const [sorting, setSorting] = useState({
-      field: "_id",
-      sortDirection: "asc",
-    });
-    const { field, sortDirection } = sorting;
-    const itemsPerPage = 8;
-    const [value, onChange] = useState(new Date());
-    const headers = [
-      { name: "January", field: "January", sortable: true },
-      { name: "February", field: "February", sortable: true },
-      { name: "March", field: "March", sortable: true },
-      { name: "April", field: "customeApril", sortable: true },
-      { name: "May", field: "May", sortable: true },
-      { name: "June", field: "June", sortable: true },
-      { name: "July", field: "July", sortable: true },
-      { name: "August", field: "August", sortable: true },
-      { name: "September", field: "September", sortable: true },
-      { name: "October", field: "October", sortable: true },
-      { name: "November", field: "November", sortable: true },
-      { name: "December", field: "December", sortable: true },
-    ];
-    const informations = [
-        { name: "January", field: "January", sortable: true },
-        { name: "February", field: "February", sortable: true },
-        { name: "March", field: "March", sortable: true },
-        { name: "April", field: "customeApril", sortable: true },
-        { name: "May", field: "May", sortable: true },
-        { name: "June", field: "June", sortable: true },
-      
-       
-      ];
-    
-    const [list, setList] = useState([]);
-    const fetch = () => {
-      Meteor.call(
-        "getCustomers",
-        { page, itemsPerPage, search, sortBy: field, sortOrder: sortDirection },
-        (err, { items, totalCount }) => {
-          setList(items);
-          setTotalItems(totalCount);
-        }
-      );
-    };
-    useEffect(() => {
-      fetch();
-    }, [search, page, sorting]);
-    const handleSort = (field, sortDirection) => {
-      setSorting({
-        field,
-        sortDirection,
-      });
-    };
-    const notyf = new Notyf({
-      duration: 2000,
-      position: {
-        x: "center",
-        y: "top",
-      },
-    });
+  const [page, setPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [search, setSearch] = useState("");
+  const [sorting, setSorting] = useState({
+    field: "_id",
+    sortDirection: "asc",
+  });
+  const { field, sortDirection } = sorting;
+  const itemsPerPage = 8;
+  const [value, onChange] = useState(new Date());
+  const headers = [
+    { name: "January", field: "January", sortable: true },
+    { name: "February", field: "February", sortable: true },
+    { name: "March", field: "March", sortable: true },
+    { name: "April", field: "April", sortable: true },
+    { name: "May", field: "May", sortable: true },
+    { name: "June", field: "June", sortable: true },
+    { name: "July", field: "July", sortable: true },
+    { name: "August", field: "August", sortable: true },
+    { name: "September", field: "September", sortable: true },
+    { name: "October", field: "October", sortable: true },
+    { name: "November", field: "November", sortable: true },
+    { name: "December", field: "December", sortable: true },
+  ];
+  const informations = [
+    { name: "Reference", field: "Reference", sortable: true },
+    { name: "Date", field: "Date", sortable: true },
+    { name: "Customer", field: "Customer", sortable: true },
+    { name: "Amount INCL.taxes", field: "Amount INCL.taxes", sortable: true },
+    { name: "Status", field: "Status", sortable: true },
+    { name: "Action", field: "Action", sortable: true },
   
-    useEffect(() => {
-      Meteor.call("getCustomers", (e, r) => {
-        if (!e) setList(r);
-        else console.log(e);
-      });
-    }, []);
-    return (
-<div>   <div className="container">
+   
+  ];
+
+  const [list, setList] = useState([]);
+  const fetch = () => {
+    Meteor.call(
+      "getCustomers",
+      { page, itemsPerPage, search, sortBy: field, sortOrder: sortDirection },
+      (err, { items, totalCount }) => {
+        setList(items);
+        setTotalItems(totalCount);
+      }
+    );
+  };
+  useEffect(() => {
+    fetch();
+  }, [search, page, sorting]);
+  const handleSort = (field, sortDirection) => {
+    setSorting({
+      field,
+      sortDirection,
+    });
+  };
+  const notyf = new Notyf({
+    duration: 2000,
+    position: {
+      x: "center",
+      y: "top",
+    },
+  });
+
+  useEffect(() => {
+    Meteor.call("getCustomers", (e, r) => {
+      if (!e) setList(r);
+      else console.log(e);
+    });
+  }, []);
+  return (
+    <div>
+      <div className="container">
         <div className="column is-10-desktop is-offset-2-desktop is-9-tablet is-offset-3-tablet is-12-mobile">
           <div className="p-1">
             <div className="columns is-variable is-desktop">
@@ -110,7 +110,7 @@ const IssueNote = () => {
 
                     <div className="mr-4 mb-5">
                       <Link
-                        to="/company/customers/add"
+                        to="/company/issue_note/add_sale"
                         className="button is-primary is-rounded"
                       >
                         Add
@@ -177,17 +177,7 @@ const IssueNote = () => {
                             {name}
                           </th>
                         ))} </tr> 
-                      {list?.length === 0 ? (
-                        <TableCol col={7} />
-                      ) : (
-                        list?.map((customer) => (
-                          <Customer
-                            key={customer._id}
-                            customer={customer}
-                            fetch={fetch}
-                          />
-                        ))
-                      )}
+                 
                     
                       </tbody>
                   </table>
@@ -203,6 +193,5 @@ const IssueNote = () => {
         </div></div></div>   </div>
      
   );
-}; 
-
+};
 export default IssueNote;

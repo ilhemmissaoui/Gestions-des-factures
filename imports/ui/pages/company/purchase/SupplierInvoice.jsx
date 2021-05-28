@@ -11,7 +11,7 @@ import Search from "../../../components/Search";
 import Customer from "../customers/Customer";
 
 
-const Invoice = () => {
+const SupplierInvoice = () => {
     const [page, setPage] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
     const [search, setSearch] = useState("");
@@ -159,7 +159,7 @@ const Invoice = () => {
 
                     <div className="mr-4 mb-5">
                       <Link
-                        to="/company/invoice/add_sale"
+                        to="/company/supplier_invoice/add_purchases"
                         className="button is-primary is-rounded"
                       >
                         Add
@@ -254,4 +254,4 @@ const Invoice = () => {
   );
 }; 
 
-export default Invoice;
+export default SupplierInvoice;

@@ -30,6 +30,13 @@ import IssueNote from "./pages/company/sale/IssueNote";
 import AddSales from "./pages/company/sale/AddSales";
 import ListProducts from "./pages/company/product_service/ListProducts";
 import AddProduct from "./pages/company/product_service/AddProduct"
+import SupplierOrder from "./pages/company/purchase/SupplierOrder";
+import SupplierDeliveryNote from "./pages/company/purchase/SupplierDeliveryNote";
+import SupplierInvoice from "./pages/company/purchase/SupplierInvoice";
+import AddPurchases from "./pages/company/purchase/AddPurchases";
+import ListSupplier from "./pages/company/suppliers/ListSupplier";
+import AddSupplier from "./pages/company/suppliers/AddSupplier";
+
 const Routes = (props) => {
   let loggingIn = true;
   let user;
@@ -84,7 +91,47 @@ const Routes = (props) => {
             <Authorized
               exact
               allowedRoles={[COMPANY]}
+              path="/company/suppliers"
+              pathAfterFailure="/401"
+              component={ListSupplier}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
               path="/company/estimate/add_sale"
+              pathAfterFailure="/401"
+              component={AddSales}
+              {...props}
+            />
+             <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/client_order/add_sale"
+              pathAfterFailure="/401"
+              component={AddSales}
+              {...props}
+            />
+             <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/delivery_note/add_sale"
+              pathAfterFailure="/401"
+              component={AddSales}
+              {...props}
+            />
+             <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/invoice/add_sale"
+              pathAfterFailure="/401"
+              component={AddSales}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/issue_note/add_sale"
               pathAfterFailure="/401"
               component={AddSales}
               {...props}
@@ -111,6 +158,30 @@ const Routes = (props) => {
               path="/company/estimate"
               pathAfterFailure="/401"
               component={Estimate}
+              {...props}
+            />
+             <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/supplier_order"
+              pathAfterFailure="/401"
+              component={SupplierOrder}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/supplier_delivery_note"
+              pathAfterFailure="/401"
+              component={SupplierDeliveryNote}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/supplier_invoice"
+              pathAfterFailure="/401"
+              component={SupplierInvoice}
               {...props}
             />
             <Authorized
@@ -145,6 +216,14 @@ const Routes = (props) => {
               component={AddCustomer}
               {...props}
             />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/suppliers/add_supplier"
+              pathAfterFailure="/401"
+              component={AddSupplier}
+              {...props}
+            />
             
             <Authorized
               exact
@@ -154,7 +233,30 @@ const Routes = (props) => {
               component={AddProduct}
               {...props}
             />
-            
+             <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/supplier_order/add_purchases"
+              pathAfterFailure="/401"
+              component={AddPurchases}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/supplier_delivery_note/add_purchases"
+              pathAfterFailure="/401"
+              component={AddPurchases}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/supplier_invoice/add_purchases"
+              pathAfterFailure="/401"
+              component={AddPurchases}
+              {...props}
+            />
           </Switch>
         </CompanyLayout>
 
