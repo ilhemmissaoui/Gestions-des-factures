@@ -16,3 +16,10 @@ export const SupplierSchema = yup.object().shape({
   phoneNumber: yup.string().required("Phone Number is required"),
   region: yup.string().required("Region is required"),
 });
+
+export const UpdateSupplierrSchema = yup.object().shape({
+  email: yup.string().required("Email is required").email("Not a valid email"),
+  fullName: yup.string().required("Full Name is required"),
+  phoneNumber: yup.string().required("Phone Number is required"),
+  region: yup.string().required("Region is required"),
+});

@@ -36,7 +36,7 @@ const ListSupplier = () => {
       (err, { items, totalCount }) => {
         setList(items);
         setTotalItems(totalCount);
-        console.log(getSuppliers);
+       // console.log(getSuppliers);
       }
     );
   };

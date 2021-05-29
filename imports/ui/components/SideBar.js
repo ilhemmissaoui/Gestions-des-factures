@@ -74,7 +74,7 @@ const SideBar = (props) => {
                                     "has-background-primary is-active":
                                       child.path === currentPath,
                                   })}
-                                  to={child.path}
+                                  to={`/${role}/${child.path}`}
                                 >
                                   {child.icon}
                                   {child.label}

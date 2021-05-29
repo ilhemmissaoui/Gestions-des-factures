@@ -3,26 +3,17 @@ import ModalRoot from "../../../components/ModalView";
 import { Meteor } from "meteor/meteor";
 import moment from "moment";
 import { useForm } from "react-hook-form";
-import { Notyf } from "notyf";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { SupplierSchema } from "../../../../api/schemas/SupplierSchema";
+import { UpdateSupplierrSchema } from "../../../../api/schemas/SupplierSchema";
 import { toastr } from "react-redux-toastr";
 
 const Supplier = ({ supplier, fetch }) => {
   const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(SupplierSchema),
+    resolver: yupResolver(UpdateSupplierrSchema),
   });
-  const [update, setUpdate] = useState(supplier);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const notyf = new Notyf({
-    duration: 2000,
-    position: {
-      x: "center",
-      y: "top",
-    },
-  });
 
   const deleteSupplier = () => {
     Meteor.call("deleteSupplier", supplier._id, (e, r) => {
@@ -37,6 +28,7 @@ const Supplier = ({ supplier, fetch }) => {
         fetch();
         setShow(false);
       } else {
+        console.log(err);
         toastr.error("unable to update Supplier check this inputs ");
         setShow(false);
       }
@@ -48,18 +40,17 @@ const Supplier = ({ supplier, fetch }) => {
       <ModalRoot
         title="Modify Supplier"
         refuse={handleClose}
-        formId="supplier-update"
+        formId="update"
         isActive={show}
-        form={updateSupplier}
       >
-        <form onSubmit={handleSubmit(updateSupplier)} id="supplier-update">
+        <form onSubmit={handleSubmit(updateSupplier)} id="update">
           <section className="modal-card-body">
             <label htmlFor="suppliername" className="label">
               Supplier Name
             </label>
             <p className="control">
               <input
-                defaultvalue={supplier.fullName}
+                defaultValue={supplier.fullName}
                 type="text"
                 name="fullName"
                 ref={register}
@@ -75,7 +66,7 @@ const Supplier = ({ supplier, fetch }) => {
             </label>
             <p className="control">
               <input
-                defaultvalue={supplier.email}
+                defaultValue={supplier.email}
                 type="text"
                 name="email"
                 ref={register}
@@ -91,7 +82,7 @@ const Supplier = ({ supplier, fetch }) => {
             </label>
             <p className="control">
               <input
-                defaultvalue={supplier.phoneNumber}
+                defaultValue={supplier.phoneNumber}
                 type="text"
                 name="phoneNumber"
                 ref={register}
@@ -107,7 +98,7 @@ const Supplier = ({ supplier, fetch }) => {
             </label>
             <p className="control">
               <input
-                defaultvalue={supplier.region}
+                defaultValue={supplier.region}
                 type="text"
                 name="region"
                 ref={register}

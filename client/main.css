@@ -321,3 +321,6 @@ body {
 .separator:not(:empty)::after {
   margin-left: 0.25em;
 }
+.is-clickable {
+  cursor: pointer;
+}

@@ -36,6 +36,8 @@ import SupplierInvoice from "./pages/company/purchase/SupplierInvoice";
 import AddPurchases from "./pages/company/purchase/AddPurchases";
 import ListSupplier from "./pages/company/suppliers/ListSupplier";
 import AddSupplier from "./pages/company/suppliers/AddSupplier";
+import StockPage from "./pages/company/Stock/StockPage";
+
 
 const Routes = (props) => {
   let loggingIn = true;
@@ -86,6 +88,14 @@ const Routes = (props) => {
               path="/company/customers"
               pathAfterFailure="/401"
               component={CustomersList}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/stock"
+              pathAfterFailure="/401"
+              component={StockPage}
               {...props}
             />
             <Authorized

@@ -7,7 +7,7 @@ import CustomerSchema, {
   UpdateCustomerSchema,
 } from "../schemas/CustomerSchema";
 import SaleSchema from "../schemas/SaleSchema";
-import { SupplierSchema } from "../schemas/SupplierSchema";
+import { SupplierSchema, UpdateSupplierrSchema } from "../schemas/SupplierSchema";
 import Suppliers from "../../../collections/Supplier";
 const addInfo = async function (data) {
   CompanyCollection.insert({
@@ -231,7 +231,7 @@ const updateSupplier = async function ({ id, data }) {
     throw new Meteor.Error("Customer not found");
   }
   try {
-    await SupplierSchema.validate(data);
+    await UpdateSupplierrSchema.validate(data);
   } catch (e) {
     throw new Meteor.Error(e.message);
   }
