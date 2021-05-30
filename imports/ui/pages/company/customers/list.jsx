@@ -16,7 +16,7 @@ const CustomersList = () => {
     sortDirection: "asc",
   });
   const { field, sortDirection } = sorting;
-  const itemsPerPage = 8;
+  const itemsPerPage = 4;
   const headers = [
     { name: "Type", field: "customertype", sortable: true },
     { name: "Reference", field: "customerreference", sortable: true },
@@ -48,20 +48,6 @@ const CustomersList = () => {
       sortDirection,
     });
   };
-  const notyf = new Notyf({
-    duration: 2000,
-    position: {
-      x: "center",
-      y: "top",
-    },
-  });
-
-  useEffect(() => {
-    Meteor.call("getCustomers", (e, r) => {
-      if (!e) setList(r);
-      else console.log(e);
-    });
-  }, []);
 
   return (
     <div>

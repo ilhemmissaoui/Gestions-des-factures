@@ -5,16 +5,12 @@ import Flatpickr from "react-flatpickr";
 import { Plus } from "react-feather";
 import Autosuggest from "react-autosuggest";
 import Autocomplete from "react-autocomplete";
+import { toastr } from "react-redux-toastr";
 const AddSales = () => {
-  const [page, setPage] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
-  const [search, setSearch] = useState("");
   const [sorting, setSorting] = useState({
     field: "_id",
     sortDirection: "asc",
   });
-  const { field, sortDirection } = sorting;
-  const itemsPerPage = 8;
   const [value, onChange] = useState(new Date());
   const informations = [
     { name: "Designation", field: "Designation" },
@@ -25,35 +21,35 @@ const AddSales = () => {
   ];
 
   const info = [
-    { name: "VAT", field: "VAT", sortable: true },
-    { name: "Base", field: "Base", sortable: true },
-    { name: "Amount", field: "Amount", sortable: true },
+    { name: "VAT", field: "VAT" },
+    { name: "Base", field: "Base" },
+    { name: "Amount", field: "Amount" },
   ];
 
   const [list, setList] = useState([]);
+  const [totalInfo, setTotalInfo] = useState({
+    totalTHA: 0,
+    totalTVA: 0,
+  });
+  const [productNameList, setProductNameList] = useState([]);
   const [pickedCustomer, setPickedCustomer] = useState(null);
-  const [pickedProduct, setPickedProduct] = useState(null);
   const [productListForm, setProductListForm] = useState([]);
 
   const fetch = () => {
-    Meteor.call(
-      "getCustomers",
-      { page, itemsPerPage, search, sortBy: field, sortOrder: sortDirection },
-      (err, { items, totalCount }) => {
-        setList(items);
-        setTotalItems(totalCount);
-      }
-    );
-  };
-  useEffect(() => {
-    fetch();
-  }, [search, page, sorting]);
-  const handleSort = (field, sortDirection) => {
-    setSorting({
-      field,
-      sortDirection,
+    Meteor.call("getMiniCustomers", (e, r) => {
+      setList(r);
     });
   };
+  const fetchProducts = () => {
+    Meteor.call("getProductsName", (e, r) => {
+      setProductNameList(r);
+    });
+  };
+
+  useEffect(() => {
+    fetch();
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     Meteor.call("getCustomers", (e, r) => {
@@ -62,15 +58,34 @@ const AddSales = () => {
     });
   }, []);
 
-  handleChange = (index, event) => {
-    console.log(index, event.target.name);
-    const values = [...inputFields];
-    values[index][e.target.name] = event.target.value;
-    setInputFields(values);
+  handleChange = (e, index) => {
+    const values = [...productListForm];
+    values[index][e.target.name] = e.target.value;
+    values[index]["total"] =
+      parseFloat(values[index]["price"]) * parseInt(values[index]["quantity"]);
+    setProductListForm(values);
+    var totalSum = 0;
+    var totalTVA = 0;
+    values.forEach((val) => {
+      totalSum +=
+        (parseFloat(val.vat) / 100).toFixed(2) *
+        parseFloat(val.total).toFixed(2);
+      totalTVA += parseFloat(val.vat);
+    });
+    console.log(totalSum);
+    console.log(totalTVA);
+    setTotalInfo({
+      totalTHA: totalSum,
+      totalTVA: totalTVA,
+    });
   };
 
   addNewProduct = (e) => {
     e.preventDefault();
+    if (!pickedCustomer) {
+      toastr.error("", "No customer is selected");
+      return;
+    }
     setProductListForm([
       ...productListForm,
       {
@@ -254,34 +269,19 @@ const AddSales = () => {
                                   <table className="table is-bordered is-striped is-fullwidth">
                                     <tbody>
                                       <tr>
-                                        {informations.map(
-                                          ({ name, sortable, field }) => (
-                                            <th
-                                              key={name}
-                                              onClick={() =>
-                                                handleSort(
-                                                  field,
-                                                  sorting.field === field
-                                                    ? sorting.sortDirection ==
-                                                      "asc"
-                                                      ? "desc"
-                                                      : "asc"
-                                                    : "asc"
-                                                )
-                                              }
-                                            >
-                                              {sorting.field === field ? (
-                                                sorting.sortDirection ===
-                                                "asc" ? (
-                                                  <i className="fas fa-arrow-up"></i>
-                                                ) : (
-                                                  <i className="fas fa-arrow-down"></i>
-                                                )
-                                              ) : null}{" "}
-                                              {name}
-                                            </th>
-                                          )
-                                        )}{" "}
+                                        {informations.map(({ name, field }) => (
+                                          <th key={name}>
+                                            {sorting.field === field ? (
+                                              sorting.sortDirection ===
+                                              "asc" ? (
+                                                <i className="fas fa-arrow-up"></i>
+                                              ) : (
+                                                <i className="fas fa-arrow-down"></i>
+                                              )
+                                            ) : null}{" "}
+                                            {name}
+                                          </th>
+                                        ))}{" "}
                                       </tr>
                                     </tbody>
                                   </table>
@@ -293,10 +293,23 @@ const AddSales = () => {
                                         <p className="control is-expanded has-icons-left">
                                           <div className="control">
                                             <div>
-                                              <select name="name">
+                                              <select
+                                                name="name"
+                                                onChange={(e) =>
+                                                  handleChange(e, i)
+                                                }
+                                              >
                                                 <option value="">
                                                   --- Select ---
                                                 </option>
+                                                {productNameList.map((e) => (
+                                                  <option
+                                                    key={e._id}
+                                                    value={e.name}
+                                                  >
+                                                    {e.name}
+                                                  </option>
+                                                ))}
                                               </select>
                                             </div>
                                           </div>{" "}
@@ -307,10 +320,9 @@ const AddSales = () => {
                                         <input
                                           className="input is-small"
                                           type="number"
-                                          placeholder="1"
-                                          value={Number.parseInt(
-                                            productListForm.quantity
-                                          )}
+                                          name="quantity"
+                                          defaultValue={0}
+                                          value={productListForm.quantity}
                                           onChange={(event) =>
                                             handleChange(event, i)
                                           }
@@ -321,6 +333,7 @@ const AddSales = () => {
                                         <input
                                           className="input is-small"
                                           type="text"
+                                          name="price"
                                           defaultValue="1"
                                           value={productListForm.price}
                                           onChange={(event) =>
@@ -333,6 +346,7 @@ const AddSales = () => {
                                           className="input is-small"
                                           type="text"
                                           placeholder="0%"
+                                          name="vat"
                                           value={productListForm.vat}
                                           onChange={(event) =>
                                             handleChange(event, i)
@@ -343,8 +357,10 @@ const AddSales = () => {
                                         <input
                                           className="input is-small"
                                           type="text"
+                                          name="total"
                                           defaultValue="0.000TND"
-                                          value={productListForm.total}
+                                          readOnly="true"
+                                          value={productListForm[i].total}
                                           onChange={(event) =>
                                             handleChange(event, i)
                                           }
@@ -384,20 +400,7 @@ const AddSales = () => {
                                           <tr>
                                             {info.map(
                                               ({ name, sortable, field }) => (
-                                                <th
-                                                  key={name}
-                                                  onClick={() =>
-                                                    handleSort(
-                                                      field,
-                                                      sorting.field === field
-                                                        ? sorting.sortDirection ==
-                                                          "asc"
-                                                          ? "desc"
-                                                          : "asc"
-                                                        : "asc"
-                                                    )
-                                                  }
-                                                >
+                                                <th key={name}>
                                                   {sorting.field === field ? (
                                                     sorting.sortDirection ===
                                                     "asc" ? (
@@ -422,13 +425,13 @@ const AddSales = () => {
                                   <table class="table is-narrow">
                                     <tr>
                                       <td>Total T.Excl</td>
-                                      <td>15656</td>
+                                      <td>{totalInfo.totalTHA} TND</td>
                                     </tr>
 
                                     <tbody>
                                       <tr>
                                         <td>Total VAT</td>
-                                        <td>554</td>
+                                        <td>{totalInfo.totalTVA} %</td>
                                       </tr>
                                       <tr>
                                         <td>Total incl.Taxes</td>

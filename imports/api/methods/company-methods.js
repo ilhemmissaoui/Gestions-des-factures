@@ -7,8 +7,12 @@ import CustomerSchema, {
   UpdateCustomerSchema,
 } from "../schemas/CustomerSchema";
 import SaleSchema from "../schemas/SaleSchema";
-import { SupplierSchema, UpdateSupplierrSchema } from "../schemas/SupplierSchema";
+import {
+  SupplierSchema,
+  UpdateSupplierrSchema,
+} from "../schemas/SupplierSchema";
 import Suppliers from "../../../collections/Supplier";
+import customers from "../../../collections/customers";
 const addInfo = async function (data) {
   CompanyCollection.insert({
     ...data,
@@ -33,6 +37,14 @@ const addSupplier = function (data) {
     creationDate: new Date(),
   });
 };
+
+const getProductsName = function () {
+  return Products.find({ userId: this.userId }).fetch();
+};
+const getMiniCustomers = function () {
+  return customers.find({ userId: this.userId }).fetch();
+};
+
 const addSale = function (data) {
   console.log(data);
   Sales.insert({
@@ -78,7 +90,7 @@ const getCustomers = function ({
   return { items: Customers.find(query, options).fetch(), totalCount };
 };
 
-const getSuppliers= function ({
+const getSuppliers = function ({
   page,
   itemsPerPage,
   search,
@@ -297,5 +309,6 @@ Meteor.methods({
   getSuppliers,
   deleteSupplier,
   updateSupplier,
-  
+  getProductsName,
+  getMiniCustomers
 });
