@@ -26,6 +26,8 @@
     "notyf": "^3.9.0",
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
+    "react-autocomplete": "^1.8.1",
+    "react-autosuggest": "^10.1.0",
     "react-bootstrap": "^1.6.0",
     "react-breadcrumbs": "^2.1.7",
     "react-bulma": "0.0.1",

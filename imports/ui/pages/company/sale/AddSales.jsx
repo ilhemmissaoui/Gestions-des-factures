@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Notyf } from "notyf";
 import { Meteor } from "meteor/meteor";
 import Flatpickr from "react-flatpickr";
+import { Plus } from "react-feather";
+import Autosuggest from "react-autosuggest";
+import Autocomplete from "react-autocomplete";
 const AddSales = () => {
   const [page, setPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
@@ -14,11 +17,11 @@ const AddSales = () => {
   const itemsPerPage = 8;
   const [value, onChange] = useState(new Date());
   const informations = [
-    { name: "Designation", field: "Designation", sortable: true },
-    { name: "Quantity", field: "Quantity", sortable: true },
-    { name: "Ht Price", field: "Ht Price", sortable: true },
-    { name: "VAT", field: "VAT", sortable: true },
-    { name: "Total Ht", field: "Total Ht", sortable: true },
+    { name: "Designation", field: "Designation" },
+    { name: "Quantity", field: "Quantity" },
+    { name: "Ht Price", field: "Ht Price" },
+    { name: "VAT", field: "VAT" },
+    { name: "Total Ht", field: "Total Ht" },
   ];
 
   const info = [
@@ -30,6 +33,8 @@ const AddSales = () => {
   const [list, setList] = useState([]);
   const [pickedCustomer, setPickedCustomer] = useState(null);
   const [pickedProduct, setPickedProduct] = useState(null);
+  const [productListForm, setProductListForm] = useState([]);
+
   const fetch = () => {
     Meteor.call(
       "getCustomers",
@@ -56,6 +61,27 @@ const AddSales = () => {
       else console.log(e);
     });
   }, []);
+
+  handleChange = (index, event) => {
+    console.log(index, event.target.name);
+    const values = [...inputFields];
+    values[index][e.target.name] = event.target.value;
+    setInputFields(values);
+  };
+
+  addNewProduct = (e) => {
+    e.preventDefault();
+    setProductListForm([
+      ...productListForm,
+      {
+        name: "",
+        quantity: 0,
+        price: 0,
+        vat: 0,
+        total: 0,
+      },
+    ]);
+  };
   return (
     <>
       <div>
@@ -84,6 +110,7 @@ const AddSales = () => {
                                       <div className="field is-narrow">
                                         <div className="control">
                                           <div>
+                                            {/* <Autosuggest suggestions={list} /> */}
                                             <select
                                               name="selected"
                                               onChange={(e) => {
@@ -218,12 +245,10 @@ const AddSales = () => {
                                     <hr className="solid" />
                                   </div>
                                 </div>
-
                                 <div>
                                   <br />
                                   <br />
                                 </div>
-
                                 <hr className="solid" />
                                 <div className="table-container">
                                   <table className="table is-bordered is-striped is-fullwidth">
@@ -261,99 +286,95 @@ const AddSales = () => {
                                     </tbody>
                                   </table>
                                 </div>
-                                <div className="field-body">
-                                  <div className="field">
-                                    <p className="control is-expanded has-icons-left">
-                                      <div className="control">
-                                        <div>
-                                          <select
-                                            name="selected"
-                                            onChange={(e) => {
-                                              if (e.target.value === "")
-                                                setPickedProduct(null);
-                                              setPickedProduct(
-                                                list.filter(
-                                                  (product) =>
-                                                    product._id ===
-                                                    e.target.value
-                                                )
-                                              );
-                                              console.log(pickedProduct);
-                                            }}
-                                          >
-                                            <option value="">
-                                              --- Select ---
-                                            </option>
-                                            {list.map((e) => (
-                                              <option key={e._id} value={e._id}>
-                                                {e.productname}
-                                              </option>
-                                            ))}
-                                          </select>
-                                        </div>
-                                      </div>{" "}
-                                    </p>
-                                  </div>
+                                <div className="column">
+                                  {productListForm.map((e, i) => (
+                                    <div className="field-body mb-2">
+                                      <div className="field">
+                                        <p className="control is-expanded has-icons-left">
+                                          <div className="control">
+                                            <div>
+                                              <select name="name">
+                                                <option value="">
+                                                  --- Select ---
+                                                </option>
+                                              </select>
+                                            </div>
+                                          </div>{" "}
+                                        </p>
+                                      </div>
 
-                                  <div className="field">
-                                    <input
-                                      className="input is-small"
-                                      type="number"
-                                      placeholder="1"
-                                    />
-                                  </div>
+                                      <div className="field">
+                                        <input
+                                          className="input is-small"
+                                          type="number"
+                                          placeholder="1"
+                                          value={Number.parseInt(
+                                            productListForm.quantity
+                                          )}
+                                          onChange={(event) =>
+                                            handleChange(event, i)
+                                          }
+                                        />
+                                      </div>
 
-                                  <div className="field">
-                                    <input
-                                      className="input is-small"
-                                      type="text"
-                                      defaultValue="1"
-                                    />
-                                  </div>
-                                  <div className="field">
-                                    <input
-                                      className="input is-small"
-                                      type="text"
-                                      placeholder="0%"
-                                    />
-                                  </div>
-                                  <div className="field">
-                                    <input
-                                      className="input is-small"
-                                      type="text"
-                                      defaultValue="0.000TND"
-                                    />
-                                  </div>
+                                      <div className="field">
+                                        <input
+                                          className="input is-small"
+                                          type="text"
+                                          defaultValue="1"
+                                          value={productListForm.price}
+                                          onChange={(event) =>
+                                            handleChange(event, i)
+                                          }
+                                        />
+                                      </div>
+                                      <div className="field">
+                                        <input
+                                          className="input is-small"
+                                          type="text"
+                                          placeholder="0%"
+                                          value={productListForm.vat}
+                                          onChange={(event) =>
+                                            handleChange(event, i)
+                                          }
+                                        />
+                                      </div>
+                                      <div className="field">
+                                        <input
+                                          className="input is-small"
+                                          type="text"
+                                          defaultValue="0.000TND"
+                                          value={productListForm.total}
+                                          onChange={(event) =>
+                                            handleChange(event, i)
+                                          }
+                                        />
+                                      </div>
+                                    </div>
+                                  ))}
                                 </div>
 
-                                <hr className="solid" />
-
-                                <div className="field has-addons">
-                                  <p className="control">
-                                    <button className="button">
-                                      <span className="icon is-small">
-                                        <i />
-                                      </span>
-                                      <span>Barcode</span>
-                                    </button>
-                                  </p>
-                                  <p className="control">
-                                    <button className="button">
-                                      <span className="icon is-small">
-                                        <i />
-                                      </span>
-                                      <span>Add Product</span>
-                                    </button>
-                                  </p>
-                                  <p className="control">
-                                    <button className="button">
-                                      <span className="icon is-small">
-                                        <i />
-                                      </span>
-                                      <span>Add Sub-Total</span>
-                                    </button>
-                                  </p>
-                                </div>
+                                <button className="button">
+                                  <span className="icon is-small">
+                                    <i />
+                                  </span>
+                                  <span>Barcode</span>
+                                </button>
+                                <button
+                                  className="button"
+                                  onClick={addNewProduct}
+                                >
+                                  <span className="icon is-small">
+                                    <Plus />
+                                  </span>
+                                  <span>Add Product</span>
+                                </button>
+                                <button className="button">
+                                  <span className="icon is-small">
+                                    <i />
+                                  </span>
+                                  <span>Add Sub-Total</span>
+                                </button>
                                 <hr className="solid" />
                                 <div className="level-right">
                                   <div className="level-item">

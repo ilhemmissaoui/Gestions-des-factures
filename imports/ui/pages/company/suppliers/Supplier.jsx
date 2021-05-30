@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UpdateSupplierrSchema } from "../../../../api/schemas/SupplierSchema";
 import { toastr } from "react-redux-toastr";
+import { Edit, Trash2 } from "react-feather";
 
 const Supplier = ({ supplier, fetch }) => {
   const { register, handleSubmit, errors } = useForm({
@@ -120,15 +121,8 @@ const Supplier = ({ supplier, fetch }) => {
         <td>{supplier.email}</td>
         <td>{moment(supplier.creationDate).format("MMM DD YYYY")}</td>
 
-        <button className="button is-danger is-inverted" onClick={handleShow}>
-          update
-        </button>
-        <button
-          className="button is-danger is-inverted"
-          onClick={deleteSupplier}
-        >
-          delete
-        </button>
+        <Edit className="is-info" onClick={handleShow} />
+        <Trash2 className="is-danger" onClick={deleteSupplier} />
       </tr>
     </>
   );
