@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Notyf } from "notyf";
 import { Meteor } from "meteor/meteor";
 import Flatpickr from "react-flatpickr";
 import { Plus } from "react-feather";
-import Autosuggest from "react-autosuggest";
-import Autocomplete from "react-autocomplete";
 import { toastr } from "react-redux-toastr";
 const AddSales = () => {
   const [sorting, setSorting] = useState({
     field: "_id",
     sortDirection: "asc",
   });
-  const [value, onChange] = useState(new Date());
+  const [pickedDate, onChange] = useState(new Date());
   const informations = [
     { name: "Designation", field: "Designation" },
     { name: "Quantity", field: "Quantity" },
@@ -30,10 +27,16 @@ const AddSales = () => {
   const [totalInfo, setTotalInfo] = useState({
     totalTHA: 0,
     totalTVA: 0,
+    totaleVTA: 0,
+    totalIncTaxes: 0,
   });
   const [productNameList, setProductNameList] = useState([]);
   const [pickedCustomer, setPickedCustomer] = useState(null);
   const [productListForm, setProductListForm] = useState([]);
+  const [form, setForm] = useState({
+    project: "",
+    note: "",
+  });
 
   const fetch = () => {
     Meteor.call("getMiniCustomers", (e, r) => {
@@ -44,6 +47,23 @@ const AddSales = () => {
     Meteor.call("getProductsName", (e, r) => {
       setProductNameList(r);
     });
+  };
+  const handleFormChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    const data = {
+      ...totalInfo,
+      customer: pickedCustomer[0].fullName,
+      date: pickedDate[0],
+      productList: [...productListForm],
+      ...form,
+    };
+    Meteor.call('addSale' ,data, (e,r)=>{
+      if(!e) toastr.success('',  "Sales Has Been added");
+    })
   };
 
   useEffect(() => {
@@ -66,17 +86,21 @@ const AddSales = () => {
     setProductListForm(values);
     var totalSum = 0;
     var totalTVA = 0;
+    var totaleVTA = 0;
+    var totaleTaxeIncl = 0;
     values.forEach((val) => {
-      totalSum +=
-        (parseFloat(val.vat) / 100).toFixed(2) *
-        parseFloat(val.total).toFixed(2);
+      totalSum += val.total;
       totalTVA += parseFloat(val.vat);
     });
+    totaleVTA = (parseFloat(totalTVA) / 100) * parseFloat(totalSum);
+    totaleTaxeIncl = 0.2 + totaleVTA + totalSum;
     console.log(totalSum);
     console.log(totalTVA);
     setTotalInfo({
       totalTHA: totalSum,
       totalTVA: totalTVA,
+      totaleVTA: totaleVTA,
+      totaleTaxeIncl: totaleTaxeIncl,
     });
   };
 
@@ -194,9 +218,7 @@ const AddSales = () => {
                                                 className="mr-5"
                                                 placeholder="Date "
                                                 data-enable-time
-                                                onChange={(date) =>
-                                                  setState(date)
-                                                }
+                                                onChange={onChange}
                                               />
                                               <div>
                                                 <br />
@@ -218,7 +240,9 @@ const AddSales = () => {
                                                   <input
                                                     className="input is-small"
                                                     type="text"
+                                                    name="project"
                                                     placeholder="Small input"
+                                                    onChange={handleFormChange}
                                                   />
                                                 </div>
                                               </div>
@@ -238,6 +262,8 @@ const AddSales = () => {
                                                   <textarea
                                                     className="textarea is-small"
                                                     placeholder="Small textarea"
+                                                    name="note"
+                                                    onChange={handleFormChange}
                                                     defaultValue={""}
                                                   />
                                                 </div>
@@ -431,22 +457,31 @@ const AddSales = () => {
                                     <tbody>
                                       <tr>
                                         <td>Total VAT</td>
-                                        <td>{totalInfo.totalTVA} %</td>
+                                        <td>{totalInfo.totaleVTA} TND</td>
                                       </tr>
                                       <tr>
-                                      <tr>
                                         <td>Fodec</td>
-                                        <td>8.000 </td>
-                                      </tr> </tr>
-                                        <td>Total incl.Taxes</td>
-                                        <td>447</td>
-                                    
+                                        <td>0.200 TND</td>
+                                      </tr>
+                                      <td>Total incl.Taxes</td>
+                                      <td>{totalInfo.totaleTaxeIncl}</td>
+
                                       <tr>
                                         <td>Timbre fiscal</td>
-                                        <td>4542</td>
+                                        <td>0.600 TND</td>
                                       </tr>
                                     </tbody>
                                   </table>
+                                </div>
+                                <div className="columns is-desktop is-centered">
+                                  <div className="control">
+                                    <button
+                                      onClick={submitForm}
+                                      className="button is-primary"
+                                    >
+                                      Submit
+                                    </button>
+                                  </div>
                                 </div>
                               </form>
                             </div>
