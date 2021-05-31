@@ -434,9 +434,13 @@ const AddSales = () => {
                                         <td>{totalInfo.totalTVA} %</td>
                                       </tr>
                                       <tr>
+                                      <tr>
+                                        <td>Fodec</td>
+                                        <td>8.000 </td>
+                                      </tr> </tr>
                                         <td>Total incl.Taxes</td>
                                         <td>447</td>
-                                      </tr>
+                                    
                                       <tr>
                                         <td>Timbre fiscal</td>
                                         <td>4542</td>

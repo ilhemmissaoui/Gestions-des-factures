@@ -3,42 +3,34 @@ import ModalRoot from "../../../components/ModalView";
 import { Meteor } from "meteor/meteor";
 import moment from "moment";
 import { useForm } from "react-hook-form";
-import { Notyf } from "notyf";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { UpdateCustomerSchema } from "../../../../api/schemas/CustomerSchema";
+import { UpdateProductSchema } from "../../../../api/schemas/ProductSchema";
 import { toastr } from "react-redux-toastr";
-import product from "../../../../../collections/product";
+import { Edit, Trash2 } from "react-feather";
 
 const Product = ({ product, fetch }) => {
   const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(UpdateCustomerSchema),
+    resolver: yupResolver(UpdateProductSchema),
   });
-  const [update, setUpdate] = useState(product);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const notyf = new Notyf({
-    duration: 2000,
-    position: {
-      x: "center",
-      y: "top",
-    },
-  });
 
   const deleteProduct = () => {
     Meteor.call("deleteProduct", product._id, (e, r) => {
       if (!e) fetch();
     });
   };
-  const UpdateProduct = (data) => {
+  const updateProduct = (data) => {
     console.log(data);
     Meteor.call("updateProduct", { id: product._id, data }, (err) => {
       if (!err) {
-        toastr.success("", "product Updated Successfully");
+        toastr.success("", "Product Updated Successfully");
         fetch();
         setShow(false);
       } else {
-        toastr.error("unable to update product check this inputs ");
+        console.log(err);
+        toastr.error("unable to update Product check this inputs ");
         setShow(false);
       }
     });
@@ -49,36 +41,35 @@ const Product = ({ product, fetch }) => {
       <ModalRoot
         title="Modify Product"
         refuse={handleClose}
-        formId="product-update"
+        formId="update"
         isActive={show}
-        form={UpdateProduct}
       >
-        <form onSubmit={handleSubmit(UpdateProduct)} id="product-update">
+        <form onSubmit={handleSubmit(updateProduct)} id="update">
           <section className="modal-card-body">
             <label htmlFor="productname" className="label">
-              Product
+              Product Name
             </label>
             <p className="control">
               <input
-                defaultvalue={product.name}
+                defaultValue={product.name}
                 type="text"
-                name="fullName"
+                name="product"
                 ref={register}
-                placeholder="Product"
+                placeholder="Product Name"
                 className="input"
               />
             </p>{" "}
-            {errors.name && (
-              <p className="alert alert-danger">{errors.name.message}</p>
+            {errors.product && (
+              <p className="alert alert-danger">{errors.product.message}</p>
             )}
             <label htmlFor="productcategory" className="label">
-              Product category
+              Product Category
             </label>
             <p className="control">
               <input
-                defaultvalue={product.category}
+                defaultValue={product.type}
                 type="text"
-                name="email"
+                name="category"
                 ref={register}
                 placeholder="Product Category"
                 className="input"
@@ -88,60 +79,38 @@ const Product = ({ product, fetch }) => {
               <p className="alert alert-danger">{errors.category.message}</p>
             )}
             <label htmlFor="price" className="label">
-              Price
+              Product Price
             </label>
             <p className="control">
               <input
-                defaultvalue={product.price}
+                defaultValue={product.price}
                 type="text"
                 name="price"
                 ref={register}
-                placeholder="product price"
+                placeholder="Product Price "
                 className="input"
               />
             </p>{" "}
             {errors.price && (
               <p className="alert alert-danger">{errors.price.message}</p>
             )}
-            <label htmlFor="brand" className="label">
-              Product BRAND
-            </label>
-            <p className="control">
-              <input
-                defaultvalue={product.brand}
-                type="text"
-                name="region"
-                ref={register}
-                placeholder="Product BRAND"
-                className="input"
-              />
-            </p>{" "}
-            {errors.brand && (
-              <p className="alert alert-danger">{errors.brand.message}</p>
-            )}
           </section>
         </form>
       </ModalRoot>
       <tr>
         <td>active</td>
+        <td> {product.type}</td>
         <td>{product.name}</td>
-        <td>{product.barcode}</td>
-        <td>{product.internalReference}</td>
-        <td>{product.price}</td>
-        <td>{product.manufacturerreference}</td>
-        <td>{product.type}</td>
-        <td>{product.vat}</td>
         <td>{product.tax}</td>
+        <td>{product.price}</td>
+        <td>{product.price}</td>
+        <td>{product.price}</td>
+        <td>{product.price}</td>
 
-        <button className="button is-danger is-inverted" onClick={handleShow}>
-          update
-        </button>
-        <button
-          className="button is-danger is-inverted"
-          onClick={deleteProduct}
-        >
-          delete
-        </button>
+        <td>{moment(product.creationDate).format("MMM DD YYYY")}</td>
+
+        <Edit className="is-info" onClick={handleShow} />
+        <Trash2 className="is-danger" onClick={deleteProduct} />
       </tr>
     </>
   );

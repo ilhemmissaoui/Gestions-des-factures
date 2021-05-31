@@ -6,6 +6,7 @@ import Products from "../../../collections/product";
 import CustomerSchema, {
   UpdateCustomerSchema,
 } from "../schemas/CustomerSchema";
+import ProductSchema, { UpdateProductSchema } from "../schemas/ProductSchema";
 import SaleSchema from "../schemas/SaleSchema";
 import {
   SupplierSchema,
@@ -211,11 +212,11 @@ const updateProduct = async function ({ id, data }) {
     throw new Meteor.Error("Product not found");
   }
   try {
-    await ProductSchema.validate(data);
+    await UpdateProductSchema.validate(data);
   } catch (e) {
     throw new Meteor.Error(e.message);
   }
-  Product.update({ _id: id }, { $set: data });
+  Products.update({ _id: id }, { $set: data });
 };
 
 const deleteProduct = function (_id) {
@@ -310,5 +311,5 @@ Meteor.methods({
   deleteSupplier,
   updateSupplier,
   getProductsName,
-  getMiniCustomers
+  getMiniCustomers,
 });

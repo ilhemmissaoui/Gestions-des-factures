@@ -58,6 +58,9 @@ const companyItems = [
       },
     ],
   },
+
+ 
+
   {
     label: "Customers",
     path: "customers",
@@ -76,6 +79,36 @@ const companyItems = [
     icon: <Box className="icon icon-sm mr-2" />,
     role: ["COMPANY"],
   },
+
+  {
+    label: "Accounting",
+    path: "accounting",
+    icon: <ShoppingBag className="icon icon-sm mr-2" />,
+    role: ["COMPANY"],
+    children: [
+      {
+        path: "cash_management",
+        label: "Cash Management",
+      },
+      {
+        path: "bank_account",
+        label: "Bank Account",
+      },
+      {
+        path: "cheque",
+        label: "cheque",
+      },
+      {
+        path: "balance_customer",
+        label: "Balance Customer",
+      },
+      {
+        path: "balance_supplier",
+        label: "Balance Supplier",
+      },
+    ],
+  },
+
   {
     label: "Stock",
     path: "stock",

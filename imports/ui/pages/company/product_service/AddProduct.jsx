@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { ProductSchema } from "../../../../api/schemas/ProductSchema";
+import { AddProductSchema } from "../../../../api/schemas/ProductSchema";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
 import { toastr } from "react-redux-toastr";
@@ -11,7 +11,7 @@ const AddProduct = (props) => {
   const handleShow = () => setIsOpened(true);
 
   const { register, handleSubmit, errors } = useForm({
-    // resolver: yupResolver(ProductSchema),
+    //resolver: yupResolver(AddProductSchema),
   });
   const onSubmit = (data) => {
     console.log(data);

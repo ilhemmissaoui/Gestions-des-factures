@@ -29,6 +29,7 @@ const ListProducts = () => {
     { name: "BRAND", field: "BRAND", sortable: true },
     { name: "TAX", field: "TAX", sortable: true },
     { name: "VAT", field: "VAT", sortable: true },
+    { name: "Action", field: "Action", sortable: true },
   ];
 
   const [list, setList] = useState([]);
