@@ -59,7 +59,7 @@ const AddProduct = (props) => {
                                               <input
                                                 ref={register}
                                                 type="radio"
-                                                name="answer"
+                                                name="productType"
                                               />
                                               Material
                                             </label>
@@ -67,7 +67,7 @@ const AddProduct = (props) => {
                                               <input
                                                 ref={register}
                                                 type="radio"
-                                                name="answer"
+                                                name="productType"
                                               />
                                               Service
                                             </label>
@@ -116,10 +116,9 @@ const AddProduct = (props) => {
                                     </div>
                                     <div className="control">
                                       <div className="select">
-                                        <select name="type" ref={register}>
+                                        <select name="category" ref={register}>
                                           <option value="">-- Select --</option>
-                                          <option value="Mr">ccc</option>
-                                          <option value="Mrs">hngg</option>
+                                          <option value="Mr">Generale</option>
                                         </select>
                                       </div>
                                       <div className="help is-danger d-block">
@@ -177,10 +176,11 @@ const AddProduct = (props) => {
                                     </div>
                                     <div className="control">
                                       <div className="select">
-                                        <select name="type" ref={register}>
+                                        <select name="brand" ref={register}>
                                           <option value="">-- Select --</option>
-                                          <option value="ff">ccc</option>
-                                          <option value="gg">hngg</option>
+                                          <option value="Marque generale">
+                                            General brand
+                                          </option>
                                         </select>
                                       </div>
                                       <div className="help is-danger d-block">
@@ -199,13 +199,14 @@ const AddProduct = (props) => {
                                         Description
                                       </label>
                                       <textarea
+                                        name="description"
                                         className="textarea"
                                         placeholder="Description"
                                         defaultValue={""}
                                       />
 
                                       <div className="help is-danger d-block">
-                                        {errors.country?.message}
+                                        {errors.description?.message}
                                       </div>
                                     </div>
                                   </div>
@@ -271,15 +272,15 @@ const AddProduct = (props) => {
                                     <div className="column">
                                       <div className="field">
                                         <label className="label">
-                                          Product Price
+                                          Public Price
                                         </label>
                                         <div className="control">
                                           <input
                                             ref={register}
                                             className="input"
-                                            name="price"
-                                            type="text"
-                                            placeholder="Product Price"
+                                            name="publicPrice"
+                                            type="number"
+                                            placeholder="0"
                                           />
                                         </div>
                                         <div className="help is-danger d-block">
@@ -333,15 +334,13 @@ const AddProduct = (props) => {
                                         <label className="label">TAX</label>{" "}
                                       </div>
                                       <div className="control">
-                                        <div className="select">
-                                          <select name="tax" ref={register}>
-                                            <option value="">
-                                              -- Select --
-                                            </option>
-                                            <option value="ff">ccc</option>
-                                            <option value="gg">hngg</option>
-                                          </select>
-                                        </div>
+                                        <input
+                                          ref={register}
+                                          className="input"
+                                          name="tax"
+                                          type="number"
+                                          placeholder="Product"
+                                        />
                                         <div className="help is-danger d-block">
                                           {errors.tax?.message}
                                         </div>
@@ -352,15 +351,13 @@ const AddProduct = (props) => {
                                         <label className="label">VAT</label>{" "}
                                       </div>
                                       <div className="control">
-                                        <div className="select">
-                                          <select name="vat" ref={register}>
-                                            <option value="">
-                                              -- Select --
-                                            </option>
-                                            <option value="ff">ccc</option>
-                                            <option value="gg">hngg</option>
-                                          </select>
-                                        </div>
+                                        <input
+                                          ref={register}
+                                          className="input"
+                                          name="vat"
+                                          type="number"
+                                          placeholder="0"
+                                        />
                                         <div className="help is-danger d-block">
                                           {errors.vat?.message}
                                         </div>

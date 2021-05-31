@@ -9,6 +9,7 @@ import { toastr } from "react-redux-toastr";
 import { Edit, Trash2 } from "react-feather";
 
 const Product = ({ product, fetch }) => {
+  console.log(product);
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(UpdateProductSchema),
   });
@@ -98,19 +99,19 @@ const Product = ({ product, fetch }) => {
         </form>
       </ModalRoot>
       <tr>
-        <td>active</td>
-        <td> {product.type}</td>
+        <td>{product.productType ? "Material" : "Service"}</td>
         <td>{product.name}</td>
+        <td>0</td>
+        <td>{product.publicPrice}</td>
+        <td>{product.internalReference}</td>
+        <td>{product.category}</td>
+        <td>{product.brand}</td>
         <td>{product.tax}</td>
-        <td>{product.price}</td>
-        <td>{product.price}</td>
-        <td>{product.price}</td>
-        <td>{product.price}</td>
-
-        <td>{moment(product.creationDate).format("MMM DD YYYY")}</td>
-
-        <Edit className="is-info" onClick={handleShow} />
-        <Trash2 className="is-danger" onClick={deleteProduct} />
+        <td>{product.vat}</td>
+        <td>
+          <Edit className="is-info" onClick={handleShow} />
+          <Trash2 className="is-danger" onClick={deleteProduct} />
+        </td>
       </tr>
     </>
   );
