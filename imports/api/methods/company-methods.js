@@ -56,12 +56,24 @@ const updateSaleStatus = function (_id, status) {
     }
   );
 };
+const updateDeliverySaleStatus = function (_id, status) {
+  Sales.update(
+    { _id: _id },
+    {
+      $set: {
+        deliverStatus: status,
+      },
+    }
+  );
+};
 
 const addSale = function (data) {
   console.log(data);
   Sales.insert({
     ...data,
     status: "Idle",
+    deliverStatus: "Idle",
+    invoiceStatus: "idle",
     userId: this.userId,
     creationDate: new Date(),
   });
@@ -325,4 +337,5 @@ Meteor.methods({
   getProductsName,
   getMiniCustomers,
   updateSaleStatus,
+  updateDeliverySaleStatus,
 });

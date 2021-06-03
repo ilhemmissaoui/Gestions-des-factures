@@ -8,6 +8,7 @@ import { Notyf } from "notyf";
 import TableCol from "../../../utils/TableCols";
 import Search from "../../../components/Search";
 import Customer from "../customers/Customer";
+import DeliveryNoteItems from "./DeliveryNoteItems";
 
 const DeliveryNote = () => {
   const [page, setPage] = useState(1);
@@ -41,14 +42,12 @@ const DeliveryNote = () => {
     { name: "Amount INCL.taxes", field: "Amount INCL.taxes", sortable: true },
     { name: "Status", field: "Status", sortable: true },
     { name: "Action", field: "Action", sortable: true },
-  
-   
   ];
 
   const [list, setList] = useState([]);
   const fetch = () => {
     Meteor.call(
-      "getCustomers",
+      "getSale",
       { page, itemsPerPage, search, sortBy: field, sortOrder: sortDirection },
       (err, { items, totalCount }) => {
         setList(items);
@@ -65,20 +64,7 @@ const DeliveryNote = () => {
       sortDirection,
     });
   };
-  const notyf = new Notyf({
-    duration: 2000,
-    position: {
-      x: "center",
-      y: "top",
-    },
-  });
 
-  useEffect(() => {
-    Meteor.call("getCustomers", (e, r) => {
-      if (!e) setList(r);
-      else console.log(e);
-    });
-  }, []);
   return (
     <div>
       <div className="container">
@@ -117,81 +103,95 @@ const DeliveryNote = () => {
                       </Link>
                     </div>
                   </div>
-                </div></div>
                 </div>
-                <div className="table-container">
-                  <table className="table is-bordered is-striped is-fullwidth">
-                    <tbody>
-                      <tr className="th is-selected">
-                        {headers.map(({ name, sortable, field }) => (
-                          <th
-                            key={name}
-                            onClick={() =>
-                              handleSort(
-                                field,
-                                sorting.field === field
-                                  ? sorting.sortDirection == "asc"
-                                    ? "desc"
-                                    : "asc"
-                                  : "asc"
-                              )
-                            }
-                          >
-                            {sorting.field === field ? (
-                              sorting.sortDirection === "asc" ? (
-                                <i className="fas fa-arrow-up"></i>
-                              ) : (
-                                <i className="fas fa-arrow-down"></i>
-                              )
-                            ) : null}{" "}
-                            {name}
-                          </th> 
-                        ))} 
-                      </tr> </tbody>
-                  </table>
-                </div> <div className="table-container">
-                  <table className="table is-bordered is-striped is-fullwidth">
-                    <tbody>
-                      <tr>
-                      {informations.map(({ name, sortable, field }) => (
-                          <th
-                            key={name}
-                            onClick={() =>
-                              handleSort(
-                                field,
-                                sorting.field === field
-                                  ? sorting.sortDirection == "asc"
-                                    ? "desc"
-                                    : "asc"
-                                  : "asc"
-                              )
-                            }
-                          >
-                            {sorting.field === field ? (
-                              sorting.sortDirection === "asc" ? (
-                                <i className="fas fa-arrow-up"></i>
-                              ) : (
-                                <i className="fas fa-arrow-down"></i>
-                              )
-                            ) : null}{" "}
-                            {name}
-                          </th>
-                        ))} </tr> 
-                 
-                    
-                      </tbody>
-                  </table>
-                </div>
-         
-          
-          <Pager
-            total={totalItems}
-            itemsPerPage={itemsPerPage}
-            currentPage={page}
-            onPageChange={(page) => setPage(page)}
-          />
-        </div></div></div>   </div>
-     
+              </div>
+            </div>
+            <div className="table-container">
+              <table className="table is-bordered is-striped is-fullwidth">
+                <tbody>
+                  <tr className="th is-selected">
+                    {headers.map(({ name, sortable, field }) => (
+                      <th
+                        key={name}
+                        onClick={() =>
+                          handleSort(
+                            field,
+                            sorting.field === field
+                              ? sorting.sortDirection == "asc"
+                                ? "desc"
+                                : "asc"
+                              : "asc"
+                          )
+                        }
+                      >
+                        {sorting.field === field ? (
+                          sorting.sortDirection === "asc" ? (
+                            <i className="fas fa-arrow-up"></i>
+                          ) : (
+                            <i className="fas fa-arrow-down"></i>
+                          )
+                        ) : null}{" "}
+                        {name}
+                      </th>
+                    ))}
+                  </tr>{" "}
+                </tbody>
+              </table>
+            </div>{" "}
+            <div className="table-container">
+              <table className="table is-bordered is-striped is-fullwidth">
+                <tbody>
+                  <tr>
+                    {informations.map(({ name, sortable, field }) => (
+                      <th
+                        key={name}
+                        onClick={() =>
+                          handleSort(
+                            field,
+                            sorting.field === field
+                              ? sorting.sortDirection == "asc"
+                                ? "desc"
+                                : "asc"
+                              : "asc"
+                          )
+                        }
+                      >
+                        {sorting.field === field ? (
+                          sorting.sortDirection === "asc" ? (
+                            <i className="fas fa-arrow-up"></i>
+                          ) : (
+                            <i className="fas fa-arrow-down"></i>
+                          )
+                        ) : null}{" "}
+                        {name}
+                      </th>
+                    ))}{" "}
+                  </tr>
+
+                  {list?.length === 0 ? (
+                    <TableCol col={5} />
+                  ) : (
+                    list?.map((sale) => (
+                      <DeliveryNoteItems
+                        key={sale._id}
+                        sales={sale}
+                        fetch={fetch}
+                      />
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+            <Pager
+              total={totalItems}
+              itemsPerPage={itemsPerPage}
+              currentPage={page}
+              onPageChange={(page) => setPage(page)}
+            />
+          </div>
+        </div>
+      </div>{" "}
+    </div>
   );
 };
 export default DeliveryNote;
