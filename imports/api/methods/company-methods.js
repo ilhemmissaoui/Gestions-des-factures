@@ -46,10 +46,22 @@ const getMiniCustomers = function () {
   return customers.find({ userId: this.userId }).fetch();
 };
 
+const updateSaleStatus = function (_id, status) {
+  Sales.update(
+    { _id: _id },
+    {
+      $set: {
+        status: status,
+      },
+    }
+  );
+};
+
 const addSale = function (data) {
   console.log(data);
   Sales.insert({
     ...data,
+    status: "Idle",
     userId: this.userId,
     creationDate: new Date(),
   });
@@ -312,4 +324,5 @@ Meteor.methods({
   updateSupplier,
   getProductsName,
   getMiniCustomers,
+  updateSaleStatus,
 });
