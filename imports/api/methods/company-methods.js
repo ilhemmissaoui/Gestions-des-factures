@@ -188,7 +188,6 @@ const getSale = function ({
   return { items: Sales.find(query, options).fetch(), totalCount };
 };
 const addProduct = function (data) {
-  console.log(data);
   Products.insert({
     ...data,
     userId: this.userId,
@@ -315,6 +314,14 @@ const getCustomerInfo = async function () {
     .toArray();
 };
 
+const addProdutsFromExcel = function ({ data }) {
+  Products.insert({
+    ...data,
+    creationDate: new Date(),
+    userId: this.userId
+  })
+}
+
 Meteor.methods({
   addInfo,
   addCustomer,
@@ -338,4 +345,6 @@ Meteor.methods({
   getMiniCustomers,
   updateSaleStatus,
   updateDeliverySaleStatus,
+  addProdutsFromExcel,
+
 });

@@ -3,11 +3,12 @@ import { Meteor } from "meteor/meteor";
 import { Link } from "react-router-dom";
 import "flatpickr/dist/themes/material_green.css";
 import Pager from "../../../components/Pagination";
-
-import { Notyf } from "notyf";
+import Excel from "exceljs";
 import TableCol from "../../../utils/TableCols";
 import Search from "../../../components/Search";
 import Product from "../product_service/Product";
+import { ExcelParser } from '../../../../api/utils/ExcelHelper'
+import { toastr } from "react-redux-toastr";
 
 const ListProducts = () => {
   const [page, setPage] = useState(1);
@@ -61,12 +62,49 @@ const ListProducts = () => {
     });
   };
 
-  // useEffect(() => {
-  //   Meteor.call("getProducts", (e, r) => {
-  //     if (!e) setList(r);
-  //     else console.log(e);
-  //   });
-  // }, []);
+  const fileRef = React.useRef(null);
+
+
+  const handleExcelClick = () => {
+    fileRef.current.click();
+  }
+
+  const handleFile = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    if (file === undefined) return;
+    let wb = new Excel.Workbook();
+    let reader = new FileReader()
+    reader.readAsArrayBuffer(file)
+    reader.onload = () => {
+      const buffer = reader.result;
+      wb.xlsx.load(buffer).then(workbook => {
+        workbook.eachSheet((sheet, __) => {
+          sheet.eachRow((_, rowIndex) => {
+            if (rowIndex != 1) {
+              let excelInfo;
+              try {
+                excelInfo = ExcelParser(sheet, rowIndex);
+              } catch (err) {
+                alert(`Erreur à la ligne: ${rowIndex}, Colonne: ${err.message}`);
+              }
+              const { productInfo } = excelInfo;
+              Meteor.call('addProdutsFromExcel', { data: productInfo }, (e, ___) => {
+                if (!e) {
+                  fetch();
+                  toastr.success('', 'Products has been Imported successfully');
+                } else {
+                  toastr.warning("", `${e.reason} à la ligne: ${rowIndex}`);
+                  console.log("ERROR")
+                  console.log(e)
+                }
+              })
+            }
+          })
+        })
+      })
+    }
+  }
 
   return (
     <div>
@@ -92,6 +130,20 @@ const ListProducts = () => {
                       Add
                     </Link>
                   </div>
+                  <div className="mr-4 mb-5">
+                    <button
+                      onClick={handleExcelClick}
+                      className="button is-success is-rounded"
+                    >
+                      <i className="fas fa-file-excel mr-3"></i> Import From Excel
+                    </button>
+                  </div>
+                  <input className="file-upload-input"
+                    type="file"
+                    ref={fileRef}
+                    onChange={handleFile}
+                    style={{ display: "none" }}
+                    accept=".xlsx" />
                 </div>
               </div>
               <div className="container">
@@ -124,7 +176,7 @@ const ListProducts = () => {
                       ))}
                     </tr>
                     {list?.length === 0 ? (
-                      <TableCol col={9} />
+                      <TableCol col={10} />
                     ) : (
                       list?.map((product) => (
                         <Product
