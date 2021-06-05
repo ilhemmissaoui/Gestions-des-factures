@@ -29,7 +29,7 @@ import Invoice from "./pages/company/sale/Invoice";
 import IssueNote from "./pages/company/sale/IssueNote";
 import AddSales from "./pages/company/sale/AddSales";
 import ListProducts from "./pages/company/product_service/ListProducts";
-import AddProduct from "./pages/company/product_service/AddProduct"
+import AddProduct from "./pages/company/product_service/AddProduct";
 import SupplierOrder from "./pages/company/purchase/SupplierOrder";
 import SupplierDeliveryNote from "./pages/company/purchase/SupplierDeliveryNote";
 import SupplierInvoice from "./pages/company/purchase/SupplierInvoice";
@@ -37,7 +37,6 @@ import AddPurchases from "./pages/company/purchase/AddPurchases";
 import ListSupplier from "./pages/company/suppliers/ListSupplier";
 import AddSupplier from "./pages/company/suppliers/AddSupplier";
 import StockPage from "./pages/company/Stock/StockPage";
-
 
 const Routes = (props) => {
   let loggingIn = true;
@@ -114,7 +113,7 @@ const Routes = (props) => {
               component={AddSales}
               {...props}
             />
-             <Authorized
+            <Authorized
               exact
               allowedRoles={[COMPANY]}
               path="/company/client_order/add_sale"
@@ -122,7 +121,7 @@ const Routes = (props) => {
               component={AddSales}
               {...props}
             />
-             <Authorized
+            <Authorized
               exact
               allowedRoles={[COMPANY]}
               path="/company/delivery_note/add_sale"
@@ -130,7 +129,7 @@ const Routes = (props) => {
               component={AddSales}
               {...props}
             />
-             <Authorized
+            <Authorized
               exact
               allowedRoles={[COMPANY]}
               path="/company/invoice/add_sale"
@@ -170,7 +169,7 @@ const Routes = (props) => {
               component={Estimate}
               {...props}
             />
-             <Authorized
+            <Authorized
               exact
               allowedRoles={[COMPANY]}
               path="/company/supplier_order"
@@ -234,7 +233,7 @@ const Routes = (props) => {
               component={AddSupplier}
               {...props}
             />
-            
+
             <Authorized
               exact
               allowedRoles={[COMPANY]}
@@ -243,12 +242,20 @@ const Routes = (props) => {
               component={AddProduct}
               {...props}
             />
-             <Authorized
+            <Authorized
               exact
               allowedRoles={[COMPANY]}
               path="/company/supplier_order/add_purchases"
               pathAfterFailure="/401"
               component={AddPurchases}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/add-users"
+              pathAfterFailure="/401"
+              component={Profile}
               {...props}
             />
             <Authorized
