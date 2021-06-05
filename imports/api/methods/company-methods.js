@@ -30,6 +30,15 @@ const addCustomer = function (data) {
   });
 };
 
+const addCustomerFromExcel = function ({ data }) {
+  console.log(data);
+  Customers.insert({
+    ...data,
+    userId: this.userId,
+    creationDate: new Date(),
+  });
+};
+
 const addSupplier = function (data) {
   console.log(data);
   Suppliers.insert({
@@ -346,5 +355,5 @@ Meteor.methods({
   updateSaleStatus,
   updateDeliverySaleStatus,
   addProdutsFromExcel,
-
+  addCustomerFromExcel
 });

@@ -21,3 +21,23 @@ export const ExcelParser = (sheet, rowIndex) => {
         throw e;
     }
 }
+export const CustomerExcelParser = (sheet, rowIndex) => {
+    try {
+        const customerInfo = {
+            // -----------------------------------------------User Information
+            civility: sheet.getCell(`B${rowIndex}`).value,
+            fullName: sheet.getCell(`A${rowIndex}`).value,
+            email: sheet.getCell(`C${rowIndex}`).value,
+            uid: sheet.getCell(`D${rowIndex}`).value,
+            phoneNumber: sheet.getCell(`E${rowIndex}`).value,
+            socialReason: sheet.getCell(`F${rowIndex}`).value,
+            website: sheet.getCell(`G${rowIndex}`).value,
+            country: sheet.getCell(`H${rowIndex}`).value,
+            region: sheet.getCell(`I${rowIndex}`).value,
+            postalCode: sheet.getCell(`J${rowIndex}`).value,
+        };
+        return { customerInfo };
+    } catch (e) {
+        throw e;
+    }
+}
