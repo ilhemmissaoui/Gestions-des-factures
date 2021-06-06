@@ -114,7 +114,7 @@ const CustomersList = () => {
 
                   <div className="mr-4 mb-5">
                     <Link
-                      to="/company/customers/add"
+                      to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/customers/add`}
                       className="button is-primary is-rounded"
                     >
                       Add

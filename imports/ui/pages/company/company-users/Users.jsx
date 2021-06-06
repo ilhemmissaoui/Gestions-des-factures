@@ -72,7 +72,7 @@ const Users = ({ customer, fetch }) => {
                 type="text"
                 name="email"
                 ref={register}
-                placeholder="Customer Email"
+                placeholder="User Email"
                 className="input"
               />
             </p>{" "}
@@ -119,7 +119,7 @@ const Users = ({ customer, fetch }) => {
         <td>{customer._id}</td>
         <td>{customer.profile?.firstName}</td>
         <td>{customer.profile?.phoneNumber ?? "N/A"}</td>
-        <td>{Roles.getRolesForUser(customer?._id)[0] ?? "-"}</td>
+        <td>{Roles.getRolesForUser(customer?._id)[0] ?? "--"}</td>
         <td>{moment(customer.creationDate).format("MMM DD YYYY")}</td>
         <td>
           <button className="button is-danger is-inverted" onClick={handleShow}>

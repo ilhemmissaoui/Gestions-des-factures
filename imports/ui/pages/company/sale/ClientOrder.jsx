@@ -63,13 +63,7 @@ const ClientOrder = () => {
       sortDirection,
     });
   };
-  const notyf = new Notyf({
-    duration: 2000,
-    position: {
-      x: "center",
-      y: "top",
-    },
-  });
+
 
   useEffect(() => {
     Meteor.call("getCustomers", (e, r) => {
@@ -108,7 +102,7 @@ const ClientOrder = () => {
 
                     <div className="mr-4 mb-5">
                       <Link
-                        to="/company/client_order/add_sale"
+                        to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/client_order/add_sale`}
                         className="button is-primary is-rounded"
                       >
                         Add

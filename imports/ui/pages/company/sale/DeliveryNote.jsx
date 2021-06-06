@@ -4,10 +4,8 @@ import { Link } from "react-router-dom";
 import "flatpickr/dist/themes/material_green.css";
 import Pager from "../../../components/Pagination";
 import Flatpickr from "react-flatpickr";
-import { Notyf } from "notyf";
 import TableCol from "../../../utils/TableCols";
 import Search from "../../../components/Search";
-import Customer from "../customers/Customer";
 import DeliveryNoteItems from "./DeliveryNoteItems";
 
 const DeliveryNote = () => {
@@ -20,7 +18,6 @@ const DeliveryNote = () => {
   });
   const { field, sortDirection } = sorting;
   const itemsPerPage = 8;
-  const [value, onChange] = useState(new Date());
   const headers = [
     { name: "January", field: "January", sortable: true },
     { name: "February", field: "February", sortable: true },
@@ -96,7 +93,7 @@ const DeliveryNote = () => {
 
                     <div className="mr-4 mb-5">
                       <Link
-                        to="/company/delivery_note/add_sale"
+                         to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/delivery_note/add_sale`}
                         className="button is-primary is-rounded"
                       >
                         Add

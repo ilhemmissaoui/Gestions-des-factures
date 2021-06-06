@@ -1,4 +1,5 @@
 import React from "react";
+import { Users } from "react-feather";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
@@ -68,10 +69,10 @@ const NavBar = () => {
                 <Link to="/super_admin/profile" className="navbar-item">
                   Profile
                 </Link>
-                <Link to="/super_admin/setting" className="navbar-item">
-                  Setting
-                </Link>
-
+                {(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase() === "company" &&
+                  <Link to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/users`} className="navbar-item">
+                    <Users className="mr-2" /> Manage Users
+                </Link>}
                 <hr className="navbar-divider" />
                 <a onClick={(_) => Meteor.logout()} className="navbar-item">
                   Log Out

@@ -9,7 +9,7 @@ import DashboardAdmin from "./pages/Dashboard/AdminDashboard";
 import Forgot from "./pages/Auth/ForgotPassword";
 import AdminLayout from "../ui/layouts/AdminLayout";
 import Public from "../ui/layouts/Public";
-import { SUPER_ADMIN, COMPANY } from "../api/roles";
+import { SUPER_ADMIN, COMPANY, SALES_MANAGER } from "../api/roles";
 import Devis from "./pages/Dashboard/ventes/Devis";
 import CompanyLayout from "../ui/layouts/CompanyLayout";
 import ClientsList from "../ui/pages/Dashboard/Clients/ClientsList";
@@ -41,6 +41,7 @@ import AddUser from "./pages/company/company-users/Adduser";
 const Routes = (props) => {
   let loggingIn = true;
   let user;
+
   if (Meteor.isClient) {
     loggingIn = useTracker(() => Meteor.loggingIn());
     user = useTracker(() => Meteor.user());
@@ -285,6 +286,117 @@ const Routes = (props) => {
             />
           </Switch>
         </CompanyLayout>
+
+        {/*  */}
+        <CompanyLayout path="/sales_manager" {...props}>
+          <Switch>
+            <Authorized
+              exact
+              allowedRoles={[SALES_MANAGER]}
+              path="/sales_manager/customers"
+              pathAfterFailure="/401"
+              component={CustomersList}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SALES_MANAGER]}
+              path="/sales_manager/customers/add"
+              pathAfterFailure="/401"
+              component={AddCustomer}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SALES_MANAGER]}
+              path="/sales_manager/estimate/add_sale"
+              pathAfterFailure="/401"
+              component={AddSales}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SALES_MANAGER]}
+              path="/sales_manager/client_order/add_sale"
+              pathAfterFailure="/401"
+              component={AddSales}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SALES_MANAGER]}
+              path="/sales_manager/delivery_note/add_sale"
+              pathAfterFailure="/401"
+              component={AddSales}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SALES_MANAGER]}
+              path="/sales_manager/invoice/add_sale"
+              pathAfterFailure="/401"
+              component={AddSales}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SALES_MANAGER]}
+              path="/sales_manager/issue_note/add_sale"
+              pathAfterFailure="/401"
+              component={AddSales}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SALES_MANAGER]}
+              path="/sales_manager/delivery_note"
+              pathAfterFailure="/401"
+              component={DeliveryNote}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SALES_MANAGER]}
+              path="/sales_manager/client_order"
+              pathAfterFailure="/401"
+              component={ClientOrder}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SALES_MANAGER]}
+              path="/sales_manager/estimate"
+              pathAfterFailure="/401"
+              component={Estimate}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SALES_MANAGER]}
+              path="/sales_manager/product_service"
+              pathAfterFailure="/401"
+              component={ListProducts}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SALES_MANAGER]}
+              path="/sales_manager/product_service/add"
+              pathAfterFailure="/401"
+              component={AddProduct}
+              {...props}
+            />
+          </Switch>
+        </CompanyLayout>
+        {/*  */}
+        <CompanyLayout path="/purchasing_manager" {...props}>
+
+        </CompanyLayout>
+        {/*  */}
+        <CompanyLayout path="/store_keeper" {...props}>
+
+        </CompanyLayout>
+        {/*  */}
 
         <AdminLayout path="/super_admin" {...props}>
           <Switch>

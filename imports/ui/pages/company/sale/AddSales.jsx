@@ -61,8 +61,8 @@ const AddSales = () => {
       productList: [...productListForm],
       ...form,
     };
-    Meteor.call('addSale' ,data, (e,r)=>{
-      if(!e) toastr.success('',  "Sales Has Been added");
+    Meteor.call('addSale', data, (e, r) => {
+      if (!e) toastr.success('', "Sales Has Been added");
     })
   };
 
@@ -94,8 +94,6 @@ const AddSales = () => {
     });
     totaleVTA = (parseFloat(totalTVA) / 100) * parseFloat(totalSum);
     totaleTaxeIncl = 0.2 + totaleVTA + totalSum;
-    console.log(totalSum);
-    console.log(totalTVA);
     setTotalInfo({
       totalTHA: totalSum,
       totalTVA: totalTVA,
@@ -149,34 +147,35 @@ const AddSales = () => {
                                       <div className="field is-narrow">
                                         <div className="control">
                                           <div>
-                                            {/* <Autosuggest suggestions={list} /> */}
-                                            <select
-                                              name="selected"
-                                              onChange={(e) => {
-                                                if (e.target.value === "")
-                                                  setPickedCustomer(null);
-                                                setPickedCustomer(
-                                                  list.filter(
-                                                    (customer) =>
-                                                      customer._id ===
-                                                      e.target.value
-                                                  )
-                                                );
-                                                console.log(pickedCustomer);
-                                              }}
-                                            >
-                                              <option value="">
-                                                --- Select ---
+                                            <div class="select">
+                                              <select
+                                                name="selected"
+                                                onChange={(e) => {
+                                                  if (e.target.value === "")
+                                                    setPickedCustomer(null);
+                                                  setPickedCustomer(
+                                                    list.filter(
+                                                      (customer) =>
+                                                        customer._id ===
+                                                        e.target.value
+                                                    )
+                                                  );
+                                                  console.log(pickedCustomer);
+                                                }}
+                                              >
+                                                <option value="">
+                                                  --- Select ---
                                               </option>
-                                              {list.map((e) => (
-                                                <option
-                                                  key={e._id}
-                                                  value={e._id}
-                                                >
-                                                  {e.fullName}
-                                                </option>
-                                              ))}
-                                            </select>
+                                                {list.map((e) => (
+                                                  <option
+                                                    key={e._id}
+                                                    value={e._id}
+                                                  >
+                                                    {e.fullName}
+                                                  </option>
+                                                ))}
+                                              </select>
+                                            </div>
                                           </div>
                                         </div>
                                         <hr className="solid" />
@@ -299,7 +298,7 @@ const AddSales = () => {
                                           <th key={name}>
                                             {sorting.field === field ? (
                                               sorting.sortDirection ===
-                                              "asc" ? (
+                                                "asc" ? (
                                                 <i className="fas fa-arrow-up"></i>
                                               ) : (
                                                 <i className="fas fa-arrow-down"></i>
@@ -313,30 +312,32 @@ const AddSales = () => {
                                   </table>
                                 </div>
                                 <div className="column">
-                                  {productListForm.map((e, i) => (
+                                  {productListForm.map((_, i) => (
                                     <div className="field-body mb-2">
                                       <div className="field">
                                         <p className="control is-expanded has-icons-left">
                                           <div className="control">
                                             <div>
-                                              <select
-                                                name="name"
-                                                onChange={(e) =>
-                                                  handleChange(e, i)
-                                                }
-                                              >
-                                                <option value="">
-                                                  --- Select ---
+                                              <div class="select">
+                                                <select
+                                                  name="name"
+                                                  onChange={(e) =>
+                                                    handleChange(e, i)
+                                                  }
+                                                >
+                                                  <option value="">
+                                                    --- Select ---
                                                 </option>
-                                                {productNameList.map((e) => (
-                                                  <option
-                                                    key={e._id}
-                                                    value={e.name}
-                                                  >
-                                                    {e.name}
-                                                  </option>
-                                                ))}
-                                              </select>
+                                                  {productNameList.map((e) => (
+                                                    <option
+                                                      key={e._id}
+                                                      value={e.name}
+                                                    >
+                                                      {e.name}
+                                                    </option>
+                                                  ))}
+                                                </select>
+                                              </div>
                                             </div>
                                           </div>{" "}
                                         </p>
@@ -429,7 +430,7 @@ const AddSales = () => {
                                                 <th key={name}>
                                                   {sorting.field === field ? (
                                                     sorting.sortDirection ===
-                                                    "asc" ? (
+                                                      "asc" ? (
                                                       <i className="fas fa-arrow-up"></i>
                                                     ) : (
                                                       <i className="fas fa-arrow-down"></i>

@@ -14,7 +14,7 @@ const companyItems = [
     label: "Sale",
     path: "sale",
     icon: <ShoppingCart className="icon icon-sm mr-2" />,
-    role: ["COMPANY"],
+    role: ["COMPANY", "SALES_MANAGER"],
     children: [
       {
         path: "estimate",
@@ -59,13 +59,13 @@ const companyItems = [
     ],
   },
 
- 
+
 
   {
     label: "Customers",
     path: "customers",
     icon: <Users className="icon icon-sm mr-2" />,
-    role: ["COMPANY"],
+    role: ["COMPANY", "SALES_MANAGER"],
   },
   {
     label: "Supplier",
@@ -77,7 +77,7 @@ const companyItems = [
     label: "Product And Service",
     path: "product_service",
     icon: <Box className="icon icon-sm mr-2" />,
-    role: ["COMPANY"],
+    role: ["COMPANY", "SALES_MANAGER"],
   },
 
   {

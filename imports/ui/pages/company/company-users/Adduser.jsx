@@ -15,7 +15,7 @@ const AddUser = (props) => {
         console.log(e);
       } else {
         toastr.success("", "User has Been Added");
-        props.history.push("/company/customers");
+        props.history.push("/company/users");
       }
     });
   };

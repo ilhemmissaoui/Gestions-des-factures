@@ -21,7 +21,7 @@ const AddCustomer = (props) => {
         console.log(e);
       } else {
         toastr.success("", "Customer has Been Added");
-        props.history.push("/company/customers");
+        props.history.push(`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/customers`);
       }
     });
   };

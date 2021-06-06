@@ -124,7 +124,7 @@ const ListProducts = () => {
 
                   <div className="mr-4 mb-5">
                     <Link
-                      to="/company/product_service/add"
+                      to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/product_service/add`}
                       className="button is-primary is-rounded"
                     >
                       Add

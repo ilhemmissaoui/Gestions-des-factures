@@ -22,10 +22,12 @@ const addInfo = async function (data) {
 };
 
 const addCustomer = function (data) {
-  console.log(data);
+  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ "_id": this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
   Customers.insert({
     ...data,
-    userId: this.userId,
+    userId: isNotCompany ? me.profile?.companyId : this.userId,
     creationDate: new Date(),
   });
 };
@@ -48,10 +50,12 @@ const addCompanyUser = function (data) {
 };
 
 const addCustomerFromExcel = function ({ data }) {
-  console.log(data);
+  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ "_id": this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
   Customers.insert({
     ...data,
-    userId: this.userId,
+    userId: isNotCompany ? me.profile?.companyId : this.userId,
     creationDate: new Date(),
   });
 };
@@ -69,7 +73,10 @@ const getProductsName = function () {
   return Products.find({ userId: this.userId }).fetch();
 };
 const getMiniCustomers = function () {
-  return customers.find({ userId: this.userId }).fetch();
+  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ "_id": this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
+  return customers.find({ userId: isNotCompany ? me.profile?.companyId : this.userId, }).fetch();
 };
 
 const updateSaleStatus = function (_id, status) {
@@ -94,13 +101,15 @@ const updateDeliverySaleStatus = function (_id, status) {
 };
 
 const addSale = function (data) {
-  console.log(data);
+  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ "_id": this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
   Sales.insert({
     ...data,
     status: "Idle",
     deliverStatus: "Idle",
     invoiceStatus: "idle",
-    userId: this.userId,
+    userId: isNotCompany ? me.profile?.companyId : this.userId,
     creationDate: new Date(),
   });
 };
@@ -112,7 +121,12 @@ const getCustomers = function ({
   sortBy = "_id",
   sortOrder = "asc",
 }) {
-  const query = { userId: this.userId };
+
+  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ "_id": this.userId });
+
+  console.log(isNotCompany);
+  const query = { userId: !isNotCompany ? this.userId : me.profile?.companyId };
   const options = {
     skip: (page - 1) * itemsPerPage,
     limit: itemsPerPage,
@@ -219,7 +233,10 @@ const getSale = function ({
   sortBy = "_id",
   sortOrder = "asc",
 }) {
-  const query = { userId: this.userId };
+  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ "_id": this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
+  const query = { userId: isNotCompany ? me.profile?.companyId : this.userId };
   const options = {
     skip: (page - 1) * itemsPerPage,
     limit: itemsPerPage,
@@ -249,9 +266,12 @@ const getSale = function ({
   return { items: Sales.find(query, options).fetch(), totalCount };
 };
 const addProduct = function (data) {
+  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ "_id": this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
   Products.insert({
     ...data,
-    userId: this.userId,
+    userId: isNotCompany ? me.profile?.companyId : this.userId,
     creationDate: new Date(),
   });
 };
@@ -263,7 +283,10 @@ const getProducts = function ({
   sortBy = "_id",
   sortOrder = "asc",
 }) {
-  const query = { userId: this.userId };
+  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ "_id": this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
+  const query = { userId: isNotCompany ? me.profile?.companyId : this.userId, };
   const options = {
     skip: (page - 1) * itemsPerPage,
     limit: itemsPerPage,
@@ -304,7 +327,10 @@ const updateProduct = async function ({ id, data }) {
 };
 
 const deleteProduct = function (_id) {
-  Products.remove({ _id, userId: this.userId });
+  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ "_id": this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
+  Products.remove({ _id, userId: isNotCompany ? me.profile?.companyId : this.userId });
 };
 //*******updateProduct in the db*********
 const updateCustomer = async function ({ id, data }) {
@@ -350,14 +376,23 @@ const updateSale = async function ({ id, data }) {
 };
 
 const deleteSale = function (_id) {
-  Customers.remove({ _id, userId: this.userId });
+  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ "_id": this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
+  Customers.remove({ _id, userId: isNotCompany ? me.profile?.companyId : this.userId, });
 };
 const deleteCustomer = function (_id) {
-  Customers.remove({ _id, userId: this.userId });
+  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ "_id": this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
+  Customers.remove({ _id, userId: isNotCompany ? me.profile?.companyId : this.userId, });
 };
 
 const deleteSupplier = function (_id) {
-  Suppliers.remove({ _id, userId: this.userId });
+  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ "_id": this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
+  Suppliers.remove({ _id, userId: isNotCompany ? me.profile?.companyId : this.userId, });
 };
 
 const getCustomerInfo = async function () {
@@ -376,10 +411,13 @@ const getCustomerInfo = async function () {
 };
 
 const addProdutsFromExcel = function ({ data }) {
+  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ "_id": this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
   Products.insert({
     ...data,
     creationDate: new Date(),
-    userId: this.userId
+    userId: isNotCompany ? me.profile?.companyId : this.userId,
   })
 }
 

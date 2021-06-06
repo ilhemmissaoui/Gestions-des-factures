@@ -7,7 +7,6 @@ import Flatpickr from "react-flatpickr";
 import { Notyf } from "notyf";
 import TableCol from "../../../utils/TableCols";
 import Search from "../../../components/Search";
-import Customer from "../customers/Customer";
 import EstimateItems from "./EstimateItems";
 
 const Estimate = () => {
@@ -20,7 +19,6 @@ const Estimate = () => {
   });
   const { field, sortDirection } = sorting;
   const itemsPerPage = 8;
-  const [value, onChange] = useState(new Date());
   const headers = [
     { name: "January", field: "January", sortable: true },
     { name: "February", field: "February", sortable: true },
@@ -64,13 +62,7 @@ const Estimate = () => {
       sortDirection,
     });
   };
-  const notyf = new Notyf({
-    duration: 2000,
-    position: {
-      x: "center",
-      y: "top",
-    },
-  });
+
 
   useEffect(() => {
     Meteor.call("getCustomers", (e, r) => {
@@ -109,7 +101,7 @@ const Estimate = () => {
 
                     <div className="mr-4 mb-5">
                       <Link
-                        to="/company/estimate/add_sale"
+                         to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/estimate/add_sale`}
                         className="button is-primary is-rounded"
                       >
                         Add
@@ -181,7 +173,7 @@ const Estimate = () => {
                     ))}{" "}
                   </tr>
                   {list?.length === 0 ? (
-                    <TableCol col={5} />
+                    <TableCol col={6} />
                   ) : (
                     list?.map((sale) => (
                       <EstimateItems
