@@ -5,9 +5,6 @@ import Users from "./Users";
 import Search from "../../../components/Search";
 import Pager from "../../../components/Pagination";
 import TableCol from "../../../utils/TableCols";
-import { CustomerExcelParser } from "../../../../api/utils/ExcelHelper";
-import Excel from "exceljs";
-import { toastr } from "react-redux-toastr";
 
 const UsersList = () => {
   const [page, setPage] = useState(1);
@@ -18,7 +15,7 @@ const UsersList = () => {
     sortDirection: "asc",
   });
   const { field, sortDirection } = sorting;
-  const itemsPerPage = 4;
+  const itemsPerPage = 5;
   const headers = [
     { name: "Type", field: "customertype", sortable: true },
     { name: "Reference", field: "customerreference", sortable: true },
@@ -33,7 +30,7 @@ const UsersList = () => {
 
   const fetch = () => {
     Meteor.call(
-      "getCustomers",
+      "getCompanyUsers",
       { page, itemsPerPage, search, sortBy: field, sortOrder: sortDirection },
       (err, { items, totalCount }) => {
         setList(items);
@@ -51,57 +48,6 @@ const UsersList = () => {
     });
   };
 
-  const fileRef = React.useRef(null);
-
-  const handleExcelClick = () => {
-    fileRef.current.click();
-  };
-
-  const handleFile = (e) => {
-    e.preventDefault();
-    const file = e.target.files[0];
-    if (file === undefined) return;
-    let wb = new Excel.Workbook();
-    let reader = new FileReader();
-    reader.readAsArrayBuffer(file);
-    reader.onload = () => {
-      const buffer = reader.result;
-      wb.xlsx.load(buffer).then((workbook) => {
-        workbook.eachSheet((sheet, __) => {
-          sheet.eachRow((_, rowIndex) => {
-            if (rowIndex != 1) {
-              let excelInfo;
-              try {
-                excelInfo = CustomerExcelParser(sheet, rowIndex);
-              } catch (err) {
-                alert(
-                  `Erreur à la ligne: ${rowIndex}, Colonne: ${err.message}`
-                );
-              }
-              const { customerInfo } = excelInfo;
-              Meteor.call(
-                "addCustomerFromExcel",
-                { data: customerInfo },
-                (e, ___) => {
-                  if (!e) {
-                    fetch();
-                    toastr.success(
-                      "",
-                      "Customers has been Imported successfully"
-                    );
-                  } else {
-                    toastr.warning("", `${e.reason} à la ligne: ${rowIndex}`);
-                    console.log("ERROR");
-                    console.log(e);
-                  }
-                }
-              );
-            }
-          });
-        });
-      });
-    };
-  };
 
   return (
     <div>
@@ -121,26 +67,9 @@ const UsersList = () => {
 
                   <div className="mr-4 mb-5">
                     <Link
-                      to="/company/customers/add"
+                      to="/company/users/add"
                       className="button is-primary is-rounded"
-                    >
-                      Add
-                    </Link>
-                    <button
-                      onClick={handleExcelClick}
-                      className="button is-success is-rounded"
-                    >
-                      <i className="fas fa-file-excel mr-3"></i> Import From
-                      Excel
-                    </button>
-                    <input
-                      className="file-upload-input"
-                      type="file"
-                      ref={fileRef}
-                      onChange={handleFile}
-                      style={{ display: "none" }}
-                      accept=".xlsx"
-                    />
+                    >Add</Link>
                   </div>
                 </div>
               </div>
@@ -177,7 +106,7 @@ const UsersList = () => {
                       <TableCol col={7} />
                     ) : (
                       list?.map((customer) => (
-                        <Customer
+                        <Users
                           key={customer._id}
                           customer={customer}
                           fetch={fetch}

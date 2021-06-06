@@ -1,26 +1,20 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { AddCustomerSchema } from "../../../../api/schemas/CustomerSchema";
-import { Link } from "react-router-dom";
-import Modal from "react-modal";
 import { toastr } from "react-redux-toastr";
-const AssUser = (props) => {
-  const [isOpened, setIsOpened] = useState(false);
-  const handleClose = () => setIsOpened(false);
-  const handleShow = () => setIsOpened(true);
+import { AddCompanyUser } from "../../../../api/schemas/CompanyUsers";
+const AddUser = (props) => {
 
   const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(AddCustomerSchema),
+    resolver: yupResolver(AddCompanyUser),
   });
   const onSubmit = (data) => {
     console.log(data);
-    Meteor.call("addCustomer", data, (e, _) => {
+    Meteor.call("addCompanyUser", data, (e, _) => {
       if (e) {
-        console.log("+++++ERROR+++++");
         console.log(e);
       } else {
-        toastr.success("", "Customer has Been Added");
+        toastr.success("", "User has Been Added");
         props.history.push("/company/customers");
       }
     });
@@ -38,218 +32,128 @@ const AssUser = (props) => {
                     <div className="bd-hero-body">
                       <div className="bd-hero-heading">
                         <h1 className="title algolia-lvl0">
-                          <p>Add Customer</p>
+                          <p>Add User</p>
                         </h1>
                         <section class="section">
                           <h1 class="subtitle">Informations</h1>
                           <div className="card pb-5">
                             <div className="card-content">
                               <form onSubmit={handleSubmit(onSubmit)}>
-                                <div className="columns is-desktop">
-                                  <div className="column is-one-fifth">
-                                    <div className="field">
-                                      <label className="label">Civility</label>
-                                      <div className="control">
-                                        <div className="select">
-                                          <select
-                                            name="civility"
-                                            ref={register}
-                                          >
-                                            <option value="">
-                                              -- Select --
-                                            </option>
-                                            <option value="Mr">Mr</option>
-                                            <option value="Mrs">Mrs</option>
-                                          </select>
-                                        </div>
-                                        <div className="help is-danger d-block">
-                                          {errors.civility?.message}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="column">
-                                    <div className="field">
-                                      <label className="label">
-                                        Last & First Name
+                                <div className="column is-one-fifth">
+                                </div>
+                                <div className="column">
+                                  <div className="field">
+                                    <label className="label">
+                                      First Name
                                       </label>
-                                      <div className="control">
-                                        <input
-                                          ref={register}
-                                          className="input"
-                                          name="fullName"
-                                          type="text"
-                                          placeholder="Last & First Name"
-                                        />
-                                      </div>
-                                      <div className="help is-danger d-block">
-                                        {errors.fullName?.message}
-                                      </div>
+                                    <div className="control">
+                                      <input
+                                        ref={register}
+                                        className="input"
+                                        name="firstName"
+                                        type="text"
+                                        placeholder="First Name"
+                                      />
+                                    </div>
+                                    <div className="help is-danger d-block">
+                                      {errors.firstName?.message}
                                     </div>
                                   </div>
-                                  <div className="column">
-                                    <div className="field">
-                                      <label className="label">Email</label>
-                                      <div className="control">
-                                        <input
-                                          ref={register}
-                                          className="input"
-                                          name="email"
-                                          type="email"
-                                          placeholder="Email"
-                                        />
-                                      </div>
-                                      <div className="help is-danger d-block">
-                                        {errors.email?.message}
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="column">
-                                    <div className="field">
-                                      <label className="label">
-                                        Unique identifier
+                                </div>
+                                <div className="column">
+                                  <div className="field">
+                                    <label className="label">
+                                      Last Name
                                       </label>
-                                      <div className="control">
-                                        <input
-                                          ref={register}
-                                          className="input"
-                                          type="text"
-                                          name="uid"
-                                          placeholder="Unique identifier"
-                                        />
-                                      </div>
-                                      <div className="help is-danger d-block">
-                                        {errors.uid?.message}
-                                      </div>
+                                    <div className="control">
+                                      <input
+                                        ref={register}
+                                        className="input"
+                                        name="lastName"
+                                        type="text"
+                                        placeholder="Last Name"
+                                      />
+                                    </div>
+                                    <div className="help is-danger d-block">
+                                      {errors.lastName?.message}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="column">
+                                  <div className="field">
+                                    <label className="label">Email</label>
+                                    <div className="control">
+                                      <input
+                                        ref={register}
+                                        className="input"
+                                        name="email"
+                                        type="email"
+                                        placeholder="Email"
+                                      />
+                                    </div>
+                                    <div className="help is-danger d-block">
+                                      {errors.email?.message}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="column">
+                                  <div className="field">
+                                    <label className="label">
+                                      Contact Number
+                                      </label>
+                                    <div className="control">
+                                      <input
+                                        ref={register}
+                                        className="input"
+                                        name="phoneNumber"
+                                        type="text"
+                                        placeholder="+21621321456"
+                                      />
+                                    </div>
+                                    <div className="help is-danger d-block">
+                                      {errors.phoneNumber?.message}
                                     </div>
                                   </div>
                                 </div>
                                 {/* -------------------------------------------- */}
                                 <div className="separator mx-5 my-2">
-                                  Contact
+                                  Security
                                 </div>
                                 {/* -------------------------------------------- */}
-                                <div className="columns is-desktop mt-0">
-                                  <div className="column">
-                                    <div className="field">
-                                      <label className="label">
-                                        Contact Number
+                                <div className="column">
+                                  <div className="field">
+                                    <label className="label">
+                                      Password
                                       </label>
-                                      <div className="control">
-                                        <input
-                                          ref={register}
-                                          className="input"
-                                          name="phoneNumber"
-                                          type="text"
-                                          placeholder="+21621212121"
-                                        />
-                                      </div>
-                                      <div className="help is-danger d-block">
-                                        {errors.phoneNumber?.message}
-                                      </div>
+                                    <div className="control">
+                                      <input
+                                        ref={register}
+                                        className="input"
+                                        name="password"
+                                        type="password"
+                                        placeholder="******"
+                                      />
                                     </div>
-                                  </div>
-                                  <div className="column">
-                                    <div className="field">
-                                      <label className="label">
-                                        Social reason
-                                      </label>
-                                      <div className="control">
-                                        <input
-                                          ref={register}
-                                          className="input"
-                                          name="socialReason"
-                                          type="text"
-                                          placeholder="+21621212121"
-                                        />
-                                      </div>
-                                      <div className="help is-danger d-block">
-                                        {errors.socialReason?.message}
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="column">
-                                    <div className="field">
-                                      <label className="label">Website</label>
-                                      <div className="control">
-                                        <input
-                                          ref={register}
-                                          className="input"
-                                          name="website"
-                                          type="url"
-                                          placeholder="https://exemple.com"
-                                        />
-                                      </div>
-                                      <div className="help is-danger d-block">
-                                        {errors.website?.message}
-                                      </div>
+                                    <div className="help is-danger d-block">
+                                      {errors.socialReason?.message}
                                     </div>
                                   </div>
                                 </div>
-                                {/* -------------------------------------------- */}
-                                <div className="separator mx-5 my-2">
-                                  Address
-                                </div>
-                                {/* -------------------------------------------- */}
-                                <div className="columns is-desktop mt-0">
-                                  <div className="column">
-                                    <div className="field">
-                                      <label className="label">Country</label>
-                                      <div className="control">
-                                        <input
-                                          ref={register}
-                                          className="input"
-                                          name="country"
-                                          type="text"
-                                          placeholder="Tunisia"
-                                        />
-                                      </div>
-                                      <div className="help is-danger d-block">
-                                        {errors.country?.message}
-                                      </div>
-                                    </div>
+                                <div className="column">
+                                  <div class="select" >
+                                    <select name="role" ref={register}>
+                                      <option value="SALES_MANAGER">Sales Manager</option>
+                                      <option value="PURCHASING_MANAGER">Purchasing Manager</option>
+                                      <option value="STORE_KEEPER">Store Keeper</option>
+                                    </select>
                                   </div>
-                                  <div className="column">
-                                    <div className="field">
-                                      <label className="label">Region</label>
-                                      <div className="control">
-                                        <input
-                                          ref={register}
-                                          className="input"
-                                          name="region"
-                                          type="text"
-                                          placeholder="Sousse"
-                                        />
-                                      </div>
-                                      <div className="help is-danger d-block">
-                                        {errors.region?.message}
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="column">
-                                    <div className="field">
-                                      <label className="label">
-                                        Postal Code
-                                      </label>
-                                      <div className="control">
-                                        <input
-                                          ref={register}
-                                          className="input"
-                                          name="postalCode"
-                                          type="text"
-                                          placeholder="4031"
-                                        />
-                                      </div>
-                                      <div className="help is-danger d-block">
-                                        {errors.postalCode?.message}
-                                      </div>
-                                    </div>
+                                  <div className="help is-danger d-block">
+                                    {errors.role?.message}
                                   </div>
                                 </div>
                                 <div className="columns is-desktop mt-0 mx-2">
                                   <div className="control">
                                     <button
-                                      to="#"
                                       type="submit"
                                       className="button is-primary"
                                     >
@@ -274,4 +178,4 @@ const AssUser = (props) => {
   );
 };
 
-export default AssUser;
+export default AddUser;

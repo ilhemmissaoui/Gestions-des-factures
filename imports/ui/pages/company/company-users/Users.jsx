@@ -3,29 +3,22 @@ import ModalRoot from "../../../components/ModalView";
 import { Meteor } from "meteor/meteor";
 import moment from "moment";
 import { useForm } from "react-hook-form";
-import { Notyf } from "notyf";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { UpdateCustomerSchema } from "../../../../api/schemas/CustomerSchema";
+import { UpdateCompanyUser } from "../../../../api/schemas/CompanyUsers";
 import { toastr } from "react-redux-toastr";
 
 const Users = ({ customer, fetch }) => {
+  
   const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(UpdateCustomerSchema),
+    resolver: yupResolver(UpdateCompanyUser),
   });
-  const [update, setUpdate] = useState(customer);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const notyf = new Notyf({
-    duration: 2000,
-    position: {
-      x: "center",
-      y: "top",
-    },
-  });
+
 
   const deleteCustomer = () => {
-    Meteor.call("deleteCustomer", customer._id, (e, r) => {
+    Meteor.call("deleteCustomer", customer._id, (e, _) => {
       if (!e) fetch();
     });
   };
@@ -123,21 +116,22 @@ const Users = ({ customer, fetch }) => {
       </ModalRoot>
       <tr>
         <td>active</td>
-        <td> {customer._id}</td>
-        <td>{customer.fullName}</td>
-        <td>{customer.phoneNumber}</td>
-        <td>{customer.email}</td>
+        <td>{customer._id}</td>
+        <td>{customer.profile?.firstName}</td>
+        <td>{customer.profile?.phoneNumber ?? "N/A"}</td>
+        <td>{Roles.getRolesForUser(customer?._id)[0] ?? "-"}</td>
         <td>{moment(customer.creationDate).format("MMM DD YYYY")}</td>
-
-        <button className="button is-danger is-inverted" onClick={handleShow}>
-          update
+        <td>
+          <button className="button is-danger is-inverted" onClick={handleShow}>
+            update
         </button>
-        <button
-          className="button is-danger is-inverted"
-          onClick={deleteCustomer}
-        >
-          delete
+          <button
+            className="button is-danger is-inverted"
+            onClick={deleteCustomer}
+          >
+            delete
         </button>
+        </td>
       </tr>
     </>
   );

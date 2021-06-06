@@ -30,6 +30,23 @@ const addCustomer = function (data) {
   });
 };
 
+const addCompanyUser = function (data) {
+  console.log(data);
+  const info = {
+    email: data.email,
+    password: data.password,
+    profile: {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      companyId: this.userId,
+      phoneNumber: data.phoneNumber
+    },
+  };
+  const _id = Accounts.createUser(info);
+  Roles.addUsersToRoles(_id, data.role);
+  return _id;
+};
+
 const addCustomerFromExcel = function ({ data }) {
   console.log(data);
   Customers.insert({
@@ -87,6 +104,7 @@ const addSale = function (data) {
     creationDate: new Date(),
   });
 };
+
 const getCustomers = function ({
   page,
   itemsPerPage,
@@ -103,7 +121,6 @@ const getCustomers = function ({
     },
   };
   const totalCount = Customers.find({ userId: this.userId }).count();
-  const totalPages = Math.ceil(totalCount / itemsPerPage);
   // IF SEARCH IS DEFINED && SEARCH LENGTH != 0 THEN WE ADD SEARCH STEP TO QUERY OBJECT
   if (search && search.length) {
     query.$or = [
@@ -122,6 +139,41 @@ const getCustomers = function ({
     ];
   }
   return { items: Customers.find(query, options).fetch(), totalCount };
+};
+
+const getCompanyUsers = function ({
+  page,
+  itemsPerPage,
+  search,
+  sortBy = "_id",
+  sortOrder = "asc",
+}) {
+  const query = { "profile.companyId": this.userId };
+  const options = {
+    skip: (page - 1) * itemsPerPage,
+    limit: itemsPerPage,
+    sort: {
+      [sortBy]: sortOrder === "asc" ? 1 : -1,
+    },
+  };
+  const totalCount = Meteor.users.find({ "profile.companyId": this.userId }).count();
+  if (search && search.length) {
+    query.$or = [
+      {
+        fullName: {
+          $regex: `.*${search}.*`,
+          $options: "i",
+        },
+      },
+      {
+        country: {
+          $regex: `.*${search}.*`,
+          $options: "i",
+        },
+      },
+    ];
+  }
+  return { items: Meteor.users.find(query, options).fetch(), totalCount };
 };
 
 const getSuppliers = function ({
@@ -355,5 +407,7 @@ Meteor.methods({
   updateSaleStatus,
   updateDeliverySaleStatus,
   addProdutsFromExcel,
-  addCustomerFromExcel
+  addCustomerFromExcel,
+  getCompanyUsers,
+  addCompanyUser
 });

@@ -1,6 +1,6 @@
 import { Meteor } from "meteor/meteor";
 import React from "react";
-import { Switch, Route, Redirect, BrowserRouter } from "react-router-dom";
+import { Switch, BrowserRouter } from "react-router-dom";
 import { useTracker } from "meteor/react-meteor-data";
 import Login from "./pages/Auth/login";
 import Authorized from "./components/authorized";
@@ -10,14 +10,12 @@ import Forgot from "./pages/Auth/ForgotPassword";
 import AdminLayout from "../ui/layouts/AdminLayout";
 import Public from "../ui/layouts/Public";
 import { SUPER_ADMIN, COMPANY } from "../api/roles";
-import AboutPage from "../ui/pages/AboutPage";
 import Devis from "./pages/Dashboard/ventes/Devis";
 import CompanyLayout from "../ui/layouts/CompanyLayout";
 import ClientsList from "../ui/pages/Dashboard/Clients/ClientsList";
 import Print from "./pages/Print";
 import Profile from "./pages/Dashboard/ventes/Profile";
 import Setting from "./pages/Dashboard/ventes/Setting";
-import Home from "../ui/pages/Dashboard/Clients/Home";
 import Notification from "./pages/Dashboard/ventes/Notification";
 import ContactUs from "./ContactUs";
 import CustomersList from "./pages/company/customers/list";
@@ -37,6 +35,8 @@ import AddPurchases from "./pages/company/purchase/AddPurchases";
 import ListSupplier from "./pages/company/suppliers/ListSupplier";
 import AddSupplier from "./pages/company/suppliers/AddSupplier";
 import StockPage from "./pages/company/Stock/StockPage";
+import UsersList from "./pages/company/company-users/list";
+import AddUser from "./pages/company/company-users/Adduser";
 
 const Routes = (props) => {
   let loggingIn = true;
@@ -79,6 +79,7 @@ const Routes = (props) => {
           {...props}
           authenticated={authenticated}
         />
+
         <CompanyLayout path="/company" {...props}>
           <Switch>
             <Authorized
@@ -253,9 +254,17 @@ const Routes = (props) => {
             <Authorized
               exact
               allowedRoles={[COMPANY]}
-              path="/company/add-users"
+              path="/company/users"
               pathAfterFailure="/401"
-              component={Profile}
+              component={UsersList}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/users/add"
+              pathAfterFailure="/401"
+              component={AddUser}
               {...props}
             />
             <Authorized
