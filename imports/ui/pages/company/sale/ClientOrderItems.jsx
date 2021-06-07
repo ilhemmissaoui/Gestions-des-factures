@@ -1,8 +1,6 @@
-import clsx from "clsx";
 import moment from "moment";
 import React from "react";
 import { Edit, File, PenTool } from "react-feather";
-import { toastr } from "react-redux-toastr";
 
 const ClientOrderItems = ({ sales, fetch }) => {
   return (

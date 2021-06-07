@@ -5,6 +5,7 @@ import { AddCustomerSchema } from "../../../../api/schemas/CustomerSchema";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
 import { toastr } from "react-redux-toastr";
+import ReactToPrint from "react-to-print";
 const AddCustomer = (props) => {
   const [isOpened, setIsOpened] = useState(false);
   const handleClose = () => setIsOpened(false);

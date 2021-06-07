@@ -45,6 +45,7 @@
     "react-redux-toastr": "^7.6.5",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
+    "react-to-print": "^2.12.6",
     "react-typical": "^0.1.3",
     "react-typing-hook": "^1.0.10",
     "react-typist": "^2.0.5",

@@ -59,8 +59,6 @@ const companyItems = [
     ],
   },
 
-
-
   {
     label: "Customers",
     path: "customers",

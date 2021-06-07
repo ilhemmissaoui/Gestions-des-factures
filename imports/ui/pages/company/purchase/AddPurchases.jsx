@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Notyf } from "notyf";
 import { Meteor } from "meteor/meteor";
 import Flatpickr from "react-flatpickr";
+import ReactToPrint from "react-to-print";
+
 const AddPurchases = () => {
   const [page, setPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
@@ -50,12 +52,16 @@ const AddPurchases = () => {
     });
   };
 
+
+  
   useEffect(() => {
     Meteor.call("getCustomers", (e, r) => {
       if (!e) setList(r);
       else console.log(e);
     });
   }, []);
+
+  
   return (
     <>
       <div>

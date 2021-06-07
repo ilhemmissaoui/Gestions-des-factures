@@ -1,9 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Meteor } from "meteor/meteor";
 import Flatpickr from "react-flatpickr";
 import { Plus } from "react-feather";
 import { toastr } from "react-redux-toastr";
+import ReactToPrint from "react-to-print";
+import { useReactToPrint } from "react-to-print";
+
+import ComponentToPrint from "./ComponentToPrint";
+
 const AddSales = () => {
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
   const [sorting, setSorting] = useState({
     field: "_id",
     sortDirection: "asc",
@@ -61,9 +71,9 @@ const AddSales = () => {
       productList: [...productListForm],
       ...form,
     };
-    Meteor.call('addSale', data, (e, r) => {
-      if (!e) toastr.success('', "Sales Has Been added");
-    })
+    Meteor.call("addSale", data, (e, r) => {
+      if (!e) toastr.success("", "Sales Has Been added");
+    });
   };
 
   useEffect(() => {
@@ -165,7 +175,7 @@ const AddSales = () => {
                                               >
                                                 <option value="">
                                                   --- Select ---
-                                              </option>
+                                                </option>
                                                 {list.map((e) => (
                                                   <option
                                                     key={e._id}
@@ -298,7 +308,7 @@ const AddSales = () => {
                                           <th key={name}>
                                             {sorting.field === field ? (
                                               sorting.sortDirection ===
-                                                "asc" ? (
+                                              "asc" ? (
                                                 <i className="fas fa-arrow-up"></i>
                                               ) : (
                                                 <i className="fas fa-arrow-down"></i>
@@ -327,7 +337,7 @@ const AddSales = () => {
                                                 >
                                                   <option value="">
                                                     --- Select ---
-                                                </option>
+                                                  </option>
                                                   {productNameList.map((e) => (
                                                     <option
                                                       key={e._id}
@@ -430,7 +440,7 @@ const AddSales = () => {
                                                 <th key={name}>
                                                   {sorting.field === field ? (
                                                     sorting.sortDirection ===
-                                                      "asc" ? (
+                                                    "asc" ? (
                                                       <i className="fas fa-arrow-up"></i>
                                                     ) : (
                                                       <i className="fas fa-arrow-down"></i>
@@ -482,6 +492,16 @@ const AddSales = () => {
                                     >
                                       Submit
                                     </button>
+
+                                    <div>
+                                      <ComponentToPrint ref={componentRef} />
+                                      <button
+                                        className="button"
+                                        onClick={(_) => handlePrint()}
+                                      >
+                                        Print this out!
+                                      </button>
+                                    </div>
                                   </div>
                                 </div>
                               </form>

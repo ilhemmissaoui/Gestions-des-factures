@@ -5,6 +5,7 @@ import { SupplierSchema } from "../../../../api/schemas/SupplierSchema";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
 import { toastr } from "react-redux-toastr";
+import ReactToPrint from "react-to-print";
 
 
 const AddSupplier = (props) => {

@@ -7,7 +7,6 @@ import Flatpickr from "react-flatpickr";
 import { Notyf } from "notyf";
 import TableCol from "../../../utils/TableCols";
 import Search from "../../../components/Search";
-import Customer from "../customers/Customer";
 import ClientOrderItems from "./ClientOrderItems";
 
 const ClientOrder = () => {
@@ -64,7 +63,6 @@ const ClientOrder = () => {
     });
   };
 
-
   useEffect(() => {
     Meteor.call("getCustomers", (e, r) => {
       if (!e) setList(r);
@@ -102,7 +100,9 @@ const ClientOrder = () => {
 
                     <div className="mr-4 mb-5">
                       <Link
-                        to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/client_order/add_sale`}
+                        to={`/${Roles.getRolesForUser(
+                          Meteor.userId()
+                        )[0]?.toLowerCase()}/client_order/add_sale`}
                         className="button is-primary is-rounded"
                       >
                         Add

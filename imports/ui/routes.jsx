@@ -298,6 +298,7 @@ const Routes = (props) => {
               component={CustomersList}
               {...props}
             />
+            
             <Authorized
               exact
               allowedRoles={[SALES_MANAGER]}

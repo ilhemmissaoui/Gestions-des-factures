@@ -32,6 +32,8 @@ const Supplier = ({ supplier, fetch }) => {
         console.log(err);
         toastr.error("unable to update Supplier check this inputs ");
         setShow(false);
+        console.log(supplier.email);
+        console.log(supplier.creationDate);
       }
     });
   };
@@ -114,16 +116,18 @@ const Supplier = ({ supplier, fetch }) => {
         </form>
       </ModalRoot>
       <tr>
-        <td>active</td>
+      <td> Active</td>
         <td> {supplier._id}</td>
         <td>{supplier.fullName}</td>
         <td>{supplier.phoneNumber}</td>
-        <td>{supplier.email}</td>
-        <td>{moment(supplier.creationDate).format("MMM DD YYYY")}</td>
-
-        <Edit className="is-info" onClick={handleShow} />
-        <Trash2 className="is-danger" onClick={deleteSupplier} />
+       <td> {supplier.postalCode}</td> 
+       <td> {moment(supplier.creationDate).format("MMM DD YYYY")}</td> 
+    
+        <td><Edit className="is-info" onClick={handleShow} />
+        <Trash2 className="is-danger" onClick={deleteSupplier} /></td>
       </tr>
+
+     
     </>
   );
 };

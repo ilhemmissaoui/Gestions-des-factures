@@ -60,6 +60,17 @@ const addCustomerFromExcel = function ({ data }) {
   });
 };
 
+const addSpplierFromExcel = function ({ data }) {
+  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ "_id": this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
+  Suppliers.insert({
+    ...data,
+    userId: isNotCompany ? me.profile?.companyId : this.userId,
+    creationDate: new Date(),
+  });
+};
+
 const addSupplier = function (data) {
   console.log(data);
   Suppliers.insert({
@@ -77,6 +88,12 @@ const getMiniCustomers = function () {
   const me = Meteor.users.findOne({ "_id": this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
   return customers.find({ userId: isNotCompany ? me.profile?.companyId : this.userId, }).fetch();
+};
+const getMiniSuppliers = function () {
+  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ "_id": this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
+  return suppliers.find({ userId: isNotCompany ? me.profile?.companyId : this.userId, }).fetch();
 };
 
 const updateSaleStatus = function (_id, status) {
@@ -447,5 +464,7 @@ Meteor.methods({
   addProdutsFromExcel,
   addCustomerFromExcel,
   getCompanyUsers,
-  addCompanyUser
+  addCompanyUser,
+  addSpplierFromExcel,
+  getMiniSuppliers
 });

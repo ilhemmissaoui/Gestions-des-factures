@@ -6,6 +6,9 @@ import Search from "../../../components/Search";
 import Pager from "../../../components/Pagination";
 import TableCol from "../../../utils/TableCols";
 import { Notyf } from "notyf";
+import { SupplierExcelParser } from "../../../../api/utils/ExcelHelper";
+import Excel from "exceljs";
+import { toastr } from "react-redux-toastr";
 
 const ListSupplier = () => {
   const [page, setPage] = useState(1);
@@ -36,7 +39,7 @@ const ListSupplier = () => {
       (err, { items, totalCount }) => {
         setList(items);
         setTotalItems(totalCount);
-       // console.log(getSuppliers);
+        // console.log(getSuppliers);
       }
     );
   };
@@ -64,6 +67,58 @@ const ListSupplier = () => {
     });
   }, []);
 
+  const fileRef = React.useRef(null);
+
+  const handleExcelClick = () => {
+    fileRef.current.click();
+  };
+
+  const handleFile = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    if (file === undefined) return;
+    let wb = new Excel.Workbook();
+    let reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onload = () => {
+      const buffer = reader.result;
+      wb.xlsx.load(buffer).then((workbook) => {
+        workbook.eachSheet((sheet, __) => {
+          sheet.eachRow((_, rowIndex) => {
+            if (rowIndex != 1) {
+              let excelInfo;
+              try {
+                excelInfo = SupplierExcelParser(sheet, rowIndex);
+              } catch (err) {
+                alert(
+                  `Erreur à la ligne: ${rowIndex}, Colonne: ${err.message}`
+                );
+              }
+              const { supplierInfo } = excelInfo;
+              Meteor.call(
+                "addSpplierFromExcel",
+                { data: supplierInfo },
+                (e, ___) => {
+                  if (!e) {
+                    fetch();
+                    toastr.success(
+                      "",
+                      "Suppliers has been Imported successfully"
+                    );
+                  } else {
+                    toastr.warning("", `${e.reason} à la ligne: ${rowIndex}`);
+                    console.log("ERROR");
+                    console.log(e);
+                  }
+                }
+              );
+            }
+          });
+        });
+      });
+    };
+  };
+
   return (
     <div>
       <div className="column is-10-desktop is-offset-2-desktop is-9-tablet is-offset-3-tablet is-12-mobile">
@@ -87,6 +142,21 @@ const ListSupplier = () => {
                     >
                       Add
                     </Link>
+                    <button
+                      onClick={handleExcelClick}
+                      className="button is-success is-rounded"
+                    >
+                      <i className="fas fa-file-excel mr-3"></i> Import From
+                      Excel
+                    </button>
+                    <input
+                      className="file-upload-input"
+                      type="file"
+                      ref={fileRef}
+                      onChange={handleFile}
+                      style={{ display: "none" }}
+                      accept=".xlsx"
+                    />
                   </div>
                 </div>
               </div>
