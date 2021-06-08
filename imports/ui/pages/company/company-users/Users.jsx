@@ -8,7 +8,9 @@ import { UpdateCompanyUser } from "../../../../api/schemas/CompanyUsers";
 import { toastr } from "react-redux-toastr";
 
 const Users = ({ customer, fetch }) => {
-  
+
+  console.log(customer);
+
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(UpdateCompanyUser),
   });
@@ -17,20 +19,20 @@ const Users = ({ customer, fetch }) => {
   const handleShow = () => setShow(true);
 
 
-  const deleteCustomer = () => {
-    Meteor.call("deleteCustomer", customer._id, (e, _) => {
+  const deleteCompanyUser = () => {
+    Meteor.call("deleteCompanyUser", customer._id, (e, _) => {
       if (!e) fetch();
     });
   };
-  const UpdateCustomer = (data) => {
+  const updateUser = (data) => {
     console.log(data);
-    Meteor.call("updateCustomer", { id: customer._id, data }, (err) => {
+    Meteor.call("updateCompanyUser", { id: customer._id, data }, (err) => {
       if (!err) {
-        toastr.success("", "Customer Updated Successfully");
+        toastr.success("", "User Updated Successfully");
         fetch();
         setShow(false);
       } else {
-        toastr.error("unable to update Customer check this inputs ");
+        toastr.error("unable to update User check the inputs ");
         setShow(false);
       }
     });
@@ -43,32 +45,47 @@ const Users = ({ customer, fetch }) => {
         refuse={handleClose}
         formId="customer-update"
         isActive={show}
-        form={UpdateCustomer}
       >
-        <form onSubmit={handleSubmit(UpdateCustomer)} id="customer-update">
+        <form onSubmit={handleSubmit(updateUser)} id="customer-update">
           <section className="modal-card-body">
             <label htmlFor="customername" className="label">
-              Customer Name
+              User First Name
             </label>
             <p className="control">
               <input
-                defaultvalue={customer.fullName}
+                defaulValue={customer.profile?.firstName}
                 type="text"
-                name="fullName"
+                name="firstName"
                 ref={register}
                 placeholder="Customer Name"
                 className="input"
               />
             </p>{" "}
-            {errors.fullName && (
-              <p className="alert alert-danger">{errors.fullName.message}</p>
+            {errors.firstName && (
+              <p className="alert alert-danger">{errors.firstName.message}</p>
             )}
-            <label htmlFor="customeremail" className="label">
-              Customer Email
+            <label htmlFor="lastName" className="label">
+              User last Name
             </label>
             <p className="control">
               <input
-                defaultvalue={customer.email}
+                defaulValue={customer.profile?.lastName}
+                type="text"
+                name="lastName"
+                ref={register}
+                placeholder="Customer Name"
+                className="input"
+              />
+            </p>{" "}
+            {errors.lastName && (
+              <p className="alert alert-danger">{errors.lastName.message}</p>
+            )}
+            <label htmlFor="email" className="label">
+              User Email
+            </label>
+            <p className="control">
+              <input
+                defaulValue={customer?.emails[0]?.address}
                 type="text"
                 name="email"
                 ref={register}
@@ -80,36 +97,20 @@ const Users = ({ customer, fetch }) => {
               <p className="alert alert-danger">{errors.email.message}</p>
             )}
             <label htmlFor="phoneNumber" className="label">
-              Customer Phone
+              User Phone
             </label>
             <p className="control">
               <input
-                defaultvalue={customer.phoneNumber}
+                defaulValue="Customer default"
                 type="text"
                 name="phoneNumber"
                 ref={register}
-                placeholder="Customer Name"
+                placeholder="User phone number"
                 className="input"
               />
             </p>{" "}
             {errors.phoneNumber && (
               <p className="alert alert-danger">{errors.phoneNumber.message}</p>
-            )}
-            <label htmlFor="customerregion" className="label">
-              Customer Region
-            </label>
-            <p className="control">
-              <input
-                defaultvalue={customer.region}
-                type="text"
-                name="region"
-                ref={register}
-                placeholder="Customer Region"
-                className="input"
-              />
-            </p>{" "}
-            {errors.region && (
-              <p className="alert alert-danger">{errors.region.message}</p>
             )}
           </section>
         </form>
@@ -119,7 +120,8 @@ const Users = ({ customer, fetch }) => {
         <td>{customer._id}</td>
         <td>{customer.profile?.firstName}</td>
         <td>{customer.profile?.phoneNumber ?? "N/A"}</td>
-        <td>{Roles.getRolesForUser(customer?._id)[0] ?? "--"}</td>
+        <td>{Roles.getRolesForUser(customer?._id)[0]?.replace("_", " ") ?? "--"}</td>
+        <td>{customer.emails[0]?.address}</td>
         <td>{moment(customer.creationDate).format("MMM DD YYYY")}</td>
         <td>
           <button className="button is-danger is-inverted" onClick={handleShow}>
@@ -127,7 +129,7 @@ const Users = ({ customer, fetch }) => {
         </button>
           <button
             className="button is-danger is-inverted"
-            onClick={deleteCustomer}
+            onClick={deleteCompanyUser}
           >
             delete
         </button>

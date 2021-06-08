@@ -21,7 +21,8 @@ const UsersList = () => {
     { name: "Reference", field: "customerreference", sortable: true },
     { name: "Name", field: "customername", sortable: true },
     { name: "Phone", field: "customerphone", sortable: true },
-    { name: "TurnOver", field: "customerturnover", sortable: true },
+    { name: "Role", field: "customerturnover", sortable: true },
+    { name: "Email", field: "email", sortable: true },
     { name: "Creation Date", field: "customercreationdate", sortable: true },
     { name: "Action", field: "customeraction", sortable: true },
   ];

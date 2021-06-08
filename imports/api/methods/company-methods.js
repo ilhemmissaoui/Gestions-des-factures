@@ -60,6 +60,23 @@ const addCompanyUser = function (data) {
   return _id;
 };
 
+const deleteCompanyUser = function (id) {
+  Meteor.users.remove({ "_id": id });
+};
+
+const updateCompanyUser = function ({ id, data }) {
+  console.log(id);
+  console.log(data);
+  Meteor.users.update(id, {
+    $set: {
+      'emails.0.address': data.email,
+      'profile.fistName': data.firstName,
+      'profile.lastName': data.lastName,
+      'profile.phoneNumber': data.phoneNumber,
+    }
+  });
+};
+
 const addCustomerFromExcel = function ({ data }) {
   const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
   const me = Meteor.users.findOne({ "_id": this.userId });
@@ -473,6 +490,8 @@ Meteor.methods({
   addCustomerFromExcel,
   getCompanyUsers,
   addCompanyUser,
+  deleteCompanyUser,
   addSpplierFromExcel,
-  getMiniSuppliers
+  getMiniSuppliers,
+  updateCompanyUser
 });
