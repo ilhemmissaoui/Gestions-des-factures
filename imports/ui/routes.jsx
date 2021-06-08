@@ -37,6 +37,7 @@ import AddSupplier from "./pages/company/suppliers/AddSupplier";
 import StockPage from "./pages/company/Stock/StockPage";
 import UsersList from "./pages/company/company-users/list";
 import AddUser from "./pages/company/company-users/Adduser";
+import PrintForm from "./pages/company/sale/PrintForm";
 
 const Routes = (props) => {
   let loggingIn = true;
@@ -113,6 +114,14 @@ const Routes = (props) => {
               path="/company/estimate/add_sale"
               pathAfterFailure="/401"
               component={AddSales}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/estimate/print/:id"
+              pathAfterFailure="/401"
+              component={PrintForm}
               {...props}
             />
             <Authorized

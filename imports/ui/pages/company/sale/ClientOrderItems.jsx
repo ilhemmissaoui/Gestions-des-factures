@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import moment from "moment";
 import React from "react";
-import { Edit, File, PenTool,Trash2 } from "react-feather";
-import { toastr } from "react-redux-toastr";
+import { File, Trash2 } from "react-feather";
 import { Meteor } from "meteor/meteor";
+import { Link } from "react-router-dom";
 
 const ClientOrderItems = ({ sales, fetch }) => {
   const deleteSale = () => {
@@ -19,8 +19,11 @@ const ClientOrderItems = ({ sales, fetch }) => {
         <td>{sales.customer}</td>
         <td>{sales.totaleTaxeIncl}</td>
         <td>
-          <File className="mr-2" />
-          <Trash2  onClick={deleteSale} />
+          <Link to={`/${Roles.getRolesForUser(
+            Meteor.userId()
+          )[0]?.toLowerCase()}/estimate/print/${sales._id}`}><
+              File className="mr-2" /></Link>
+          <Trash2 onClick={deleteSale} />
         </td>
       </tr>
     </>

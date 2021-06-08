@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import "flatpickr/dist/themes/material_green.css";
 import Pager from "../../../components/Pagination";
 import Flatpickr from "react-flatpickr";
-import { Notyf } from "notyf";
 import TableCol from "../../../utils/TableCols";
 import Search from "../../../components/Search";
 import ClientOrderItems from "./ClientOrderItems";

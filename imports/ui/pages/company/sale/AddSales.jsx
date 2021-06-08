@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Meteor } from "meteor/meteor";
 import Flatpickr from "react-flatpickr";
-import { Plus } from "react-feather";
+import { Plus, Printer } from "react-feather";
 import { toastr } from "react-redux-toastr";
 import ReactToPrint from "react-to-print";
-import { useReactToPrint } from "react-to-print";
 
-import ComponentToPrint from "./ComponentToPrint";
 
 const AddSales = () => {
   const componentRef = useRef();
@@ -24,7 +22,7 @@ const AddSales = () => {
     { name: "Total Ht", field: "Total Ht" },
   ];
 
-  
+
 
   const [list, setList] = useState([]);
   const [totalInfo, setTotalInfo] = useState({
@@ -60,6 +58,8 @@ const AddSales = () => {
     const data = {
       ...totalInfo,
       customer: pickedCustomer[0].fullName,
+      phoneNumber: pickedCustomer[0]?.phoneNumber,
+      email: pickedCustomer[0]?.email,
       date: pickedDate[0],
       productList: [...productListForm],
       ...form,
@@ -217,7 +217,7 @@ const AddSales = () => {
                                           <div className="level-right">
                                             <div className="level-item">
                                               <Flatpickr
-                                                className="mr-5"
+                                                className="mx-5"
                                                 placeholder="Date "
                                                 data-enable-time
                                                 onChange={onChange}
@@ -296,108 +296,122 @@ const AddSales = () => {
                                 <div className="table-container">
                                   <table className="table is-bordered is-striped is-fullwidth">
                                     <tbody>
-                                      <tr>
-                                        {informations.map(({ name, field }) => (
-                                          <th key={name}>
-                                            {sorting.field === field ? (
-                                              sorting.sortDirection ===
+                                      {informations.map(({ name, field }) => (
+                                        <th key={name}>
+                                          {sorting.field === field ? (
+                                            sorting.sortDirection ===
                                               "asc" ? (
-                                                <i className="fas fa-arrow-up"></i>
-                                              ) : (
-                                                <i className="fas fa-arrow-down"></i>
-                                              )
-                                            ) : null}{" "}
-                                            {name}
-                                          </th>
-                                        ))}{" "}
-                                      </tr>
+                                              <i className="fas fa-arrow-up"></i>
+                                            ) : (
+                                              <i className="fas fa-arrow-down"></i>
+                                            )
+                                          ) : null}{" "}
+                                          {name}
+                                        </th>
+                                      ))}{" "}
                                     </tbody>
                                   </table>
                                 </div>
-                                <div className="column">
-                                  {productListForm.map((_, i) => (
-                                    <div className="field-body mb-2">
-                                      <div className="field">
-                                        <p className="control is-expanded has-icons-left">
-                                          <div className="control">
-                                            <div>
-                                              <div class="select">
-                                                <select
-                                                  name="name"
-                                                  onChange={(e) =>
-                                                    handleChange(e, i)
-                                                  }
-                                                >
-                                                  <option value="">
-                                                    --- Select ---
-                                                  </option>
-                                                  {productNameList.map((e) => (
-                                                    <option
-                                                      key={e._id}
-                                                      value={e.name}
+                                <div className="table">
+                                  <tr>
+                                    {productListForm.map((_, i) => (
+                                      <div className="field-body mb-2">
+                                        <td className="mx-5">
+                                          <div className="field">
+                                            <p className="control is-expanded has-icons-left">
+                                              <div className="control">
+                                                <div>
+                                                  <div class="select">
+                                                    <select
+                                                      name="name"
+                                                      onChange={(e) =>
+                                                        handleChange(e, i)
+                                                      }
                                                     >
-                                                      {e.name}
-                                                    </option>
-                                                  ))}
-                                                </select>
-                                              </div>
-                                            </div>
-                                          </div>{" "}
-                                        </p>
-                                      </div>
+                                                      <option value="">
+                                                        --- Select ---
+                                                  </option>
+                                                      {productNameList.map((e) => (
+                                                        <option
+                                                          key={e._id}
+                                                          value={e.name}
+                                                        >
+                                                          {e.name}
+                                                        </option>
+                                                      ))}
+                                                    </select>
+                                                  </div>
+                                                </div>
+                                              </div>{" "}
+                                            </p>
+                                          </div>
+                                        </td>
 
-                                      <div className="field">
-                                        <input
-                                          className="input is-small"
-                                          type="number"
-                                          name="quantity"
-                                          defaultValue={0}
-                                          value={productListForm.quantity}
-                                          onChange={(event) =>
-                                            handleChange(event, i)
-                                          }
-                                        />
-                                      </div>
+                                        <td className="mx-5">
+                                          <div className="field">
+                                            <input
+                                              className="input is-small"
+                                              type="number"
+                                              name="quantity"
+                                              defaultValue={0}
+                                              value={productListForm.quantity}
+                                              onChange={(event) =>
+                                                handleChange(event, i)
+                                              }
+                                            />
+                                          </div>
+                                        </td>
 
-                                      <div className="field">
-                                        <input
-                                          className="input is-small"
-                                          type="text"
-                                          name="price"
-                                          defaultValue="1"
-                                          value={productListForm.price}
-                                          onChange={(event) =>
-                                            handleChange(event, i)
-                                          }
-                                        />
+
+                                        <td className="mx-5">
+                                          <div className="field">
+                                            <input
+                                              className="input is-small"
+                                              type="text"
+                                              name="price"
+                                              defaultValue="1"
+                                              value={productListForm.price}
+                                              onChange={(event) =>
+                                                handleChange(event, i)
+                                              }
+                                            />
+                                          </div>
+                                        </td>
+
+                                        <td className="mx-5">
+                                          <div className="field">
+                                            <input
+                                              className="input is-small"
+                                              type="text"
+                                              placeholder="0%"
+                                              name="vat"
+                                              value={productListForm.vat}
+                                              onChange={(event) =>
+                                                handleChange(event, i)
+                                              }
+                                            />
+                                          </div>
+                                        </td>
+
+                                        <td className="mx-5">
+                                          <div className="field">
+                                            <input
+                                              className="input is-small"
+                                              type="text"
+                                              name="total"
+                                              defaultValue="0.000TND"
+                                              readOnly="true"
+                                              value={productListForm[i].total}
+                                              onChange={(event) =>
+                                                handleChange(event, i)
+                                              }
+                                            />
+                                          </div>
+                                        </td>
+
                                       </div>
-                                      <div className="field">
-                                        <input
-                                          className="input is-small"
-                                          type="text"
-                                          placeholder="0%"
-                                          name="vat"
-                                          value={productListForm.vat}
-                                          onChange={(event) =>
-                                            handleChange(event, i)
-                                          }
-                                        />
-                                      </div>
-                                      <div className="field">
-                                        <input
-                                          className="input is-small"
-                                          type="text"
-                                          name="total"
-                                          defaultValue="0.000TND"
-                                          readOnly="true"
-                                          value={productListForm[i].total}
-                                          onChange={(event) =>
-                                            handleChange(event, i)
-                                          }
-                                        />
-                                      </div>
-                                    </div>
-                                  ))}
+                                    ))}
+                                  </tr>
                                 </div>
 
                                 <button className="button">
@@ -423,10 +437,10 @@ const AddSales = () => {
                                 </button>
                                 <hr className="solid" />
                                 <div className="level-right">
-                                 
-                                    
-                                
-                              </div>
+
+
+
+                                </div>
                                 <div class="column is-half">
                                   <label className="label">NET TO PAY</label>
 
@@ -465,16 +479,10 @@ const AddSales = () => {
                                     </button>
 
                                     <div>
-                                      <div className="container">
-                                        <ReactToPrint
-                                          trigger={() => (
-                                            <p>Imprimer</p>
-                                          )}
-                                          content={() => componentRef.current}
-                                        />
-                                      </div>
+
                                     </div>
                                   </div>
+
                                 </div>
                               </form>
                             </div>

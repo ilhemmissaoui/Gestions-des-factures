@@ -37,7 +37,7 @@ Public.defaultProps = {
   path: "",
   exact: false,
   afterLoginPath: null,
-  roles: [],
+  roles: Roles.getRolesForUser(Meteor.userId()),
 };
 
 Public.propTypes = {

@@ -152,6 +152,10 @@ const addSale = function (data) {
   });
 };
 
+const getEstimateInfo = function (id) {
+  return Sales.findOne({ "_id": id });
+}
+
 const getCustomers = function ({
   page,
   itemsPerPage,
@@ -494,5 +498,6 @@ Meteor.methods({
   deleteCompanyUser,
   addSpplierFromExcel,
   getMiniSuppliers,
-  updateCompanyUser
+  updateCompanyUser,
+  getEstimateInfo
 });
