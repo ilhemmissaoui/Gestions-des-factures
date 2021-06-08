@@ -120,7 +120,7 @@ const Users = ({ customer, fetch }) => {
         <td>{customer._id}</td>
         <td>{customer.profile?.firstName}</td>
         <td>{customer.profile?.phoneNumber ?? "N/A"}</td>
-        <td>{Roles.getRolesForUser(customer?._id)[0].replace("_", " ") ?? "--"}</td>
+        <td>{Roles.getRolesForUser(customer?._id)[0]?.replace("_", " ") ?? "--"}</td>
         <td>{customer.emails[0]?.address}</td>
         <td>{moment(customer.creationDate).format("MMM DD YYYY")}</td>
         <td>
