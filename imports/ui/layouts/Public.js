@@ -26,7 +26,7 @@ const Public = ({
           roles,
         })
       ) : (
-        <Redirect to={roles.length ? `/${roles[0]?.toLowerCase()}` : "/login"} />
+        <Redirect to={Roles.getRolesForUser(Meteor.userId())?.length ? `/${Roles.getRolesForUser(Meteor.userId())[0]?.toLowerCase()}` : "/"} />
       )
     }
   />
