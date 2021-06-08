@@ -41,8 +41,8 @@ const SupplierDeliveryNote = () => {
     { name: "Amount INCL.taxes", field: "Amount INCL.taxes", sortable: true },
     { name: "Status", field: "Status", sortable: true },
     { name: "Action", field: "Action", sortable: true },
-  
-   
+
+
   ];
 
   const [list, setList] = useState([]);
@@ -110,7 +110,7 @@ const SupplierDeliveryNote = () => {
 
                     <div className="mr-4 mb-5">
                       <Link
-                        to="/company/supplier_delivery_note/add_purchases"
+                        to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/supplier_order/add_purchases`}
                         className="button is-primary is-rounded"
                       >
                         Add
@@ -118,80 +118,80 @@ const SupplierDeliveryNote = () => {
                     </div>
                   </div>
                 </div></div>
-                </div>
-                <div className="table-container">
-                  <table className="table is-bordered is-striped is-fullwidth">
-                    <tbody>
-                      <tr className="th is-selected">
-                        {headers.map(({ name, sortable, field }) => (
-                          <th
-                            key={name}
-                            onClick={() =>
-                              handleSort(
-                                field,
-                                sorting.field === field
-                                  ? sorting.sortDirection == "asc"
-                                    ? "desc"
-                                    : "asc"
-                                  : "asc"
-                              )
-                            }
-                          >
-                            {sorting.field === field ? (
-                              sorting.sortDirection === "asc" ? (
-                                <i className="fas fa-arrow-up"></i>
-                              ) : (
-                                <i className="fas fa-arrow-down"></i>
-                              )
-                            ) : null}{" "}
-                            {name}
-                          </th> 
-                        ))} 
-                      </tr> </tbody>
-                  </table>
-                </div> <div className="table-container">
-                  <table className="table is-bordered is-striped is-fullwidth">
-                    <tbody>
-                      <tr>
-                      {informations.map(({ name, sortable, field }) => (
-                          <th
-                            key={name}
-                            onClick={() =>
-                              handleSort(
-                                field,
-                                sorting.field === field
-                                  ? sorting.sortDirection == "asc"
-                                    ? "desc"
-                                    : "asc"
-                                  : "asc"
-                              )
-                            }
-                          >
-                            {sorting.field === field ? (
-                              sorting.sortDirection === "asc" ? (
-                                <i className="fas fa-arrow-up"></i>
-                              ) : (
-                                <i className="fas fa-arrow-down"></i>
-                              )
-                            ) : null}{" "}
-                            {name}
-                          </th>
-                        ))} </tr> 
-                 
-                    
-                      </tbody>
-                  </table>
-                </div>
-         
-          
-          <Pager
-            total={totalItems}
-            itemsPerPage={itemsPerPage}
-            currentPage={page}
-            onPageChange={(page) => setPage(page)}
-          />
-        </div></div></div>   </div>
-     
+            </div>
+            <div className="table-container">
+              <table className="table is-bordered is-striped is-fullwidth">
+                <tbody>
+                  <tr className="th is-selected">
+                    {headers.map(({ name, sortable, field }) => (
+                      <th
+                        key={name}
+                        onClick={() =>
+                          handleSort(
+                            field,
+                            sorting.field === field
+                              ? sorting.sortDirection == "asc"
+                                ? "desc"
+                                : "asc"
+                              : "asc"
+                          )
+                        }
+                      >
+                        {sorting.field === field ? (
+                          sorting.sortDirection === "asc" ? (
+                            <i className="fas fa-arrow-up"></i>
+                          ) : (
+                            <i className="fas fa-arrow-down"></i>
+                          )
+                        ) : null}{" "}
+                        {name}
+                      </th>
+                    ))}
+                  </tr> </tbody>
+              </table>
+            </div> <div className="table-container">
+              <table className="table is-bordered is-striped is-fullwidth">
+                <tbody>
+                  <tr>
+                    {informations.map(({ name, sortable, field }) => (
+                      <th
+                        key={name}
+                        onClick={() =>
+                          handleSort(
+                            field,
+                            sorting.field === field
+                              ? sorting.sortDirection == "asc"
+                                ? "desc"
+                                : "asc"
+                              : "asc"
+                          )
+                        }
+                      >
+                        {sorting.field === field ? (
+                          sorting.sortDirection === "asc" ? (
+                            <i className="fas fa-arrow-up"></i>
+                          ) : (
+                            <i className="fas fa-arrow-down"></i>
+                          )
+                        ) : null}{" "}
+                        {name}
+                      </th>
+                    ))} </tr>
+
+
+                </tbody>
+              </table>
+            </div>
+
+
+            <Pager
+              total={totalItems}
+              itemsPerPage={itemsPerPage}
+              currentPage={page}
+              onPageChange={(page) => setPage(page)}
+            />
+          </div></div></div>   </div>
+
   );
 };
 export default SupplierDeliveryNote;

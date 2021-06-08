@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginSchema } from "../../../api/schemas/LoginSchema";
+import { toastr } from "react-redux-toastr";
 
 const Login = (props) => {
   const { register, handleSubmit, errors } = useForm({
@@ -17,19 +18,17 @@ const Login = (props) => {
     Meteor.loginWithPassword(email, password, (error) => {
       if (error) {
         console.log(`%c ${error}`, "color: gold; background: #252525");
-        setError(error.reason);
+        toastr.error(error.reason);
       } else {
         console.log(props);
         props.history.push(
           Roles.getRolesForUser(Meteor.userId())[0]?.toLowerCase()
         );
-        //redirect him to the path you want
       }
     });
   };
 
-  // Always add a register to your input that you wanan find later on sumbit
-  // ref={register} check input fields below
+ 
   return (
     <div>
       <section className="hero is-fullheight">
@@ -50,7 +49,7 @@ const Login = (props) => {
                         type="email"
                         placeholder="example@example.com"
                         autoComplete="username"
-                       
+
                         ref={register}
                         placeholder="Enter email"
                       />

@@ -14,7 +14,6 @@ const AddPurchases = () => {
   });
   const { field, sortDirection } = sorting;
   const itemsPerPage = 8;
-  const [value, onChange] = useState(new Date());
   const informations = [
     { name: "Designation", field: "Designation", sortable: true },
     { name: "Quantity", field: "Quantity", sortable: true },
@@ -74,7 +73,7 @@ const AddPurchases = () => {
                     <div className="bd-hero-body">
                       <div className="bd-hero-heading">
                         <h1 className="title algolia-lvl0">
-                          <p>Add Estimate</p>
+                          <p>Add Supliers</p>
                         </h1>
                         <section class="section">
                           <h1 class="subtitle">Informations</h1>

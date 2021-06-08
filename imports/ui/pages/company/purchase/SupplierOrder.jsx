@@ -4,10 +4,7 @@ import { Link } from "react-router-dom";
 import "flatpickr/dist/themes/material_green.css";
 import Pager from "../../../components/Pagination";
 import Flatpickr from "react-flatpickr";
-import { Notyf } from "notyf";
-import TableCol from "../../../utils/TableCols";
 import Search from "../../../components/Search";
-import Customer from "../customers/Customer";
 
 const SupplierOrder = () => {
   const [page, setPage] = useState(1);
@@ -48,7 +45,7 @@ const SupplierOrder = () => {
   const [list, setList] = useState([]);
   const fetch = () => {
     Meteor.call(
-      "getCustomers",
+      "getPurshase",
       { page, itemsPerPage, search, sortBy: field, sortOrder: sortDirection },
       (err, { items, totalCount }) => {
         setList(items);
@@ -67,12 +64,6 @@ const SupplierOrder = () => {
   };
 
 
-  useEffect(() => {
-    Meteor.call("getCustomers", (e, r) => {
-      if (!e) setList(r);
-      else console.log(e);
-    });
-  }, []);
   return (
     <div>
       <div className="container">
