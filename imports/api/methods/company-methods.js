@@ -31,6 +31,17 @@ const addCustomer = function (data) {
     creationDate: new Date(),
   });
 };
+const addSupplier = function (data) {
+  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ "_id": this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
+  Suppliers.insert({
+    ...data,
+    userId: isNotCompany ? me.profile?.companyId : this.userId,
+    creationDate: new Date(),
+  });
+};
+
 
 const addCompanyUser = function (data) {
   console.log(data);
@@ -71,14 +82,7 @@ const addSpplierFromExcel = function ({ data }) {
   });
 };
 
-const addSupplier = function (data) {
-  console.log(data);
-  Suppliers.insert({
-    ...data,
-    userId: this.userId,
-    creationDate: new Date(),
-  });
-};
+
 
 const getProductsName = function () {
   return Products.find({ userId: this.userId }).fetch();
@@ -214,7 +218,12 @@ const getSuppliers = function ({
   sortBy = "_id",
   sortOrder = "asc",
 }) {
-  const query = { userId: this.userId };
+
+  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ "_id": this.userId });
+
+  console.log(isNotCompany);
+  const query = { userId: !isNotCompany ? this.userId : me.profile?.companyId };
   const options = {
     skip: (page - 1) * itemsPerPage,
     limit: itemsPerPage,
@@ -223,7 +232,6 @@ const getSuppliers = function ({
     },
   };
   const totalCount = Suppliers.find({ userId: this.userId }).count();
-  const totalPages = Math.ceil(totalCount / itemsPerPage);
   // IF SEARCH IS DEFINED && SEARCH LENGTH != 0 THEN WE ADD SEARCH STEP TO QUERY OBJECT
   if (search && search.length) {
     query.$or = [

@@ -10,9 +10,6 @@ import ComponentToPrint from "./ComponentToPrint";
 
 const AddSales = () => {
   const componentRef = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
 
   const [sorting, setSorting] = useState({
     field: "_id",
@@ -27,11 +24,7 @@ const AddSales = () => {
     { name: "Total Ht", field: "Total Ht" },
   ];
 
-  const info = [
-    { name: "VAT", field: "VAT" },
-    { name: "Base", field: "Base" },
-    { name: "Amount", field: "Amount" },
-  ];
+  
 
   const [list, setList] = useState([]);
   const [totalInfo, setTotalInfo] = useState({
@@ -131,7 +124,7 @@ const AddSales = () => {
   };
   return (
     <>
-      <div>
+      <div ref={componentRef}>
         <div className="column is-10-desktop is-offset-2-desktop is-9-tablet is-offset-3-tablet is-12-mobile">
           <div className="p-1">
             <div className="columns is-variable is-desktop">
@@ -430,32 +423,10 @@ const AddSales = () => {
                                 </button>
                                 <hr className="solid" />
                                 <div className="level-right">
-                                  <div className="level-item">
-                                    <div className="table-container">
-                                      <table className="table is-bordered is-striped is-fullwidth">
-                                        <tbody>
-                                          <tr>
-                                            {info.map(
-                                              ({ name, sortable, field }) => (
-                                                <th key={name}>
-                                                  {sorting.field === field ? (
-                                                    sorting.sortDirection ===
-                                                    "asc" ? (
-                                                      <i className="fas fa-arrow-up"></i>
-                                                    ) : (
-                                                      <i className="fas fa-arrow-down"></i>
-                                                    )
-                                                  ) : null}{" "}
-                                                  {name}
-                                                </th>
-                                              )
-                                            )}{" "}
-                                          </tr>
-                                        </tbody>
-                                      </table>
-                                    </div>
-                                  </div>{" "}
-                                </div>
+                                 
+                                    
+                                
+                              </div>
                                 <div class="column is-half">
                                   <label className="label">NET TO PAY</label>
 
@@ -494,13 +465,14 @@ const AddSales = () => {
                                     </button>
 
                                     <div>
-                                      <ComponentToPrint ref={componentRef} />
-                                      <button
-                                        className="button"
-                                        onClick={(_) => handlePrint()}
-                                      >
-                                        Print this out!
-                                      </button>
+                                      <div className="container">
+                                        <ReactToPrint
+                                          trigger={() => (
+                                            <p>Imprimer</p>
+                                          )}
+                                          content={() => componentRef.current}
+                                        />
+                                      </div>
                                     </div>
                                   </div>
                                 </div>

@@ -42,7 +42,7 @@ const companyItems = [
     label: "Purchase",
     path: "purchase",
     icon: <ShoppingBag className="icon icon-sm mr-2" />,
-    role: ["COMPANY"],
+    role: ["COMPANY","PURCHASING_MANAGER"],
     children: [
       {
         path: "supplier_order",
@@ -69,7 +69,7 @@ const companyItems = [
     label: "Supplier",
     path: "suppliers",
     icon: <Box className="icon icon-sm mr-2" />,
-    role: ["COMPANY"],
+    role: ["COMPANY","PURCHASING_MANAGER"],
   },
   {
     label: "Product And Service",

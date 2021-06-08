@@ -9,7 +9,7 @@ import DashboardAdmin from "./pages/Dashboard/AdminDashboard";
 import Forgot from "./pages/Auth/ForgotPassword";
 import AdminLayout from "../ui/layouts/AdminLayout";
 import Public from "../ui/layouts/Public";
-import { SUPER_ADMIN, COMPANY, SALES_MANAGER } from "../api/roles";
+import { SUPER_ADMIN, COMPANY, SALES_MANAGER, PURCHASING_MANAGER } from "../api/roles";
 import Devis from "./pages/Dashboard/ventes/Devis";
 import CompanyLayout from "../ui/layouts/CompanyLayout";
 import ClientsList from "../ui/pages/Dashboard/Clients/ClientsList";
@@ -391,6 +391,91 @@ const Routes = (props) => {
         </CompanyLayout>
         {/*  */}
         <CompanyLayout path="/purchasing_manager" {...props}>
+        <Switch>
+            <Authorized
+              exact
+              allowedRoles={[PURCHASING_MANAGER]}
+              path="/purchasing_manager/suppliers"
+              pathAfterFailure="/401"
+              component={ListSupplier}
+              {...props}
+            />
+            
+            <Authorized
+              exact
+              allowedRoles={[PURCHASING_MANAGER]}
+              path="/purchasing_manager/suppliers/add_supplier"
+              pathAfterFailure="/401"
+              component={AddSupplier}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[PURCHASING_MANAGER]}
+              path="/purchasing_manager/supplier_order/add_purchases"
+              pathAfterFailure="/401"
+              component={AddPurchases}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[PURCHASING_MANAGER]}
+              path="/purchasing_manager/supplier_order"
+              pathAfterFailure="/401"
+              component={SupplierOrder}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[PURCHASING_MANAGER]}
+              path="/purchasing_manager/supplier_delivery_note/add_purchases"
+              pathAfterFailure="/401"
+              component={AddPurchases}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[PURCHASING_MANAGER]}
+              path="/purchasing_manager/supplier_delivery_note"
+              pathAfterFailure="/401"
+              component={SupplierDeliveryNote}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[PURCHASING_MANAGER]}
+              path="/purchasing_manager/delivery_note/add_sale"
+              pathAfterFailure="/401"
+              component={AddPurchases}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[PURCHASING_MANAGER]}
+              path="/purchasing_manager/delivery_note"
+              pathAfterFailure="/401"
+              component={DeliveryNote}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[PURCHASING_MANAGER]}
+              path="/purchasing_manager/supplier_invoice/add_purchases"
+              pathAfterFailure="/401"
+              component={AddPurchases}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[PURCHASING_MANAGER]}
+              path="/purchasing_manager/supplier_invoice"
+              pathAfterFailure="/401"
+              component={SupplierInvoice}
+              {...props}
+            />
+            
+           
+          </Switch>
 
         </CompanyLayout>
         {/*  */}

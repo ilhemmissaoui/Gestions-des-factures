@@ -1,8 +1,16 @@
+import clsx from "clsx";
 import moment from "moment";
 import React from "react";
-import { Edit, File, PenTool } from "react-feather";
+import { Edit, File, PenTool,Trash2 } from "react-feather";
+import { toastr } from "react-redux-toastr";
+import { Meteor } from "meteor/meteor";
 
 const ClientOrderItems = ({ sales, fetch }) => {
+  const deleteSale = () => {
+    Meteor.call("deleteSale", sales._id, (e, r) => {
+      if (!e) fetch();
+    });
+  };
   return (
     <>
       <tr>
@@ -12,7 +20,7 @@ const ClientOrderItems = ({ sales, fetch }) => {
         <td>{sales.totaleTaxeIncl}</td>
         <td>
           <File className="mr-2" />
-          <Edit />
+          <Trash2  onClick={deleteSale} />
         </td>
       </tr>
     </>
