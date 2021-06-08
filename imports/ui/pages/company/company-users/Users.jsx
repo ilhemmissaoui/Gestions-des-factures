@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UpdateCompanyUser } from "../../../../api/schemas/CompanyUsers";
 import { toastr } from "react-redux-toastr";
+import { Edit3, Trash2 } from "react-feather";
 
 const Users = ({ customer, fetch }) => {
 
@@ -49,68 +50,68 @@ const Users = ({ customer, fetch }) => {
         <form onSubmit={handleSubmit(updateUser)} id="customer-update">
           <section className="modal-card-body">
             <label htmlFor="customername" className="label">
-              User First Name
+              First Name
             </label>
-            <p className="control">
+            <div className="control">
               <input
                 defaulValue={customer.profile?.firstName}
                 type="text"
                 name="firstName"
                 ref={register}
-                placeholder="Customer Name"
+                placeholder="First Name"
                 className="input"
               />
-            </p>{" "}
+            </div>{" "}
             {errors.firstName && (
-              <p className="alert alert-danger">{errors.firstName.message}</p>
+              <div className="alert alert-danger">{errors.firstName.message}</div>
             )}
             <label htmlFor="lastName" className="label">
-              User last Name
+              last Name
             </label>
-            <p className="control">
+            <div className="control">
               <input
                 defaulValue={customer.profile?.lastName}
                 type="text"
                 name="lastName"
                 ref={register}
-                placeholder="Customer Name"
+                placeholder="last Name"
                 className="input"
               />
-            </p>{" "}
+            </div>{" "}
             {errors.lastName && (
-              <p className="alert alert-danger">{errors.lastName.message}</p>
+              <div className="alert alert-danger">{errors.lastName.message}</div>
             )}
             <label htmlFor="email" className="label">
-              User Email
+              Email
             </label>
-            <p className="control">
+            <div className="control">
               <input
                 defaulValue={customer?.emails[0]?.address}
                 type="text"
                 name="email"
                 ref={register}
-                placeholder="User Email"
+                placeholder="Email"
                 className="input"
               />
-            </p>{" "}
+            </div>{" "}
             {errors.email && (
-              <p className="alert alert-danger">{errors.email.message}</p>
+              <div className="alert alert-danger">{errors.email.message}</div>
             )}
             <label htmlFor="phoneNumber" className="label">
-              User Phone
+              Phone
             </label>
-            <p className="control">
+            <div className="control">
               <input
                 defaulValue="Customer default"
                 type="text"
                 name="phoneNumber"
                 ref={register}
-                placeholder="User phone number"
+                placeholder="phone number"
                 className="input"
               />
-            </p>{" "}
+            </div>{" "}
             {errors.phoneNumber && (
-              <p className="alert alert-danger">{errors.phoneNumber.message}</p>
+              <div className="alert alert-danger">{errors.phoneNumber.message}</div>
             )}
           </section>
         </form>
@@ -124,15 +125,8 @@ const Users = ({ customer, fetch }) => {
         <td>{customer.emails[0]?.address}</td>
         <td>{moment(customer.creationDate).format("MMM DD YYYY")}</td>
         <td>
-          <button className="button is-danger is-inverted" onClick={handleShow}>
-            update
-        </button>
-          <button
-            className="button is-danger is-inverted"
-            onClick={deleteCompanyUser}
-          >
-            delete
-        </button>
+          <Edit3 onClick={handleShow} className="mr-3"/>
+          <Trash2 onClick={deleteCompanyUser} className="has-text-danger"/>
         </td>
       </tr>
     </>

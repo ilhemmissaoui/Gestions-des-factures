@@ -70,7 +70,7 @@ const updateCompanyUser = function ({ id, data }) {
   Meteor.users.update(id, {
     $set: {
       'emails.0.address': data.email,
-      'profile.fistName': data.firstName,
+      'profile.firstName': data.firstName,
       'profile.lastName': data.lastName,
       'profile.phoneNumber': data.phoneNumber,
     }
@@ -162,9 +162,10 @@ const getCustomers = function ({
 
   const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
   const me = Meteor.users.findOne({ "_id": this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
 
   console.log(isNotCompany);
-  const query = { userId: !isNotCompany ? this.userId : me.profile?.companyId };
+  const query = { userId: !isNotCompany ? me.profile?.companyId : this.userId, };
   const options = {
     skip: (page - 1) * itemsPerPage,
     limit: itemsPerPage,

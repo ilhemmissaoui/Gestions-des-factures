@@ -137,10 +137,9 @@ const ListSupplier = () => {
 
                   <div className="mr-4 mb-5">
                     <Link
-                      to="/company/suppliers/add_supplier"
+                      to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/suppliers/add_supplier`}
                       className="button is-primary is-rounded"
-                    >
-                      Add
+                    >Add
                     </Link>
                     <button
                       onClick={handleExcelClick}

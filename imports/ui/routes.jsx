@@ -298,7 +298,7 @@ const Routes = (props) => {
               component={CustomersList}
               {...props}
             />
-            
+
             <Authorized
               exact
               allowedRoles={[SALES_MANAGER]}
@@ -391,7 +391,7 @@ const Routes = (props) => {
         </CompanyLayout>
         {/*  */}
         <CompanyLayout path="/purchasing_manager" {...props}>
-        <Switch>
+          <Switch>
             <Authorized
               exact
               allowedRoles={[PURCHASING_MANAGER]}
@@ -400,7 +400,7 @@ const Routes = (props) => {
               component={ListSupplier}
               {...props}
             />
-            
+
             <Authorized
               exact
               allowedRoles={[PURCHASING_MANAGER]}
@@ -473,8 +473,6 @@ const Routes = (props) => {
               component={SupplierInvoice}
               {...props}
             />
-            
-           
           </Switch>
 
         </CompanyLayout>

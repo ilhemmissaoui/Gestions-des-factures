@@ -24,7 +24,7 @@ const AddSupplier = (props) => {
         console.log(e);
       } else {
         toastr.success("", "Supplier has Been Added");
-        props.history.push("/company/suppliers");
+        props.history.push(`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/suppliers`);
       }
     });
   };
