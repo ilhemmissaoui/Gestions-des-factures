@@ -111,8 +111,7 @@ const SupplierDeliveryNote = () => {
                     <div className="mr-4 mb-5">
                       <Link
                         to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/supplier_order/add_purchases`}
-                        className="button is-primary is-rounded"
-                      >
+                        className="button is-primary is-rounded">
                         Add
                       </Link>
                     </div>

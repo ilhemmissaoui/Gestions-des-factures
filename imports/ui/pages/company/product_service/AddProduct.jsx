@@ -1,14 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
+import { Trash2 } from "react-feather";
 import { useForm } from "react-hook-form";
-import { AddProductSchema } from "../../../../api/schemas/ProductSchema";
-import { Link } from "react-router-dom";
-import Modal from "react-modal";
 import { toastr } from "react-redux-toastr";
+import Images from '../../../../../collections/images';
 const AddProduct = (props) => {
   const [isOpened, setIsOpened] = useState(false);
-  const handleClose = () => setIsOpened(false);
-  const handleShow = () => setIsOpened(true);
+
 
   const { register, handleSubmit, errors } = useForm({
     //resolver: yupResolver(AddProductSchema),
@@ -16,6 +14,10 @@ const AddProduct = (props) => {
   const onSubmit = (data) => {
     console.log(data);
 
+    if (image) {
+      uploadImage(data)
+      return;
+    }
     Meteor.call("addProduct", data, (e, _) => {
       if (e) {
         console.log("+++++ERROR+++++");
@@ -26,6 +28,56 @@ const AddProduct = (props) => {
       }
     });
   };
+
+  const [image, setImage] = useState(null);
+
+  const handleFile = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+  }
+
+  const uploadImage = (data) => {
+    let file = image;
+    if (!file) {
+      toastr.error('', 'Pick an image to upload')
+      return;
+    }
+    const uploadInstance = Images.insert({
+      file,
+      meta: {
+        creationDate: new Date(),
+        fileSize: file.size,
+        fileName: file.name
+      },
+      streams: 'dynamic',
+      chunkSize: 'dynamic',
+      allowWebWorkers: true
+    }, false);
+
+    uploadInstance.on('start', function () {
+      console.log('Starting');
+    })
+
+    uploadInstance.on('end', function (_, fileObj) {
+      console.log('On end File Object: ');
+      console.log(fileObj._id);
+      Meteor.call("addProduct", data, fileObj._id, (e, _) => {
+        if (e) {
+          console.log("+++++ERROR+++++");
+          console.log(e);
+        } else {
+          toastr.success("", "Product has Been Added");
+          props.history.push("/company/product_service");
+        }
+      });
+    })
+
+    uploadInstance.on('progress', function (progress, _) {
+      console.log(`Upload Percentage: ${progress}`)
+    });
+
+    uploadInstance.start(); // Must manually start the upload
+  }
 
   return (
     <>
@@ -211,15 +263,28 @@ const AddProduct = (props) => {
                                     </div>
                                   </div>
                                   <div className="column">
-                                    <div className="field">
+                                    {image ? <div className="mx-auto">
+                                      <span className="form-image-figure">
+                                        <img
+                                          height={250}
+                                          width={250}
+                                          src={URL.createObjectURL(image)}
+                                          className="mt-5" />
+                                        <a
+                                          onClick={_ => setImage(null)}
+                                          className="btn btn-icon btn-sm">
+                                          <Trash2 className="text-danger" />
+                                        </a>
+                                      </span>
+                                    </div> : <div className="field">
                                       <label className="label">
                                         Upload your product picture
                                       </label>
-
                                       <div className="file is-boxed">
                                         <label className="file-label">
                                           <input
                                             className="file-input"
+                                            onChange={handleFile}
                                             type="file"
                                             name="resume"
                                           />
@@ -233,7 +298,7 @@ const AddProduct = (props) => {
                                           </span>
                                         </label>
                                       </div>
-                                    </div>
+                                    </div>}
                                   </div>
                                 </div>
 

@@ -14,6 +14,7 @@ import {
 } from "../schemas/SupplierSchema";
 import Suppliers from "../../../collections/Supplier";
 import customers from "../../../collections/customers";
+import Images from "../../../collections/images";
 const addInfo = async function (data) {
   CompanyCollection.insert({
     ...data,
@@ -312,12 +313,18 @@ const getSale = function ({
   }
   return { items: Sales.find(query, options).fetch(), totalCount };
 };
-const addProduct = function (data) {
+const addProduct = function (data, imageId) {
+  let url;
+  if (imageId) {
+    url = Images.findOne({ _id: imageId }).link();
+  }
+  console.log(url)
   const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
   const me = Meteor.users.findOne({ "_id": this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
   Products.insert({
     ...data,
+    imageUrl: url ?? null,
     userId: isNotCompany ? me.profile?.companyId : this.userId,
     creationDate: new Date(),
   });

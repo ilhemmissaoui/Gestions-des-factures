@@ -2,6 +2,7 @@ import "../imports/startup/server/create-admin";
 import "../imports/startup/server/create-roles";
 import "../imports/api";
 import { LinksCollection } from "../collections/links";
+import { Images } from '../collections/images/';
 import { Meteor } from "meteor/meteor";
 import { Accounts } from "meteor/accounts-base";
 import { WebApp } from "meteor/webapp";
