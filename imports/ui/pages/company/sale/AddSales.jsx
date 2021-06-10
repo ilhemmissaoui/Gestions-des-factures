@@ -15,6 +15,7 @@ const AddSales = () => {
   });
   const [pickedDate, onChange] = useState(new Date());
   const informations = [
+    { name: "Image", field: "Image" },
     { name: "Designation", field: "Designation" },
     { name: "Quantity", field: "Quantity" },
     { name: "Ht Price", field: "Ht Price" },
@@ -34,10 +35,14 @@ const AddSales = () => {
   const [productNameList, setProductNameList] = useState([]);
   const [pickedCustomer, setPickedCustomer] = useState(null);
   const [productListForm, setProductListForm] = useState([]);
+  const [productImages, setProductImages] = useState({
+
+  });
   const [form, setForm] = useState({
     project: "",
     note: "",
   });
+
 
   const fetch = () => {
     Meteor.call("getMiniCustomers", (e, r) => {
@@ -84,9 +89,12 @@ const AddSales = () => {
   handleChange = (e, index) => {
     const values = [...productListForm];
     values[index][e.target.name] = e.target.value;
+    const image = productNameList.filter(product => product.name === e.target.value)[0].imageUrl;
+    values[index]['imageUrl'] = image;
     values[index]["total"] =
       parseFloat(values[index]["price"]) * parseInt(values[index]["quantity"]);
     setProductListForm(values);
+
     var totalSum = 0;
     var totalTVA = 0;
     var totaleVTA = 0;
@@ -114,6 +122,7 @@ const AddSales = () => {
     setProductListForm([
       ...productListForm,
       {
+        imageUrl:"",
         name: "",
         quantity: 0,
         price: 0,
@@ -309,23 +318,25 @@ const AddSales = () => {
                                           {name}
                                         </th>
                                       ))}{" "}
-                                    </tbody>
-                                  </table>
-                                </div>
-                                <div className="table">
-                                  <tr>
-                                    {productListForm.map((_, i) => (
-                                      <div className="field-body mb-2">
-                                        <td className="mx-5">
-                                          <div className="field">
+                                      {/*  */}
+                                      {productListForm.map((_, i) => (
+                                        <tr>
+                                          <td>
+                                            <figure className="image is-48x48">
+                                              <img src={productListForm[i]?.imageUrl ?? "https://bulma.io/images/placeholders/48x48.png"} />
+                                            </figure>
+                                          </td>
+                                          <td className="mx-5">
                                             <p className="control is-expanded has-icons-left">
                                               <div className="control">
                                                 <div>
                                                   <div class="select">
                                                     <select
                                                       name="name"
-                                                      onChange={(e) =>
-                                                        handleChange(e, i)
+                                                      onChange={(e) => {
+                                                        handleChange(e, i);
+                                                        console.log(productListForm);
+                                                      }
                                                       }
                                                     >
                                                       <option value="">
@@ -344,75 +355,75 @@ const AddSales = () => {
                                                 </div>
                                               </div>{" "}
                                             </p>
-                                          </div>
-                                        </td>
+                                          </td>
 
-                                        <td className="mx-5">
-                                          <div className="field">
-                                            <input
-                                              className="input is-small"
-                                              type="number"
-                                              name="quantity"
-                                              defaultValue={0}
-                                              value={productListForm.quantity}
-                                              onChange={(event) =>
-                                                handleChange(event, i)
-                                              }
-                                            />
-                                          </div>
-                                        </td>
+                                          <td className="mx-5">
+                                            <div className="field">
+                                              <input
+                                                className="input is-small"
+                                                type="number"
+                                                name="quantity"
+                                                defaultValue={0}
+                                                value={productListForm.quantity}
+                                                onChange={(event) =>
+                                                  handleChange(event, i)
+                                                }
+                                              />
+                                            </div>
+                                          </td>
 
 
-                                        <td className="mx-5">
-                                          <div className="field">
-                                            <input
-                                              className="input is-small"
-                                              type="text"
-                                              name="price"
-                                              defaultValue="1"
-                                              value={productListForm.price}
-                                              onChange={(event) =>
-                                                handleChange(event, i)
-                                              }
-                                            />
-                                          </div>
-                                        </td>
+                                          <td className="mx-5">
+                                            <div className="field">
+                                              <input
+                                                className="input is-small"
+                                                type="text"
+                                                name="price"
+                                                defaultValue="1"
+                                                value={productListForm.price}
+                                                onChange={(event) =>
+                                                  handleChange(event, i)
+                                                }
+                                              />
+                                            </div>
+                                          </td>
 
-                                        <td className="mx-5">
-                                          <div className="field">
-                                            <input
-                                              className="input is-small"
-                                              type="text"
-                                              placeholder="0%"
-                                              name="vat"
-                                              value={productListForm.vat}
-                                              onChange={(event) =>
-                                                handleChange(event, i)
-                                              }
-                                            />
-                                          </div>
-                                        </td>
+                                          <td className="mx-5">
+                                            <div className="field">
+                                              <input
+                                                className="input is-small"
+                                                type="text"
+                                                placeholder="0%"
+                                                name="vat"
+                                                value={productListForm.vat}
+                                                onChange={(event) =>
+                                                  handleChange(event, i)
+                                                }
+                                              />
+                                            </div>
+                                          </td>
 
-                                        <td className="mx-5">
-                                          <div className="field">
-                                            <input
-                                              className="input is-small"
-                                              type="text"
-                                              name="total"
-                                              defaultValue="0.000TND"
-                                              readOnly="true"
-                                              value={productListForm[i].total}
-                                              onChange={(event) =>
-                                                handleChange(event, i)
-                                              }
-                                            />
-                                          </div>
-                                        </td>
-
-                                      </div>
-                                    ))}
-                                  </tr>
+                                          <td className="mx-5">
+                                            <div className="field">
+                                              <input
+                                                className="input is-small"
+                                                type="text"
+                                                name="total"
+                                                defaultValue="0.000TND"
+                                                readOnly="true"
+                                                value={productListForm[i].total}
+                                                onChange={(event) =>
+                                                  handleChange(event, i)
+                                                }
+                                              />
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </tbody>
+                                  </table>
                                 </div>
+
 
                                 <button className="button">
                                   <span className="icon is-small">

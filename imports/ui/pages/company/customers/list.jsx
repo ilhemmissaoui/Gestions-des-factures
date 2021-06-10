@@ -28,7 +28,7 @@ const CustomersList = () => {
     { name: "Phone", field: "customerphone", sortable: true },
     { name: "TurnOver", field: "customerturnover", sortable: true },
     { name: "Creation Date", field: "customercreationdate", sortable: true },
-    { name: "Action", field: "customeraction", sortable: true },
+    { name: "Action", field: "customeraction", sortable: false },
   ];
 
   const [list, setList] = useState([]);

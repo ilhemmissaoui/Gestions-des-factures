@@ -146,10 +146,10 @@ const PrintForm = (props) => {
                                                                             {salesInfo?.productList?.map(e =>
                                                                                 <tr>
                                                                                     <td>{e.name}</td>
-                                                                                    <td>{e.price}</td>
+                                                                                    <td>{e.price} TND</td>
                                                                                     <td>{e.quantity}</td>
-                                                                                    <td>{e.vat}</td>
-                                                                                    <td>{e.total}</td>
+                                                                                    <td>{e.vat} %</td>
+                                                                                    <td>{e.total} TND</td>
                                                                                 </tr>)}
                                                                         </tbody>
                                                                     </table>
