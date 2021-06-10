@@ -86,10 +86,11 @@ const AddSales = () => {
   handleChange = (e, index) => {
     const values = [...productListForm];
     values[index][e.target.name] = e.target.value;
-    const product = productNameList.filter(product => product.name === e.target.value)[0];
-    values[index]['imageUrl'] = product?.imageUrl;
-    if (e.target.name === 'name')
+    if (e.target.name === 'name') {
+      const product = productNameList.filter(product => product.name === e.target.value)[0];
+      values[index]['imageUrl'] = product?.imageUrl;
       values[index]['price'] = parseFloat(product?.publicPrice ?? 0);
+    }
     values[index]["total"] =
       parseFloat(values[index]["price"]) * parseInt(values[index]["quantity"]);
     setProductListForm(values);
