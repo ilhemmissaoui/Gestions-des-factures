@@ -7,22 +7,15 @@ import { Notyf } from "notyf";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UpdateCustomerSchema } from "../../../../api/schemas/CustomerSchema";
 import { toastr } from "react-redux-toastr";
+import { Edit3, Trash2 } from "react-feather";
 
 const Customer = ({ customer, fetch }) => {
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(UpdateCustomerSchema),
   });
-  const [update, setUpdate] = useState(customer);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const notyf = new Notyf({
-    duration: 2000,
-    position: {
-      x: "center",
-      y: "top",
-    },
-  });
 
   const deleteCustomer = () => {
     Meteor.call("deleteCustomer", customer._id, (e, r) => {
@@ -38,6 +31,7 @@ const Customer = ({ customer, fetch }) => {
         setShow(false);
       } else {
         toastr.error("unable to update Customer check this inputs ");
+        console.log(err);
         setShow(false);
       }
     });
@@ -128,16 +122,10 @@ const Customer = ({ customer, fetch }) => {
         <td>{customer.phoneNumber}</td>
         <td>{customer.email}</td>
         <td>{moment(customer.creationDate).format("MMM DD YYYY")}</td>
-
-        <button className="button is-danger is-inverted" onClick={handleShow}>
-          update
-        </button>
-        <button
-          className="button is-danger is-inverted"
-          onClick={deleteCustomer}
-        >
-          delete
-        </button>
+        <td>
+          <Edit3 onClick={handleShow} className="mr-2" />
+          <Trash2 onClick={deleteCustomer} />
+        </td>
       </tr>
     </>
   );

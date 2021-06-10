@@ -23,8 +23,9 @@ const addInfo = async function (data) {
 };
 
 const addCustomer = function (data) {
-  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
-  const me = Meteor.users.findOne({ "_id": this.userId });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
   Customers.insert({
     ...data,
@@ -33,8 +34,9 @@ const addCustomer = function (data) {
   });
 };
 const addSupplier = function (data) {
-  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
-  const me = Meteor.users.findOne({ "_id": this.userId });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
   Suppliers.insert({
     ...data,
@@ -42,7 +44,6 @@ const addSupplier = function (data) {
     creationDate: new Date(),
   });
 };
-
 
 const addCompanyUser = function (data) {
   console.log(data);
@@ -53,7 +54,7 @@ const addCompanyUser = function (data) {
       firstName: data.firstName,
       lastName: data.lastName,
       companyId: this.userId,
-      phoneNumber: data.phoneNumber
+      phoneNumber: data.phoneNumber,
     },
   };
   const _id = Accounts.createUser(info);
@@ -62,7 +63,7 @@ const addCompanyUser = function (data) {
 };
 
 const deleteCompanyUser = function (id) {
-  Meteor.users.remove({ "_id": id });
+  Meteor.users.remove({ _id: id });
 };
 
 const updateCompanyUser = function ({ id, data }) {
@@ -70,17 +71,18 @@ const updateCompanyUser = function ({ id, data }) {
   console.log(data);
   Meteor.users.update(id, {
     $set: {
-      'emails.0.address': data.email,
-      'profile.firstName': data.firstName,
-      'profile.lastName': data.lastName,
-      'profile.phoneNumber': data.phoneNumber,
-    }
+      "emails.0.address": data.email,
+      "profile.firstName": data.firstName,
+      "profile.lastName": data.lastName,
+      "profile.phoneNumber": data.phoneNumber,
+    },
   });
 };
 
 const addCustomerFromExcel = function ({ data }) {
-  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
-  const me = Meteor.users.findOne({ "_id": this.userId });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
   Customers.insert({
     ...data,
@@ -90,8 +92,9 @@ const addCustomerFromExcel = function ({ data }) {
 };
 
 const addSpplierFromExcel = function ({ data }) {
-  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
-  const me = Meteor.users.findOne({ "_id": this.userId });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
   Suppliers.insert({
     ...data,
@@ -100,22 +103,26 @@ const addSpplierFromExcel = function ({ data }) {
   });
 };
 
-
-
 const getProductsName = function () {
   return Products.find({ userId: this.userId }).fetch();
 };
 const getMiniCustomers = function () {
-  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
-  const me = Meteor.users.findOne({ "_id": this.userId });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
-  return customers.find({ userId: isNotCompany ? me.profile?.companyId : this.userId, }).fetch();
+  return customers
+    .find({ userId: isNotCompany ? me.profile?.companyId : this.userId })
+    .fetch();
 };
 const getMiniSuppliers = function () {
-  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
-  const me = Meteor.users.findOne({ "_id": this.userId });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
-  return suppliers.find({ userId: isNotCompany ? me.profile?.companyId : this.userId, }).fetch();
+  return suppliers
+    .find({ userId: isNotCompany ? me.profile?.companyId : this.userId })
+    .fetch();
 };
 
 const updateSaleStatus = function (_id, status) {
@@ -140,8 +147,9 @@ const updateDeliverySaleStatus = function (_id, status) {
 };
 
 const addSale = function (data) {
-  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
-  const me = Meteor.users.findOne({ "_id": this.userId });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
   Sales.insert({
     ...data,
@@ -154,8 +162,8 @@ const addSale = function (data) {
 };
 
 const getEstimateInfo = function (id) {
-  return Sales.findOne({ "_id": id });
-}
+  return Sales.findOne({ _id: id });
+};
 
 const getCustomers = function ({
   page,
@@ -164,13 +172,13 @@ const getCustomers = function ({
   sortBy = "_id",
   sortOrder = "asc",
 }) {
-
-  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
-  const me = Meteor.users.findOne({ "_id": this.userId });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
 
   console.log(isNotCompany);
-  const query = { userId: !isNotCompany ? me.profile?.companyId : this.userId, };
+  const query = { userId: isNotCompany ? me.profile?.companyId : this.userId };
   const options = {
     skip: (page - 1) * itemsPerPage,
     limit: itemsPerPage,
@@ -214,7 +222,9 @@ const getCompanyUsers = function ({
       [sortBy]: sortOrder === "asc" ? 1 : -1,
     },
   };
-  const totalCount = Meteor.users.find({ "profile.companyId": this.userId }).count();
+  const totalCount = Meteor.users
+    .find({ "profile.companyId": this.userId })
+    .count();
   if (search && search.length) {
     query.$or = [
       {
@@ -241,9 +251,9 @@ const getSuppliers = function ({
   sortBy = "_id",
   sortOrder = "asc",
 }) {
-
-  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
-  const me = Meteor.users.findOne({ "_id": this.userId });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
 
   console.log(isNotCompany);
   const query = { userId: !isNotCompany ? this.userId : me.profile?.companyId };
@@ -281,8 +291,9 @@ const getSale = function ({
   sortBy = "_id",
   sortOrder = "asc",
 }) {
-  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
-  const me = Meteor.users.findOne({ "_id": this.userId });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
   const query = { userId: isNotCompany ? me.profile?.companyId : this.userId };
   const options = {
@@ -318,9 +329,10 @@ const addProduct = function (data, imageId) {
   if (imageId) {
     url = Images.findOne({ _id: imageId }).link();
   }
-  console.log(url)
-  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
-  const me = Meteor.users.findOne({ "_id": this.userId });
+  console.log(url);
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
   Products.insert({
     ...data,
@@ -337,10 +349,11 @@ const getProducts = function ({
   sortBy = "_id",
   sortOrder = "asc",
 }) {
-  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
-  const me = Meteor.users.findOne({ "_id": this.userId });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
-  const query = { userId: isNotCompany ? me.profile?.companyId : this.userId, };
+  const query = { userId: isNotCompany ? me.profile?.companyId : this.userId };
   const options = {
     skip: (page - 1) * itemsPerPage,
     limit: itemsPerPage,
@@ -381,15 +394,23 @@ const updateProduct = async function ({ id, data }) {
 };
 
 const deleteProduct = function (_id) {
-  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
-  const me = Meteor.users.findOne({ "_id": this.userId });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
-  Products.remove({ _id, userId: isNotCompany ? me.profile?.companyId : this.userId });
+  Products.remove({
+    _id,
+    userId: isNotCompany ? me.profile?.companyId : this.userId,
+  });
 };
 //*******updateProduct in the db*********
 const updateCustomer = async function ({ id, data }) {
   console.log(data);
-  const customer = Customers.findOne({ _id: id, userId: this.userId });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
+  const customer = Customers.findOne({ _id: id, userId: isNotCompany ? me.profile?.companyId : this.userId, });
   if (!customer) {
     throw new Meteor.Error("Customer not found");
   }
@@ -430,23 +451,35 @@ const updateSale = async function ({ id, data }) {
 };
 
 const deleteSale = function (_id) {
-  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
-  const me = Meteor.users.findOne({ "_id": this.userId });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
-  Customers.remove({ _id, userId: isNotCompany ? me.profile?.companyId : this.userId, });
+  Customers.remove({
+    _id,
+    userId: isNotCompany ? me.profile?.companyId : this.userId,
+  });
 };
 const deleteCustomer = function (_id) {
-  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
-  const me = Meteor.users.findOne({ "_id": this.userId });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
-  Customers.remove({ _id, userId: isNotCompany ? me.profile?.companyId : this.userId, });
+  Customers.remove({
+    _id,
+    userId: isNotCompany ? me.profile?.companyId : this.userId,
+  });
 };
 
 const deleteSupplier = function (_id) {
-  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
-  const me = Meteor.users.findOne({ "_id": this.userId });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
-  Suppliers.remove({ _id, userId: isNotCompany ? me.profile?.companyId : this.userId, });
+  Suppliers.remove({
+    _id,
+    userId: isNotCompany ? me.profile?.companyId : this.userId,
+  });
 };
 
 const getCustomerInfo = async function () {
@@ -465,15 +498,16 @@ const getCustomerInfo = async function () {
 };
 
 const addProdutsFromExcel = function ({ data }) {
-  const isNotCompany = (Roles.getRolesForUser(this.userId)[0])?.toLowerCase() !== "company";
-  const me = Meteor.users.findOne({ "_id": this.userId });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
   Products.insert({
     ...data,
     creationDate: new Date(),
     userId: isNotCompany ? me.profile?.companyId : this.userId,
-  })
-}
+  });
+};
 
 Meteor.methods({
   addInfo,
@@ -506,5 +540,5 @@ Meteor.methods({
   addSpplierFromExcel,
   getMiniSuppliers,
   updateCompanyUser,
-  getEstimateInfo
+  getEstimateInfo,
 });

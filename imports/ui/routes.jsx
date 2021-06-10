@@ -9,7 +9,12 @@ import DashboardAdmin from "./pages/Dashboard/AdminDashboard";
 import Forgot from "./pages/Auth/ForgotPassword";
 import AdminLayout from "../ui/layouts/AdminLayout";
 import Public from "../ui/layouts/Public";
-import { SUPER_ADMIN, COMPANY, SALES_MANAGER, PURCHASING_MANAGER } from "../api/roles";
+import {
+  SUPER_ADMIN,
+  COMPANY,
+  SALES_MANAGER,
+  PURCHASING_MANAGER,
+} from "../api/roles";
 import Devis from "./pages/Dashboard/ventes/Devis";
 import CompanyLayout from "../ui/layouts/CompanyLayout";
 import ClientsList from "../ui/pages/Dashboard/Clients/ClientsList";
@@ -307,7 +312,14 @@ const Routes = (props) => {
               component={CustomersList}
               {...props}
             />
-
+            <Authorized
+              exact
+              allowedRoles={[SALES_MANAGER]}
+              path="/sales_manager/estimate/print/:id"
+              pathAfterFailure="/401"
+              component={PrintForm}
+              {...props}
+            />
             <Authorized
               exact
               allowedRoles={[SALES_MANAGER]}
@@ -483,12 +495,9 @@ const Routes = (props) => {
               {...props}
             />
           </Switch>
-
         </CompanyLayout>
         {/*  */}
-        <CompanyLayout path="/store_keeper" {...props}>
-
-        </CompanyLayout>
+        <CompanyLayout path="/store_keeper" {...props}></CompanyLayout>
         {/*  */}
 
         <AdminLayout path="/super_admin" {...props}>
