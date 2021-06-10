@@ -35,9 +35,6 @@ const AddSales = () => {
   const [productNameList, setProductNameList] = useState([]);
   const [pickedCustomer, setPickedCustomer] = useState(null);
   const [productListForm, setProductListForm] = useState([]);
-  const [productImages, setProductImages] = useState({
-
-  });
   const [form, setForm] = useState({
     project: "",
     note: "",
@@ -89,8 +86,10 @@ const AddSales = () => {
   handleChange = (e, index) => {
     const values = [...productListForm];
     values[index][e.target.name] = e.target.value;
-    const image = productNameList.filter(product => product.name === e.target.value)[0].imageUrl;
-    values[index]['imageUrl'] = image;
+    const product = productNameList.filter(product => product.name === e.target.value)[0];
+    values[index]['imageUrl'] = product?.imageUrl;
+    if (e.target.name === 'name')
+      values[index]['price'] = parseFloat(product?.publicPrice ?? 0);
     values[index]["total"] =
       parseFloat(values[index]["price"]) * parseInt(values[index]["quantity"]);
     setProductListForm(values);
@@ -122,7 +121,7 @@ const AddSales = () => {
     setProductListForm([
       ...productListForm,
       {
-        imageUrl:"",
+        imageUrl: "",
         name: "",
         quantity: 0,
         price: 0,
@@ -364,7 +363,7 @@ const AddSales = () => {
                                                 type="number"
                                                 name="quantity"
                                                 defaultValue={0}
-                                                value={productListForm.quantity}
+                                                // value={productListForm.quantity}
                                                 onChange={(event) =>
                                                   handleChange(event, i)
                                                 }
@@ -380,7 +379,7 @@ const AddSales = () => {
                                                 type="text"
                                                 name="price"
                                                 defaultValue="1"
-                                                value={productListForm.price}
+                                                value={productListForm[i].price}
                                                 onChange={(event) =>
                                                   handleChange(event, i)
                                                 }
