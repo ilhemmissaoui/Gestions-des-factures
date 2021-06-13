@@ -5,6 +5,8 @@ import "flatpickr/dist/themes/material_green.css";
 import Pager from "../../../components/Pagination";
 import Flatpickr from "react-flatpickr";
 import Search from "../../../components/Search";
+import TableCol from "../../../utils/TableCols";
+import SupplyOrderItem from "./SupplyOrderitem";
 
 const SupplierOrder = () => {
   const [page, setPage] = useState(1);
@@ -32,12 +34,12 @@ const SupplierOrder = () => {
     { name: "December", field: "December", sortable: true },
   ];
   const informations = [
-    { name: "Reference", field: "Reference", sortable: true },
-    { name: "Date", field: "Date", sortable: true },
-    { name: "Customer", field: "Customer", sortable: true },
-    { name: "Amount INCL.taxes", field: "Amount INCL.taxes", sortable: true },
-    { name: "Status", field: "Status", sortable: true },
-    { name: "Action", field: "Action", sortable: true },
+    { name: "Reference", field: "_id", sortable: true },
+    { name: "Date", field: "date", sortable: true },
+    { name: "supplier", field: "supplier", sortable: true },
+    { name: "Amount INCL.taxes", field: "totaleTaxeIncl", sortable: true },
+    { name: "Status", field: "status", sortable: true },
+    { name: "Action", field: "Action", sortable: false },
 
 
   ];
@@ -45,7 +47,7 @@ const SupplierOrder = () => {
   const [list, setList] = useState([]);
   const fetch = () => {
     Meteor.call(
-      "getPurshase",
+      "getSupplyOrder",
       { page, itemsPerPage, search, sortBy: field, sortOrder: sortDirection },
       (err, { items, totalCount }) => {
         setList(items);
@@ -74,18 +76,6 @@ const SupplierOrder = () => {
                 {/* Left side */}
                 <div className="level-right">
                   <div className="level-item">
-                    <Flatpickr
-                      className="mr-5"
-                      placeholder="Start Date "
-                      data-enable-time
-                      onChange={(date) => setState(date)}
-                    />
-                    <Flatpickr
-                      className="mr-4"
-                      placeholder="End Date"
-                      data-enable-time
-                      onChange={(date) => setState(date)}
-                    />
                     <Search
                       onSearch={(value) => {
                         setSearch(value);
@@ -162,17 +152,17 @@ const SupplierOrder = () => {
                       </th>
                     ))} </tr>
 
-                  {/* {list?.length === 0 ? (
+                  {list?.length === 0 ? (
                     <TableCol col={7} />
                   ) : (
-                    list?.map((customer) => (
-                      <Customer
-                        key={customer._id}
-                        customer={customer}
+                    list?.map((supplier) => (
+                      <SupplyOrderItem
+                        key={supplier._id}
+                        supplyOrder={supplier}
                         fetch={fetch}
                       />
                     ))
-                  )} */}
+                  )}
                 </tbody>
               </table>
             </div>

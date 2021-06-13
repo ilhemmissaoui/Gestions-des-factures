@@ -137,6 +137,18 @@ const updateSaleStatus = function (_id, status) {
     }
   );
 };
+
+const updateSupplyordertatus = function (_id, status) {
+  SupplierOrders.update(
+    { _id: _id },
+    {
+      $set: {
+        status: status,
+      },
+    }
+  );
+};
+
 const updateDeliverySaleStatus = function (_id, status) {
   Sales.update(
     { _id: _id },
@@ -301,6 +313,8 @@ const getSuppliers = function ({
   }
   return { items: Suppliers.find(query, options).fetch(), totalCount };
 };
+
+
 const getSale = function ({
   page,
   itemsPerPage,
@@ -341,6 +355,48 @@ const getSale = function ({
   }
   return { items: Sales.find(query, options).fetch(), totalCount };
 };
+
+const getSupplyOrder = function ({
+  page,
+  itemsPerPage,
+  search,
+  sortBy = "_id",
+  sortOrder = "asc",
+}) {
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
+  const query = { userId: isNotCompany ? me.profile?.companyId : this.userId };
+  const options = {
+    skip: (page - 1) * itemsPerPage,
+    limit: itemsPerPage,
+    sort: {
+      [sortBy]: sortOrder === "asc" ? 1 : -1,
+    },
+  };
+  const totalCount = Sales.find({ userId: this.userId }).count();
+
+  if (search && search.length) {
+    query.$or = [
+      {
+        fullName: {
+          $regex: `.*${search}.*`,
+          $options: "i",
+        },
+      },
+      {
+        country: {
+          $regex: `.*${search}.*`,
+          $options: "i",
+        },
+      },
+    ];
+  }
+  return { items: SupplierOrders.find(query, options).fetch(), totalCount };
+};
+
+
 const addProduct = function (data, imageId) {
   let url;
   if (imageId) {
@@ -558,5 +614,7 @@ Meteor.methods({
   getMiniSuppliers,
   updateCompanyUser,
   getEstimateInfo,
-  addSupplierOrders
+  addSupplierOrders,
+  getSupplyOrder,
+  updateSupplyordertatus
 });
