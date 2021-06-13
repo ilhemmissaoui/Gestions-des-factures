@@ -39,10 +39,11 @@ import SupplierInvoice from "./pages/company/purchase/SupplierInvoice";
 import AddPurchases from "./pages/company/purchase/AddPurchases";
 import ListSupplier from "./pages/company/suppliers/ListSupplier";
 import AddSupplier from "./pages/company/suppliers/AddSupplier";
-import StockPage from "./pages/company/Stock/StockPage";
 import UsersList from "./pages/company/company-users/list";
 import AddUser from "./pages/company/company-users/Adduser";
 import PrintForm from "./pages/company/sale/PrintForm";
+import PurchaseStock from "./pages/company/Stock/PurchaseStock";
+import SalesStock from "./pages/company/Stock/SaleStock";
 
 const Routes = (props) => {
   let loggingIn = true;
@@ -100,9 +101,17 @@ const Routes = (props) => {
             <Authorized
               exact
               allowedRoles={[COMPANY]}
-              path="/company/stock"
+              path="/company/prchase_stock"
               pathAfterFailure="/401"
-              component={StockPage}
+              component={PurchaseStock}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/sale_stock"
+              pathAfterFailure="/401"
+              component={SalesStock}
               {...props}
             />
             <Authorized

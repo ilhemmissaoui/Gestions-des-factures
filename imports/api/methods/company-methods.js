@@ -160,6 +160,17 @@ const updateDeliverySaleStatus = function (_id, status) {
   );
 };
 
+const updateDeliverySupplyOrderStatus = function (_id, status) {
+  SupplierOrders.update(
+    { _id: _id },
+    {
+      $set: {
+        deliverStatus: status,
+      },
+    }
+  );
+};
+
 const addSale = function (data) {
   const isNotCompany =
     Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
@@ -555,6 +566,94 @@ const deleteSupplier = function (_id) {
   });
 };
 
+const getSalesStock = async function () {
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
+  const aggregation = [
+    {
+      '$match': {
+        'userId': isNotCompany ? me.profile?.companyId : this.userId,
+      }
+    }, {
+      '$unwind': {
+        'path': '$productList',
+        'preserveNullAndEmptyArrays': true
+      }
+    }, {
+      '$project': {
+        'productList': 1
+      }
+    }, {
+      '$group': {
+        '_id': '$productList.name',
+        'count': {
+          '$sum': 1
+        },
+        'quantity': {
+          '$sum': {
+            '$toInt': '$productList.quantity'
+          }
+        },
+        'total_TND': {
+          '$sum': '$productList.total'
+        }
+      }
+    }, {
+      '$project': {
+        '_id': 1,
+        'quantity': 1,
+        'total': '$total_TND'
+      }
+    }
+  ];
+  return await Sales.rawCollection().aggregate(aggregation).toArray();
+}
+
+const getPurchaseStocks = async function () {
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
+  const aggregation = [
+    {
+      '$match': {
+        'userId': isNotCompany ? me.profile?.companyId : this.userId,
+      }
+    }, {
+      '$unwind': {
+        'path': '$productList',
+        'preserveNullAndEmptyArrays': true
+      }
+    }, {
+      '$project': {
+        'productList': 1
+      }
+    }, {
+      '$group': {
+        '_id': '$productList.name',
+        'count': {
+          '$sum': 1
+        },
+        'quantity': {
+          '$sum': {
+            '$toInt': '$productList.quantity'
+          }
+        },
+        'total_TND': {
+          '$sum': '$productList.total'
+        }
+      }
+    }, {
+      '$project': {
+        '_id': 1,
+        'quantity': 1,
+        'total': '$total_TND'
+      }
+    }
+  ];
+  return await SupplierOrders.rawCollection().aggregate(aggregation).toArray();
+}
+
 const getCustomerInfo = async function () {
   return await Customers.rawCollection()
     .aggregate([
@@ -616,5 +715,8 @@ Meteor.methods({
   getEstimateInfo,
   addSupplierOrders,
   getSupplyOrder,
-  updateSupplyordertatus
+  updateSupplyordertatus,
+  updateDeliverySupplyOrderStatus,
+  getSalesStock,
+  getPurchaseStocks
 });

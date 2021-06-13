@@ -82,7 +82,6 @@ const SupplierOrder = () => {
                         setPage(1);
                       }}
                     />
-
                     <div className="mr-4 mb-5">
                       <Link
                         to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/supplier_order/add_purchases`}
@@ -97,7 +96,7 @@ const SupplierOrder = () => {
               <table className="table is-bordered is-striped is-fullwidth">
                 <tbody>
                   <tr className="th is-selected">
-                    {headers.map(({ name, sortable, field }) => (
+                    {headers.map(({ name, field }) => (
                       <th
                         key={name}
                         onClick={() =>

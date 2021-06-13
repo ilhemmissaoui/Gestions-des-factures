@@ -85,22 +85,6 @@ const companyItems = [
     role: ["COMPANY", "STORE_KEEPER"],
     children: [
       {
-        path: "cash_management",
-        label: "Cash Management",
-      },
-      {
-        path: "bank_account",
-        label: "Bank Account",
-      },
-      {
-        path: "cheque",
-        label: "cheque",
-      },
-      {
-        path: "balance_customer",
-        label: "Balance Customer",
-      },
-      {
         path: "balance_supplier",
         label: "Balance Supplier",
       },
@@ -114,12 +98,12 @@ const companyItems = [
     role: ["COMPANY", "STORE_KEEPER"],
     children: [
       {
-        path: "",
-        label: "Stock Managment",
+        path: "prchase_stock",
+        label: "Purchase Stock",
       },
       {
-        path: "",
-        label: "Inventory",
+        path: "sale_stock",
+        label: "Sale Stock",
       },
     ],
   },

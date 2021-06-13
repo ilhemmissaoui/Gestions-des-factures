@@ -8,6 +8,7 @@ import { Notyf } from "notyf";
 import TableCol from "../../../utils/TableCols";
 import Search from "../../../components/Search";
 import Customer from "../customers/Customer";
+import DeliveryNoteItems from "./SupplyOrderNote";
 
 const SupplierDeliveryNote = () => {
   const [page, setPage] = useState(1);
@@ -48,7 +49,7 @@ const SupplierDeliveryNote = () => {
   const [list, setList] = useState([]);
   const fetch = () => {
     Meteor.call(
-      "getCustomers",
+      "getSupplyOrder",
       { page, itemsPerPage, search, sortBy: field, sortOrder: sortDirection },
       (err, { items, totalCount }) => {
         setList(items);
@@ -65,20 +66,7 @@ const SupplierDeliveryNote = () => {
       sortDirection,
     });
   };
-  const notyf = new Notyf({
-    duration: 2000,
-    position: {
-      x: "center",
-      y: "top",
-    },
-  });
 
-  useEffect(() => {
-    Meteor.call("getCustomers", (e, r) => {
-      if (!e) setList(r);
-      else console.log(e);
-    });
-  }, []);
   return (
     <div>
       <div className="container">
@@ -176,8 +164,17 @@ const SupplierDeliveryNote = () => {
                         {name}
                       </th>
                     ))} </tr>
-
-
+                  {list?.length === 0 ? (
+                    <TableCol col={7} />
+                  ) : (
+                    list?.map((supplier) => (
+                      <DeliveryNoteItems
+                        key={supplier._id}
+                        supplyOrder={supplier}
+                        fetch={fetch}
+                      />
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
