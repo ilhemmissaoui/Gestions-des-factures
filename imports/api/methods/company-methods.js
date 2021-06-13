@@ -15,6 +15,8 @@ import {
 import Suppliers from "../../../collections/Supplier";
 import customers from "../../../collections/customers";
 import Images from "../../../collections/images";
+import Supplier from "../../../collections/Supplier";
+import SupplierOrders from "../../../collections/suppliers_orders";
 const addInfo = async function (data) {
   CompanyCollection.insert({
     ...data,
@@ -120,7 +122,7 @@ const getMiniSuppliers = function () {
     Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
   const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
-  return suppliers
+  return Supplier
     .find({ userId: isNotCompany ? me.profile?.companyId : this.userId })
     .fetch();
 };
@@ -152,6 +154,21 @@ const addSale = function (data) {
   const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
   Sales.insert({
+    ...data,
+    status: "Idle",
+    deliverStatus: "Idle",
+    invoiceStatus: "idle",
+    userId: isNotCompany ? me.profile?.companyId : this.userId,
+    creationDate: new Date(),
+  });
+};
+
+const addSupplierOrders = function (data) {
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
+  // isNotCompany ? me.profile?.companyId : this.userId,
+  SupplierOrders.insert({
     ...data,
     status: "Idle",
     deliverStatus: "Idle",
@@ -541,4 +558,5 @@ Meteor.methods({
   getMiniSuppliers,
   updateCompanyUser,
   getEstimateInfo,
+  addSupplierOrders
 });

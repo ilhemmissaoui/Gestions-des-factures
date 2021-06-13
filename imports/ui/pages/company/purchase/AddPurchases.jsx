@@ -1,69 +1,134 @@
-import React, { useState, useEffect } from "react";
-import { Notyf } from "notyf";
+import React, { useState, useEffect, useRef } from "react";
 import { Meteor } from "meteor/meteor";
 import Flatpickr from "react-flatpickr";
+import { Plus, Printer } from "react-feather";
+import { toastr } from "react-redux-toastr";
 import ReactToPrint from "react-to-print";
 
+
 const AddPurchases = () => {
-  const [page, setPage] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
-  const [search, setSearch] = useState("");
+  const componentRef = useRef();
+
   const [sorting, setSorting] = useState({
     field: "_id",
     sortDirection: "asc",
   });
-  const { field, sortDirection } = sorting;
-  const itemsPerPage = 8;
+  const [pickedDate, onChange] = useState(new Date());
   const informations = [
-    { name: "Designation", field: "Designation", sortable: true },
-    { name: "Quantity", field: "Quantity", sortable: true },
-    { name: "Ht Price", field: "Ht Price", sortable: true },
-    { name: "VAT", field: "VAT", sortable: true },
-    { name: "Total Ht", field: "Total Ht", sortable: true },
+    { name: "Image", field: "Image" },
+    { name: "Designation", field: "Designation" },
+    { name: "Quantity", field: "Quantity" },
+    { name: "Ht Price", field: "Ht Price" },
+    { name: "VAT", field: "VAT" },
+    { name: "Total Ht", field: "Total Ht" },
   ];
 
-  const info = [
-    { name: "VAT", field: "VAT", sortable: true },
-    { name: "Base", field: "Base", sortable: true },
-    { name: "Amount", field: "Amount", sortable: true },
-  ];
+
 
   const [list, setList] = useState([]);
+  const [totalInfo, setTotalInfo] = useState({
+    totalTHA: 0,
+    totalTVA: 0,
+    totaleVTA: 0,
+    totalIncTaxes: 0,
+  });
+  const [productNameList, setProductNameList] = useState([]);
   const [pickedCustomer, setPickedCustomer] = useState(null);
-  const [pickedProduct, setPickedProduct] = useState(null);
+  const [productListForm, setProductListForm] = useState([]);
+  const [form, setForm] = useState({
+    project: "",
+    note: "",
+  });
+
+
   const fetch = () => {
-    Meteor.call(
-      "getCustomers",
-      { page, itemsPerPage, search, sortBy: field, sortOrder: sortDirection },
-      (err, { items, totalCount }) => {
-        setList(items);
-        setTotalItems(totalCount);
-      }
-    );
+    Meteor.call("getMiniSuppliers", (e, r) => {
+      console.log(r);
+      setList(r);
+    });
   };
+  const fetchProducts = () => {
+    Meteor.call("getProductsName", (e, r) => {
+      setProductNameList(r);
+    });
+  };
+  const handleFormChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    const data = {
+      ...totalInfo,
+      supplier: pickedCustomer[0].fullName,
+      phoneNumber: pickedCustomer[0]?.phoneNumber,
+      email: pickedCustomer[0]?.email,
+      date: pickedDate[0],
+      productList: [...productListForm],
+      ...form,
+    };
+    Meteor.call("addSupplierOrders", data, (e, r) => {
+      if (!e) toastr.success("", "Supplier Order Has Been added");
+    });
+  };
+
   useEffect(() => {
     fetch();
-  }, [search, page, sorting]);
-  const handleSort = (field, sortDirection) => {
-    setSorting({
-      field,
-      sortDirection,
+    fetchProducts();
+  }, []);
+
+
+  handleChange = (e, index) => {
+    const values = [...productListForm];
+    values[index][e.target.name] = e.target.value;
+    if (e.target.name === 'name') {
+      const product = productNameList.filter(product => product.name === e.target.value)[0];
+      values[index]['imageUrl'] = product?.imageUrl;
+      values[index]['price'] = parseFloat(product?.publicPrice ?? 0);
+    }
+    values[index]["total"] =
+      parseFloat(values[index]["price"]) * parseInt(values[index]["quantity"]);
+    setProductListForm(values);
+
+    var totalSum = 0;
+    var totalTVA = 0;
+    var totaleVTA = 0;
+    var totaleTaxeIncl = 0;
+    values.forEach((val) => {
+      totalSum += val.total;
+      totalTVA += parseFloat(val.vat);
+    });
+    totaleVTA = (parseFloat(totalTVA) / 100) * parseFloat(totalSum);
+    totaleTaxeIncl = 0.2 + totaleVTA + totalSum;
+    setTotalInfo({
+      totalTHA: totalSum,
+      totalTVA: totalTVA,
+      totaleVTA: totaleVTA,
+      totaleTaxeIncl: totaleTaxeIncl,
     });
   };
 
-
-  
-  useEffect(() => {
-    Meteor.call("getCustomers", (e, r) => {
-      if (!e) setList(r);
-      else console.log(e);
-    });
-  }, []);
-
-  
+  addNewProduct = (e) => {
+    e.preventDefault();
+    if (!pickedCustomer) {
+      toastr.error("", "No Supplier Selected");
+      return;
+    }
+    setProductListForm([
+      ...productListForm,
+      {
+        imageUrl: "",
+        name: "",
+        quantity: 0,
+        price: 0,
+        vat: 0,
+        total: 0,
+      },
+    ]);
+  };
   return (
     <>
-      <div>
+      <div ref={componentRef}>
         <div className="column is-10-desktop is-offset-2-desktop is-9-tablet is-offset-3-tablet is-12-mobile">
           <div className="p-1">
             <div className="columns is-variable is-desktop">
@@ -73,7 +138,7 @@ const AddPurchases = () => {
                     <div className="bd-hero-body">
                       <div className="bd-hero-heading">
                         <h1 className="title algolia-lvl0">
-                          <p>Add Supliers</p>
+                          <p>Add Supplier Order</p>
                         </h1>
                         <section class="section">
                           <h1 class="subtitle">Informations</h1>
@@ -89,33 +154,35 @@ const AddPurchases = () => {
                                       <div className="field is-narrow">
                                         <div className="control">
                                           <div>
-                                            <select
-                                              name="selected"
-                                              onChange={(e) => {
-                                                if (e.target.value === "")
-                                                  setPickedCustomer(null);
-                                                setPickedCustomer(
-                                                  list.filter(
-                                                    (customer) =>
-                                                      customer._id ===
-                                                      e.target.value
-                                                  )
-                                                );
-                                                console.log(pickedCustomer);
-                                              }}
-                                            >
-                                              <option value="">
-                                                --- Select ---
-                                              </option>
-                                              {list.map((e) => (
-                                                <option
-                                                  key={e._id}
-                                                  value={e._id}
-                                                >
-                                                  {e.fullName}
+                                            <div class="select">
+                                              <select
+                                                name="selected"
+                                                onChange={(e) => {
+                                                  if (e.target.value === "")
+                                                    setPickedCustomer(null);
+                                                  setPickedCustomer(
+                                                    list.filter(
+                                                      (customer) =>
+                                                        customer._id ===
+                                                        e.target.value
+                                                    )
+                                                  );
+                                                  console.log(pickedCustomer);
+                                                }}
+                                              >
+                                                <option value="">
+                                                  --- Select ---
                                                 </option>
-                                              ))}
-                                            </select>
+                                                {list.map((e) => (
+                                                  <option
+                                                    key={e._id}
+                                                    value={e._id}
+                                                  >
+                                                    {e.fullName}
+                                                  </option>
+                                                ))}
+                                              </select>
+                                            </div>
                                           </div>
                                         </div>
                                         <hr className="solid" />
@@ -154,12 +221,10 @@ const AddPurchases = () => {
                                           <div className="level-right">
                                             <div className="level-item">
                                               <Flatpickr
-                                                className="mr-5"
+                                                className="mx-5"
                                                 placeholder="Date "
                                                 data-enable-time
-                                                onChange={(date) =>
-                                                  setState(date)
-                                                }
+                                                onChange={onChange}
                                               />
                                               <div>
                                                 <br />
@@ -181,7 +246,9 @@ const AddPurchases = () => {
                                                   <input
                                                     className="input is-small"
                                                     type="text"
+                                                    name="project"
                                                     placeholder="Small input"
+                                                    onChange={handleFormChange}
                                                   />
                                                 </div>
                                               </div>
@@ -201,6 +268,8 @@ const AddPurchases = () => {
                                                   <textarea
                                                     className="textarea is-small"
                                                     placeholder="Small textarea"
+                                                    name="note"
+                                                    onChange={handleFormChange}
                                                     defaultValue={""}
                                                   />
                                                 </div>
@@ -223,182 +292,160 @@ const AddPurchases = () => {
                                     <hr className="solid" />
                                   </div>
                                 </div>
-
                                 <div>
                                   <br />
                                   <br />
                                 </div>
-
                                 <hr className="solid" />
                                 <div className="table-container">
                                   <table className="table is-bordered is-striped is-fullwidth">
                                     <tbody>
-                                      <tr>
-                                        {informations.map(
-                                          ({ name, sortable, field }) => (
-                                            <th
-                                              key={name}
-                                              onClick={() =>
-                                                handleSort(
-                                                  field,
-                                                  sorting.field === field
-                                                    ? sorting.sortDirection ==
-                                                      "asc"
-                                                      ? "desc"
-                                                      : "asc"
-                                                    : "asc"
-                                                )
-                                              }
-                                            >
-                                              {sorting.field === field ? (
-                                                sorting.sortDirection ===
-                                                "asc" ? (
-                                                  <i className="fas fa-arrow-up"></i>
-                                                ) : (
-                                                  <i className="fas fa-arrow-down"></i>
-                                                )
-                                              ) : null}{" "}
-                                              {name}
-                                            </th>
-                                          )
-                                        )}{" "}
-                                      </tr>
+                                      {informations.map(({ name, field }) => (
+                                        <th key={name}>
+                                          {sorting.field === field ? (
+                                            sorting.sortDirection ===
+                                              "asc" ? (
+                                              <i className="fas fa-arrow-up"></i>
+                                            ) : (
+                                              <i className="fas fa-arrow-down"></i>
+                                            )
+                                          ) : null}{" "}
+                                          {name}
+                                        </th>
+                                      ))}{" "}
+                                      {/*  */}
+                                      {productListForm.map((_, i) => (
+                                        <tr>
+                                          <td>
+                                            <figure className="image is-48x48">
+                                              <img src={productListForm[i]?.imageUrl ?? "https://bulma.io/images/placeholders/48x48.png"} />
+                                            </figure>
+                                          </td>
+                                          <td className="mx-5">
+                                            <p className="control is-expanded has-icons-left">
+                                              <div className="control">
+                                                <div>
+                                                  <div class="select">
+                                                    <select
+                                                      name="name"
+                                                      onChange={(e) => {
+                                                        handleChange(e, i);
+                                                        console.log(productListForm);
+                                                      }
+                                                      }
+                                                    >
+                                                      <option value="">
+                                                        --- Select ---
+                                                      </option>
+                                                      {productNameList.map((e) => (
+                                                        <option
+                                                          key={e._id}
+                                                          value={e.name}
+                                                        >
+                                                          {e.name}
+                                                        </option>
+                                                      ))}
+                                                    </select>
+                                                  </div>
+                                                </div>
+                                              </div>{" "}
+                                            </p>
+                                          </td>
+
+                                          <td className="mx-5">
+                                            <div className="field">
+                                              <input
+                                                className="input is-small"
+                                                type="number"
+                                                name="quantity"
+                                                defaultValue={0}
+                                                // value={productListForm.quantity}
+                                                onChange={(event) =>
+                                                  handleChange(event, i)
+                                                }
+                                              />
+                                            </div>
+                                          </td>
+
+
+                                          <td className="mx-5">
+                                            <div className="field">
+                                              <input
+                                                className="input is-small"
+                                                type="text"
+                                                name="price"
+                                                defaultValue="1"
+                                                value={productListForm[i].price}
+                                                onChange={(event) =>
+                                                  handleChange(event, i)
+                                                }
+                                              />
+                                            </div>
+                                          </td>
+
+                                          <td className="mx-5">
+                                            <div className="field">
+                                              <input
+                                                className="input is-small"
+                                                type="text"
+                                                placeholder="0%"
+                                                name="vat"
+                                                value={productListForm.vat}
+                                                onChange={(event) =>
+                                                  handleChange(event, i)
+                                                }
+                                              />
+                                            </div>
+                                          </td>
+
+                                          <td className="mx-5">
+                                            <div className="field">
+                                              <input
+                                                className="input is-small"
+                                                type="text"
+                                                name="total"
+                                                defaultValue="0.000TND"
+                                                readOnly="true"
+                                                value={productListForm[i].total}
+                                                onChange={(event) =>
+                                                  handleChange(event, i)
+                                                }
+                                              />
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      ))}
                                     </tbody>
                                   </table>
                                 </div>
-                                <div className="field-body">
-                                  <div className="field">
-                                    <p className="control is-expanded has-icons-left">
-                                      <div className="control">
-                                        <div>
-                                          <select
-                                            name="selected"
-                                            onChange={(e) => {
-                                              if (e.target.value === "")
-                                                setPickedProduct(null);
-                                              setPickedProduct(
-                                                list.filter(
-                                                  (product) =>
-                                                    product._id ===
-                                                    e.target.value
-                                                )
-                                              );
-                                              console.log(pickedProduct);
-                                            }}
-                                          >
-                                            <option value="">
-                                              --- Select ---
-                                            </option>
-                                            {list.map((e) => (
-                                              <option key={e._id} value={e._id}>
-                                                {e.productname}
-                                              </option>
-                                            ))}
-                                          </select>
-                                        </div>
-                                      </div>{" "}
-                                    </p>
-                                  </div>
 
-                                  <div className="field">
-                                    <input
-                                      className="input is-small"
-                                      type="number"
-                                      placeholder="1"
-                                    />
-                                  </div>
 
-                                  <div className="field">
-                                    <input
-                                      className="input is-small"
-                                      type="text"
-                                      defaultValue="1"
-                                    />
-                                  </div>
-                                  <div className="field">
-                                    <input
-                                      className="input is-small"
-                                      type="text"
-                                      placeholder="0%"
-                                    />
-                                  </div>
-                                  <div className="field">
-                                    <input
-                                      className="input is-small"
-                                      type="text"
-                                      defaultValue="0.000TND"
-                                    />
-                                  </div>
-                                </div>
-
-                                <hr className="solid" />
-
-                                <div className="field has-addons">
-                                  <p className="control">
-                                    <button className="button">
-                                      <span className="icon is-small">
-                                        <i />
-                                      </span>
-                                      <span>Barcode</span>
-                                    </button>
-                                  </p>
-                                  <p className="control">
-                                    <button className="button">
-                                      <span className="icon is-small">
-                                        <i />
-                                      </span>
-                                      <span>Add Product</span>
-                                    </button>
-                                  </p>
-                                  <p className="control">
-                                    <button className="button">
-                                      <span className="icon is-small">
-                                        <i />
-                                      </span>
-                                      <span>Add Sub-Total</span>
-                                    </button>
-                                  </p>
-                                </div>
+                                <button className="button">
+                                  <span className="icon is-small">
+                                    <i />
+                                  </span>
+                                  <span>Barcode</span>
+                                </button>
+                                <button
+                                  className="button"
+                                  onClick={addNewProduct}
+                                >
+                                  <span className="icon is-small">
+                                    <Plus />
+                                  </span>
+                                  <span>Add Product</span>
+                                </button>
+                                <button className="button">
+                                  <span className="icon is-small">
+                                    <i />
+                                  </span>
+                                  <span>Add Sub-Total</span>
+                                </button>
                                 <hr className="solid" />
                                 <div className="level-right">
-                                  <div className="level-item">
-                                    <div className="table-container">
-                                      <table className="table is-bordered is-striped is-fullwidth">
-                                        <tbody>
-                                          <tr>
-                                            {info.map(
-                                              ({ name, sortable, field }) => (
-                                                <th
-                                                  key={name}
-                                                  onClick={() =>
-                                                    handleSort(
-                                                      field,
-                                                      sorting.field === field
-                                                        ? sorting.sortDirection ==
-                                                          "asc"
-                                                          ? "desc"
-                                                          : "asc"
-                                                        : "asc"
-                                                    )
-                                                  }
-                                                >
-                                                  {sorting.field === field ? (
-                                                    sorting.sortDirection ===
-                                                    "asc" ? (
-                                                      <i className="fas fa-arrow-up"></i>
-                                                    ) : (
-                                                      <i className="fas fa-arrow-down"></i>
-                                                    )
-                                                  ) : null}{" "}
-                                                  {name}
-                                                </th>
-                                              )
-                                            )}{" "}
-                                          </tr>
-                                        </tbody>
-                                      </table>
-                                    </div>
-                                  </div>{" "}
+
+
+
                                 </div>
                                 <div class="column is-half">
                                   <label className="label">NET TO PAY</label>
@@ -406,24 +453,42 @@ const AddPurchases = () => {
                                   <table class="table is-narrow">
                                     <tr>
                                       <td>Total T.Excl</td>
-                                      <td>15656</td>
+                                      <td>{totalInfo.totalTHA} TND</td>
                                     </tr>
 
                                     <tbody>
                                       <tr>
                                         <td>Total VAT</td>
-                                        <td>554</td>
+                                        <td>{totalInfo.totaleVTA?.toFixed(2)} TND</td>
                                       </tr>
                                       <tr>
-                                        <td>Total incl.Taxes</td>
-                                        <td>447</td>
+                                        <td>Fodec</td>
+                                        <td>0.200 TND</td>
                                       </tr>
+                                      <td>Total incl.Taxes</td>
+                                      <td>{totalInfo.totaleTaxeIncl}</td>
+
                                       <tr>
                                         <td>Timbre fiscal</td>
-                                        <td>4542</td>
+                                        <td>0.600 TND</td>
                                       </tr>
                                     </tbody>
                                   </table>
+                                </div>
+                                <div className="columns is-desktop is-centered">
+                                  <div className="control">
+                                    <button
+                                      onClick={submitForm}
+                                      className="button is-primary"
+                                    >
+                                      Submit
+                                    </button>
+
+                                    <div>
+
+                                    </div>
+                                  </div>
+
                                 </div>
                               </form>
                             </div>

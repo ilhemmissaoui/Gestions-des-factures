@@ -162,7 +162,17 @@ const SupplierOrder = () => {
                       </th>
                     ))} </tr>
 
-
+                  {/* {list?.length === 0 ? (
+                    <TableCol col={7} />
+                  ) : (
+                    list?.map((customer) => (
+                      <Customer
+                        key={customer._id}
+                        customer={customer}
+                        fetch={fetch}
+                      />
+                    ))
+                  )} */}
                 </tbody>
               </table>
             </div>

@@ -4,10 +4,8 @@ import { Link } from "react-router-dom";
 import "flatpickr/dist/themes/material_green.css";
 import Pager from "../../../components/Pagination";
 import Flatpickr from "react-flatpickr";
-import { Notyf } from "notyf";
 import TableCol from "../../../utils/TableCols";
 import Search from "../../../components/Search";
-import Customer from "../customers/Customer";
 import InvoiceItems from "./InvoiceItems";
 
 const Invoice = () => {
@@ -26,7 +24,6 @@ const Invoice = () => {
   });
   const { field, sortDirection } = sorting;
   const itemsPerPage = 8;
-  const [value, onChange] = useState(new Date());
   const headers = [
     { name: "January", field: "January", sortable: true },
     { name: "February", field: "February", sortable: true },
@@ -61,6 +58,7 @@ const Invoice = () => {
         items.map((e) => {
           total += e.totaleTaxeIncl;
         });
+        total = total?.toFixed(2);
         setinvoiceInfo({ ...invoiceInfo, total: total });
         setTotalItems(totalCount);
       }

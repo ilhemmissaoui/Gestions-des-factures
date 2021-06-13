@@ -464,7 +464,7 @@ const AddSales = () => {
                                     <tbody>
                                       <tr>
                                         <td>Total VAT</td>
-                                        <td>{totalInfo.totaleVTA} TND</td>
+                                        <td>{totalInfo.totaleVTA?.toFixed(2)} TND</td>
                                       </tr>
                                       <tr>
                                         <td>Fodec</td>

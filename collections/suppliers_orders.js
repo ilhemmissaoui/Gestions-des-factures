@@ -1,0 +1,1 @@
+export default SupplierOrders = new Mongo.Collection("supplier_order");

@@ -174,7 +174,7 @@ const PrintForm = (props) => {
                                                                         <tbody>
                                                                             <tr>
                                                                                 <td>Total VAT</td>
-                                                                                <td>{salesInfo.totalTVA} TND</td>
+                                                                                <td>{salesInfo.totalTVA?.toFixed(2)} TND</td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td>Fodec</td>
