@@ -3,20 +3,19 @@ import CompanyCollection from "../../../collections/company";
 import Customers from "../../../collections/customers";
 import Sales from "../../../collections/sales";
 import Products from "../../../collections/product";
-import CustomerSchema, {
+import {
   UpdateCustomerSchema,
 } from "../schemas/CustomerSchema";
-import ProductSchema, { UpdateProductSchema } from "../schemas/ProductSchema";
+import { UpdateProductSchema } from "../schemas/ProductSchema";
 import SaleSchema from "../schemas/SaleSchema";
 import {
-  SupplierSchema,
   UpdateSupplierrSchema,
 } from "../schemas/SupplierSchema";
 import Suppliers from "../../../collections/Supplier";
 import customers from "../../../collections/customers";
 import Images from "../../../collections/images";
 import Supplier from "../../../collections/Supplier";
-import SupplierOrders from "../../../collections/suppliers_orders";
+import Purchases from "../../../collections/suppliers_orders";
 const addInfo = async function (data) {
   CompanyCollection.insert({
     ...data,
@@ -139,7 +138,7 @@ const updateSaleStatus = function (_id, status) {
 };
 
 const updateSupplyordertatus = function (_id, status) {
-  SupplierOrders.update(
+  Purchases.update(
     { _id: _id },
     {
       $set: {
@@ -161,7 +160,7 @@ const updateDeliverySaleStatus = function (_id, status) {
 };
 
 const updateDeliverySupplyOrderStatus = function (_id, status) {
-  SupplierOrders.update(
+  Purchases.update(
     { _id: _id },
     {
       $set: {
@@ -191,7 +190,7 @@ const addSupplierOrders = function (data) {
     Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
   const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
-  SupplierOrders.insert({
+  Purchases.insert({
     ...data,
     status: "Idle",
     deliverStatus: "Idle",
@@ -404,7 +403,7 @@ const getSupplyOrder = function ({
       },
     ];
   }
-  return { items: SupplierOrders.find(query, options).fetch(), totalCount };
+  return { items: Purchases.find(query, options).fetch(), totalCount };
 };
 
 
@@ -651,7 +650,7 @@ const getPurchaseStocks = async function () {
       }
     }
   ];
-  return await SupplierOrders.rawCollection().aggregate(aggregation).toArray();
+  return await Purchases.rawCollection().aggregate(aggregation).toArray();
 }
 
 const getCustomerInfo = async function () {

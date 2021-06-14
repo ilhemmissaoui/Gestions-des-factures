@@ -1,1 +1,1 @@
-export default SupplierOrders = new Mongo.Collection("supplier_order");
+export default Purchases = new Mongo.Collection("Purchases");
