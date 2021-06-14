@@ -44,6 +44,7 @@ import AddUser from "./pages/company/company-users/Adduser";
 import PrintForm from "./pages/company/sale/PrintForm";
 import PurchaseStock from "./pages/company/Stock/PurchaseStock";
 import SalesStock from "./pages/company/Stock/SaleStock";
+import Messages from "./pages/company/messages/Messages";
 
 const Routes = (props) => {
   let loggingIn = true;
@@ -120,6 +121,14 @@ const Routes = (props) => {
               path="/company/suppliers"
               pathAfterFailure="/401"
               component={ListSupplier}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/messages"
+              pathAfterFailure="/401"
+              component={Messages}
               {...props}
             />
             <Authorized

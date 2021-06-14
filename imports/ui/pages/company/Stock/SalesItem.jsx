@@ -19,7 +19,7 @@ const PurchaseItem = ({ purchaseStock, fetch }) => {
             <tr>
                 <td>{purchaseStock._id}</td>
                 <td>{purchaseStock.quantity}</td>
-                <td>{purchaseStock.total}</td>
+                <td>{purchaseStock.total} TND</td>
             </tr>
         </>
     );

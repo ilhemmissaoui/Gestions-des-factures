@@ -6,6 +6,7 @@ import {
   Compass,
   ShoppingBag,
   Box,
+  MessageSquare,
 } from "react-feather";
 import React from "react";
 
@@ -142,6 +143,15 @@ const adminItems = [
   { label: "Sells", path: "sells", role: ["COMPANY,SUPER_ADMIN"] },
 ];
 
-const SideBarElements = [...companyItems, ...adminItems];
+const SideBarElements = [
+  ...companyItems,
+  ...adminItems,
+  {
+    label: "Messages",
+    path: "messages",
+    icon: <MessageSquare className="icon icon-sm mr-2" />,
+    role: ["SUPER_ADMIN", "COMPANY"],
+  },
+];
 
 export default SideBarElements;
