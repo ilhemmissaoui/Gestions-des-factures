@@ -45,6 +45,7 @@ import PrintForm from "./pages/company/sale/PrintForm";
 import PurchaseStock from "./pages/company/Stock/PurchaseStock";
 import SalesStock from "./pages/company/Stock/SaleStock";
 import Messages from "./pages/company/messages/Messages";
+import UpdatePurchase from "./pages/company/sale/UpdatePurchase";
 
 const Routes = (props) => {
   let loggingIn = true;
@@ -314,6 +315,14 @@ const Routes = (props) => {
               path="/company/supplier_invoice/add_purchases"
               pathAfterFailure="/401"
               component={AddPurchases}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/estimate/update/:id"
+              pathAfterFailure="/401"
+              component={UpdatePurchase}
               {...props}
             />
           </Switch>

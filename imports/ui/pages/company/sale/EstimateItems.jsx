@@ -1,9 +1,14 @@
 import clsx from "clsx";
 import moment from "moment";
 import React from "react";
+import { Edit3, Trash2 } from "react-feather";
 import { toastr } from "react-redux-toastr";
+import { Link } from "react-router-dom";
 
-const EstimateItems = ({ sales, fetch }) => {
+const EstimateItems = (props) => {
+
+  const { sales, fetch } = props;
+
   const onChange = (e) => {
     e.preventDefault();
     const status = e.target.value;
@@ -14,6 +19,13 @@ const EstimateItems = ({ sales, fetch }) => {
       } else console.log(e);
     });
   };
+
+  const deleteSale = () => {
+    Meteor.call("deleteEstimate", sales._id, (e, r) => {
+      if (!e) fetch();
+    })
+  }
+
 
   return (
     <>
@@ -45,6 +57,8 @@ const EstimateItems = ({ sales, fetch }) => {
               </option>
             </select>
           </div>
+          <Trash2 className="mx-3" onClick={_ => deleteSale()} />
+          <Link to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/estimate/update/${sales._id}`}> <Edit3 /> </Link>
         </td>
       </tr>
     </>

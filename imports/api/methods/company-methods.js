@@ -116,6 +116,9 @@ const getMiniCustomers = function () {
     .find({ userId: isNotCompany ? me.profile?.companyId : this.userId })
     .fetch();
 };
+const getSingleEstimateInfo = function (id) {
+  return Sales.findOne({ "_id": id });
+};
 const getMiniSuppliers = function () {
   const isNotCompany =
     Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
@@ -136,6 +139,7 @@ const updateSaleStatus = function (_id, status) {
     }
   );
 };
+
 
 const updateSupplyordertatus = function (_id, status) {
   Purchases.update(
@@ -183,6 +187,26 @@ const addSale = function (data) {
     userId: isNotCompany ? me.profile?.companyId : this.userId,
     creationDate: new Date(),
   });
+};
+
+const updateEstimate = function (id, data, oldData) {
+  // console.log(data);
+  Sales.update(id, { $set: { "productList": [] } });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
+  Sales.update(data._id, {
+    $set: {
+      ...data,
+      status: oldData.status,
+      deliverStatus: oldData.deliverStatus,
+      invoiceStatus: oldData.invoiceStatus,
+      userId: isNotCompany ? me.profile?.companyId : this.userId,
+      creationDate: new Date(),
+    }
+  });
+  Sales.update(id, { $set: { "productList": data.productList } });
+  console.log(Sales.findOne({ _id: id }));
 };
 
 const addSupplierOrders = function (data) {
@@ -533,6 +557,9 @@ const updateSale = async function ({ id, data }) {
   Sales.update({ _id: id }, { $set: data });
 };
 
+const deleteEstimate = function (_id) {
+  Sales.remove({ _id });
+};
 const deleteSale = function (_id) {
   const isNotCompany =
     Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
@@ -717,5 +744,8 @@ Meteor.methods({
   updateSupplyordertatus,
   updateDeliverySupplyOrderStatus,
   getSalesStock,
-  getPurchaseStocks
+  getPurchaseStocks,
+  deleteEstimate,
+  getSingleEstimateInfo,
+  updateEstimate
 });

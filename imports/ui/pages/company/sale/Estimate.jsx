@@ -3,8 +3,6 @@ import { Meteor } from "meteor/meteor";
 import { Link } from "react-router-dom";
 import "flatpickr/dist/themes/material_green.css";
 import Pager from "../../../components/Pagination";
-import Flatpickr from "react-flatpickr";
-import { Notyf } from "notyf";
 import TableCol from "../../../utils/TableCols";
 import Search from "../../../components/Search";
 import EstimateItems from "./EstimateItems";
@@ -80,18 +78,6 @@ const Estimate = () => {
                 {/* Left side */}
                 <div className="level-right">
                   <div className="level-item">
-                    <Flatpickr
-                      className="mr-5"
-                      placeholder="Start Date "
-                      data-enable-time
-                      onChange={(date) => setState(date)}
-                    />
-                    <Flatpickr
-                      className="mr-4"
-                      placeholder="End Date"
-                      data-enable-time
-                      onChange={(date) => setState(date)}
-                    />
                     <Search
                       onSearch={(value) => {
                         setSearch(value);
@@ -101,7 +87,7 @@ const Estimate = () => {
 
                     <div className="mr-4 mb-5">
                       <Link
-                         to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/estimate/add_sale`}
+                        to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/estimate/add_sale`}
                         className="button is-primary is-rounded"
                       >
                         Add
@@ -115,7 +101,7 @@ const Estimate = () => {
               <table className="table is-bordered is-striped is-fullwidth">
                 <tbody>
                   <tr className="th is-selected">
-                    {headers.map(({ name, sortable, field }) => (
+                    {headers.map(({ name, field }) => (
                       <th
                         key={name}
                         onClick={() =>
@@ -147,7 +133,7 @@ const Estimate = () => {
               <table className="table is-bordered is-striped is-fullwidth">
                 <tbody>
                   <tr>
-                    {informations.map(({ name, sortable, field }) => (
+                    {informations.map(({ name, field }) => (
                       <th
                         key={name}
                         onClick={() =>

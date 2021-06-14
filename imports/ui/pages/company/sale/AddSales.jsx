@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Meteor } from "meteor/meteor";
 import Flatpickr from "react-flatpickr";
-import { Plus, Printer } from "react-feather";
+import { Plus } from "react-feather";
 import { toastr } from "react-redux-toastr";
-import ReactToPrint from "react-to-print";
 
 
 const AddSales = () => {
@@ -22,7 +21,6 @@ const AddSales = () => {
     { name: "VAT", field: "VAT" },
     { name: "Total Ht", field: "Total Ht" },
   ];
-
 
 
   const [list, setList] = useState([]);
@@ -341,7 +339,7 @@ const AddSales = () => {
                                                     >
                                                       <option value="">
                                                         --- Select ---
-                                                  </option>
+                                                      </option>
                                                       {productNameList.map((e) => (
                                                         <option
                                                           key={e._id}
