@@ -22,7 +22,6 @@ Meteor.startup(function () {
             }
         });
 
-        /// here to assign a the first user to an ADMIN role
         Roles.addUsersToRoles(_id, SUPER_ADMIN);
     }
 });

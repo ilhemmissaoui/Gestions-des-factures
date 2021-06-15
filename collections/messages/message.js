@@ -1,4 +1,4 @@
-export default message = new Mongo.Collection("message");
+export default Messages = new Mongo.Collection("message");
 
 
 // {

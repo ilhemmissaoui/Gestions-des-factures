@@ -2,11 +2,11 @@ import React from 'react';
 
 const MessageItem = ({ chat }) => (
     <div style={{ heigth: '100%', width: '100%' }}>
-        {chat.map((m, i) => {
-            const msgClass = i === 0 || i % 2 === 0
+        {chat.map((message) => {
+            const isMe = message.sender === Meteor.userId();
             return (
-                <p style={{ padding: '.25em', textAlign: msgClass ? 'left' : 'right', overflowWrap: 'normal' }}>
-                    <span key={i} className={`tag is-medium ${msgClass ? 'is-success' : 'is-info'}`}>{m}</span>
+                <p style={{ padding: '.25em', textAlign: isMe ? 'right' : 'left', overflowWrap: 'normal' }}>
+                    <span className={`tag is-medium ${isMe ? 'is-success' : 'is-info'}`}>{message?.content}</span>
                 </p>
             )
         }

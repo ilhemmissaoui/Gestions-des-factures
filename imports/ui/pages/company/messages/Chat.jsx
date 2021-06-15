@@ -1,10 +1,14 @@
 
 import React from 'react';
 
-export default Chat = () => (
-    <form onSubmit={(e) => {
+export default Chat = () => {
+
+    return <form onSubmit={(e) => {
         e.preventDefault();
-        saveMsg(e.target.elements.message.value);
+        Meteor.call('sendMessage', { message: e.target.elements.message.value },
+            (e) => {
+                if (e) console.log(e);
+            })
         e.target.reset();
     }}>
         <div className="field has-addons">
@@ -21,4 +25,6 @@ export default Chat = () => (
             </div>
         </div>
     </form>
-);
+}
+
+

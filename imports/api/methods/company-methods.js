@@ -16,6 +16,8 @@ import customers from "../../../collections/customers";
 import Images from "../../../collections/images";
 import Supplier from "../../../collections/Supplier";
 import Purchases from "../../../collections/suppliers_orders";
+import Conversations from "../../../collections/messages/conversation";
+import Messages from "../../../collections/messages/message";
 const addInfo = async function (data) {
   CompanyCollection.insert({
     ...data,
@@ -707,6 +709,32 @@ const addProdutsFromExcel = function ({ data }) {
   });
 };
 
+const sendMessage = function ({ message }) {
+
+  const adminId = Meteor.users.findOne({ 'emails.0.address': "admin@mail.com" })._id;
+
+  if (!message || !message.trim().length)
+    throw new Meteor.Error('sendMessage', 'invalid info')
+
+  let conversation = Conversations.findOne({
+    participants: { $all: [adminId, this.userId] }
+  });
+  if (!conversation) {
+    conversation = Conversations.findOne(Conversations.insert({
+      participants: [
+        adminId,
+        this.userId
+      ],
+    }))
+  }
+  Messages.insert({
+    conversationId: conversation._id,
+    createdAt: new Date(),
+    content: message,
+    sender: this.userId
+  })
+}
+
 Meteor.methods({
   addInfo,
   addCustomer,
@@ -747,5 +775,6 @@ Meteor.methods({
   getPurchaseStocks,
   deleteEstimate,
   getSingleEstimateInfo,
-  updateEstimate
+  updateEstimate,
+  sendMessage
 });
