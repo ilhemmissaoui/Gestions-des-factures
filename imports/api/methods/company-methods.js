@@ -272,6 +272,8 @@ const getCustomers = function ({
   return { items: Customers.find(query, options).fetch(), totalCount };
 };
 
+
+
 const getCompanyUsers = function ({
   page,
   itemsPerPage,
@@ -776,5 +778,6 @@ Meteor.methods({
   deleteEstimate,
   getSingleEstimateInfo,
   updateEstimate,
-  sendMessage
+  sendMessage,
+  
 });

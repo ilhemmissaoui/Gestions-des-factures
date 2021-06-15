@@ -46,6 +46,8 @@ import PurchaseStock from "./pages/company/Stock/PurchaseStock";
 import SalesStock from "./pages/company/Stock/SaleStock";
 import Messages from "./pages/company/messages/Messages";
 import UpdatePurchase from "./pages/company/sale/UpdatePurchase";
+import CompaniesList from "./pages/Admin/customers/list";
+import AdminMessages from "./pages/Admin/Messages/Messages";
 
 const Routes = (props) => {
   let loggingIn = true;
@@ -540,59 +542,17 @@ const Routes = (props) => {
             <Authorized
               exact
               allowedRoles={[SUPER_ADMIN]}
-              path="/super_admin/clientslist"
+              path="/super_admin/companies"
               pathAfterFailure="/401"
-              component={ClientsList}
-              {...props}
-            />
-
-            <Authorized
-              exact
-              allowedRoles={[SUPER_ADMIN]}
-              path="/super_admin/contact_us"
-              pathAfterFailure="/401"
-              component={ContactUs}
+              component={CompaniesList}
               {...props}
             />
             <Authorized
               exact
               allowedRoles={[SUPER_ADMIN]}
-              path="/super_admin/print"
+              path="/super_admin/messages/:userId"
               pathAfterFailure="/401"
-              component={Print}
-              {...props}
-            />
-            <Authorized
-              exact
-              allowedRoles={[SUPER_ADMIN]}
-              path="/super_admin/profile"
-              pathAfterFailure="/401"
-              component={Profile}
-              {...props}
-            />
-
-            <Authorized
-              exact
-              allowedRoles={[SUPER_ADMIN]}
-              path="/super_admin/notification"
-              pathAfterFailure="/401"
-              component={Notification}
-              {...props}
-            />
-            <Authorized
-              exact
-              allowedRoles={[SUPER_ADMIN]}
-              path="/super_admin/setting"
-              pathAfterFailure="/401"
-              component={Setting}
-              {...props}
-            />
-            <Authorized
-              exact
-              allowedRoles={[SUPER_ADMIN]}
-              path="/super_admin/pricing"
-              pathAfterFailure="/401"
-              component={Devis}
+              component={AdminMessages}
               {...props}
             />
           </Switch>

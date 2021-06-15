@@ -1,9 +1,6 @@
 import {
-  Clipboard,
   Users,
   ShoppingCart,
-  Plus,
-  Compass,
   ShoppingBag,
   Box,
   MessageSquare,
@@ -112,32 +109,9 @@ const companyItems = [
 
 const adminItems = [
   {
-    label: "Sales",
-    icon: <ShoppingCart className="icon icon-sm mr-2" />,
-    path: "pricing",
-    role: ["SUPER_ADMIN"],
-    children: [
-      {
-        path: "",
-        label: "Add new",
-        icon: <Plus className="icon icon-sm mr-2" />,
-      },
-      {
-        path: "",
-        label: "idk",
-        icon: <Clipboard className="icon icon-sm mr-2" />,
-      },
-      {
-        path: "",
-        label: "yes",
-        icon: <Compass className="icon icon-sm mr-2" />,
-      },
-    ],
-  },
-  {
-    label: "Customers",
+    label: "Companies",
     icon: <Users className="icon icon-sm mr-2" />,
-    path: "customers",
+    path: "companies",
     role: ["SUPER_ADMIN"],
   },
   { label: "Sells", path: "sells", role: ["COMPANY,SUPER_ADMIN"] },
