@@ -58,7 +58,7 @@ const Routes = (props) => {
   ) : (
     <BrowserRouter>
       <Switch>
-        {props.loading && <Loader />}
+        {props?.loading && <Loader />}
         <Public
           exact
           path="/login"
