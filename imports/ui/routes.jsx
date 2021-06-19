@@ -15,14 +15,8 @@ import {
   SALES_MANAGER,
   PURCHASING_MANAGER,
 } from "../api/roles";
-import Devis from "./pages/Dashboard/ventes/Devis";
 import CompanyLayout from "../ui/layouts/CompanyLayout";
-import ClientsList from "../ui/pages/Dashboard/Clients/ClientsList";
-import Print from "./pages/Print";
-import Profile from "./pages/Dashboard/ventes/Profile";
-import Setting from "./pages/Dashboard/ventes/Setting";
-import Notification from "./pages/Dashboard/ventes/Notification";
-import ContactUs from "./ContactUs";
+import { withTracker } from 'meteor/react-meteor-data';
 import CustomersList from "./pages/company/customers/list";
 import AddCustomer from "./pages/company/customers/AddCustomer";
 import Estimate from "./pages/company/sale/Estimate";
@@ -48,6 +42,7 @@ import Messages from "./pages/company/messages/Messages";
 import UpdatePurchase from "./pages/company/sale/UpdatePurchase";
 import CompaniesList from "./pages/Admin/customers/list";
 import AdminMessages from "./pages/Admin/Messages/Messages";
+import Loader from "./components/Loader";
 
 const Routes = (props) => {
   let loggingIn = true;
@@ -63,6 +58,7 @@ const Routes = (props) => {
   ) : (
     <BrowserRouter>
       <Switch>
+        {props.loading && <Loader />}
         <Public
           exact
           path="/login"
@@ -561,4 +557,9 @@ const Routes = (props) => {
     </BrowserRouter>
   );
 };
-export default Routes;
+export default withTracker(() => {
+  const loading = !Roles.subscription.ready();
+  return {
+    loading,
+  };
+})(Routes);

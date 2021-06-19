@@ -9,6 +9,7 @@ import Search from "../../../components/Search";
 import Product from "../product_service/Product";
 import { ExcelParser } from '../../../../api/utils/ExcelHelper'
 import { toastr } from "react-redux-toastr";
+import { Image } from "react-feather";
 
 const ListProducts = () => {
   const [page, setPage] = useState(1);
@@ -21,6 +22,7 @@ const ListProducts = () => {
   const { field, sortDirection } = sorting;
   const itemsPerPage = 8;
   const headers = [
+    { name: "Image", field: "imageUrl" },
     { name: "Type", field: "producttype", sortable: true },
     { name: "Picture", field: "picture", sortable: true },
     { name: "In Stock", field: "In Stock", sortable: true },
@@ -121,7 +123,6 @@ const ListProducts = () => {
                       setPage(1);
                     }}
                   />
-
                   <div className="mr-4 mb-5">
                     <Link
                       to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/product_service/add`}
@@ -150,7 +151,7 @@ const ListProducts = () => {
                 <table className="table is-bordered is-striped is-fullwidth">
                   <tbody>
                     <tr className="th is-selected">
-                      {headers.map(({ name, sortable, field }) => (
+                      {headers.map(({ name, field }) => (
                         <th
                           key={name}
                           onClick={() =>
@@ -171,7 +172,7 @@ const ListProducts = () => {
                               <i className="fas fa-arrow-down"></i>
                             )
                           ) : null}{" "}
-                          {name}
+                          {name === "Image" ? <Image /> : name}
                         </th>
                       ))}
                     </tr>

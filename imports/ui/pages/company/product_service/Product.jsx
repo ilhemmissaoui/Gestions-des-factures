@@ -99,6 +99,11 @@ const Product = ({ product, fetch }) => {
         </form>
       </ModalRoot>
       <tr>
+        <td>
+          <figure className="image is-48x48">
+            <img src={product.imageUrl ?? "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png"} />
+          </figure>
+        </td>
         <td>{product.productType ? "Material" : "Service"}</td>
         <td>{product.name}</td>
         <td>0</td>

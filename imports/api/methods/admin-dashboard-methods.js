@@ -80,8 +80,6 @@ const getCompanies = function ({
 };
 
 const sendAdminMsg = function ({ message, userId }) {
-
-
   if (!message || !message.trim().length)
     throw new Meteor.Error('sendAdminMsg', 'invalid info')
 

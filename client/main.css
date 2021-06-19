@@ -1,6 +1,7 @@
 @import "bulma/bulma";
 @import "~bulma";
 @import "~bulma-calendar";
+@import "./scss//_custom_loading.scss";
 @import "../../node_modules/react-redux-toastr/src/styles/index";
 
 html,
