@@ -31,21 +31,13 @@ const SingUp = (props) => {
           <div className="column is-8 is-offset-2 register">
             <div className="columns">
               <div className="column left">
-                <h1 className="title is-1">Super Cool Website</h1>
+                <h1 className="title is-1">E-BILL</h1>
                 <h2 className="subtitle colored is-4">
-                  Lorem ipsum dolor sit amet.
+                  Welcome
                 </h2>
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Corporis ex deleniti aliquam tempora libero excepturi vero
-                  soluta odio optio sed.
-                </p>
               </div>
               <div className="column right has-text-centered">
-                <h1 className="title is-4">Sign up today</h1>
-                <p className="description">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit
-                </p>
+                <h1 className="title is-4">Sign up</h1>
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
                   <div className="field">
                     <div className="control">
@@ -167,9 +159,6 @@ const SingUp = (props) => {
                     Submit
                   </button>
                   <br />
-                  <small>
-                    <em>Lorem ipsum dolor sit amet consectetur.</em>
-                  </small>
                 </form>
               </div>
             </div>
@@ -182,19 +171,19 @@ const SingUp = (props) => {
                   <span className="icon">
                     <i className="fab fa-twitter" />
                   </span>{" "}
-                   
+
                   <span className="icon">
                     <i className="fab fa-facebook" />
                   </span>{" "}
-                   
+
                   <span className="icon">
                     <i className="fab fa-instagram" />
                   </span>{" "}
-                   
+
                   <span className="icon">
                     <i className="fab fa-github" />
                   </span>{" "}
-                   
+
                   <span className="icon">
                     <i className="fas fa-envelope" />
                   </span>
@@ -205,7 +194,7 @@ const SingUp = (props) => {
                   className="level-item"
                   style={{ color: "var(--textLight)" }}
                 >
-                  ©All Rights Reserved.
+                  ©{new Date().getFullYear()} All Rights Reserved.
                 </small>
               </div>
             </nav>

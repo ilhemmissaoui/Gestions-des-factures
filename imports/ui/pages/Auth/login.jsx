@@ -9,8 +9,6 @@ const Login = (props) => {
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(LoginSchema),
   });
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
   console.log(errors);
 
   /// here you handle the form sumbited
@@ -37,10 +35,10 @@ const Login = (props) => {
             <div className="column is-4 is-offset-4">
               <div className="login">
                 <img
-                  src="https://logoipsum.com/logo/logo-1.svg"
+                  src="https://www.iconpacks.net/icons/1/free-user-login-icon-305-thumb.png"
                   width="325px"
                 />
-                <form onSubmit={handleSubmit(onSubmit)} noValidate>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="field">
                     <div className="control">
                       <input
