@@ -43,6 +43,7 @@ import UpdatePurchase from "./pages/company/sale/UpdatePurchase";
 import CompaniesList from "./pages/Admin/customers/list";
 import AdminMessages from "./pages/Admin/Messages/Messages";
 import Loader from "./components/Loader";
+import MessagePlaceHolder from "./pages/Admin/Messages/placeholder";
 
 const Routes = (props) => {
   let loggingIn = true;
@@ -549,6 +550,14 @@ const Routes = (props) => {
               path="/super_admin/messages/:userId"
               pathAfterFailure="/401"
               component={AdminMessages}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SUPER_ADMIN]}
+              path="/super_admin/messages/"
+              pathAfterFailure="/401"
+              component={MessagePlaceHolder}
               {...props}
             />
           </Switch>

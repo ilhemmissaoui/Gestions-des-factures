@@ -1,10 +1,20 @@
 import clsx from "clsx";
 import moment from "moment";
 import React from "react";
-import { DollarSign, File } from "react-feather";
-import { toastr } from "react-redux-toastr";
+import { DollarSign, Edit3, File, Trash2 } from "react-feather";
+import { Link } from "react-router-dom";
+
+
+
 
 const InvoiceItems = ({ sales, fetch }) => {
+
+  const deleteSale = () => {
+    Meteor.call("deleteEstimate", sales._id, (e, r) => {
+      if (!e) fetch();
+    })
+  }
+
   return (
     <>
       <tr>
@@ -25,8 +35,13 @@ const InvoiceItems = ({ sales, fetch }) => {
           {sales?.invoiceStatus ?? "idle"}
         </td>
         <td>
-          <File className="mr-2" />
+          <Link to={`/${Roles.getRolesForUser(
+            Meteor.userId()
+          )[0]?.toLowerCase()}/estimate/print/${sales._id}`}>
+            <File className="mr-2" /></Link>
           <DollarSign />
+          <Trash2 className="mx-3" onClick={_ => deleteSale()} />
+          <Link to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/estimate/update/${sales._id}`}> <Edit3 /> </Link>
         </td>
       </tr>
     </>

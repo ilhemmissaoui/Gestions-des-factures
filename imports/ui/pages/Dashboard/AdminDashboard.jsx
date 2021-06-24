@@ -1,6 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Typical from "react-typical";
 const DashboardAdmin = () => {
+
+  const [companiesCount, setCompaniesCount] = useState(0)
+
+  const getCompanies = () => {
+    Meteor.call("enrolledCoompanies", (e, r) => {
+      if (!e) setCompaniesCount(r);
+      else console.log(r);
+    })
+  }
+
+  useEffect(() => {
+    getCompanies()
+  }, [])
+
+
   return (
     <div>
       <div className="column is-10-desktop is-offset-2-desktop is-9-tablet is-offset-3-tablet is-12-mobile">
@@ -21,11 +36,11 @@ const DashboardAdmin = () => {
               <div className="card has-background-primary has-text-white">
                 <div className="card-header">
                   <div className="card-header-title has-text-white">
-                    Top Seller Total
+                    Enrolled Companies
                   </div>
                 </div>
                 <div className="card-content">
-                  <p className="is-size-3">56,590</p>
+                  <p className="is-size-3">{companiesCount}</p>
                 </div>
               </div>
             </div>

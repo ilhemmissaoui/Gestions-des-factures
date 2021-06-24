@@ -62,12 +62,6 @@ const Estimate = () => {
   };
 
 
-  useEffect(() => {
-    Meteor.call("getCustomers", (e, r) => {
-      if (!e) setList(r);
-      else console.log(e);
-    });
-  }, []);
   return (
     <div>
       <div className="container">

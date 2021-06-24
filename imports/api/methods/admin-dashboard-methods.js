@@ -102,6 +102,10 @@ const sendAdminMsg = function ({ message, userId }) {
   })
 }
 
+const enrolledCoompanies = function () {
+  return Meteor.users.find({ _id: { $ne: this.userId } }).count()
+}
+
 
 Meteor.methods({
   getClients,
@@ -111,5 +115,6 @@ Meteor.methods({
   updateClient,
   getCompanies,
   activateDesactivateCompany,
-  sendAdminMsg
+  sendAdminMsg,
+  enrolledCoompanies
 });

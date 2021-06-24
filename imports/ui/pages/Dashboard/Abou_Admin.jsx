@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Typical from "react-typical";
 
 const About_Admin = () => {
+
+  const [companiesCount, setCompaniesCount] = useState(0)
+
+  const getCompanies = () => {
+    Meteor.call("enrolledCoompanies", (e, r) => {
+      setCompaniesCount(r);
+    })
+  }
+
+  useEffect(() => {
+    getCompanies()
+  }, [])
+
   return (
     <div>
       <div className="column is-10-desktop is-offset-2-desktop is-9-tablet is-offset-3-tablet is-12-mobile">
@@ -9,7 +22,6 @@ const About_Admin = () => {
           <div className="columns is-variable is-desktop">
             <div className="column">
               <h1 className="title is-1">
-                
                 <Typical
                   loop={Infinity}
                   wrapper="b"
@@ -23,11 +35,11 @@ const About_Admin = () => {
               <div className="card has-background-primary has-text-white">
                 <div className="card-header">
                   <div className="card-header-title has-text-white">
-                    Top Seller Total
+                    Enrolled Companies
                   </div>
                 </div>
                 <div className="card-content">
-                  <p className="is-size-3">56,590</p>
+                  <p className="is-size-3">{companiesCount}</p>
                 </div>
               </div>
             </div>

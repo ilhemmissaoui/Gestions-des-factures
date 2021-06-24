@@ -21,8 +21,8 @@ const ClientOrderItems = ({ sales, fetch }) => {
         <td>
           <Link to={`/${Roles.getRolesForUser(
             Meteor.userId()
-          )[0]?.toLowerCase()}/estimate/print/${sales._id}`}><
-              File className="mr-2" /></Link>
+          )[0]?.toLowerCase()}/estimate/print/${sales._id}`}>
+            <File className="mr-2" /></Link>
           <Trash2 onClick={deleteSale} />
         </td>
       </tr>

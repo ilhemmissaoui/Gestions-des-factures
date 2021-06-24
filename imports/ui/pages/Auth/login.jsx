@@ -6,19 +6,17 @@ import { LoginSchema } from "../../../api/schemas/LoginSchema";
 import { toastr } from "react-redux-toastr";
 
 const Login = (props) => {
+
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(LoginSchema),
   });
-  console.log(errors);
 
-  /// here you handle the form sumbited
   const onSubmit = ({ email, password }) => {
     Meteor.loginWithPassword(email, password, (error) => {
       if (error) {
         console.log(`%c ${error}`, "color: gold; background: #252525");
         toastr.error(error.reason);
       } else {
-        console.log(props);
         props.history.push(
           Roles.getRolesForUser(Meteor.userId())[0]?.toLowerCase()
         );
@@ -26,7 +24,7 @@ const Login = (props) => {
     });
   };
 
- 
+
   return (
     <div>
       <section className="hero is-fullheight">
@@ -38,7 +36,7 @@ const Login = (props) => {
                   src="https://www.iconpacks.net/icons/1/free-user-login-icon-305-thumb.png"
                   width="325px"
                 />
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(onSubmit)} id="formLogin">
                   <div className="field">
                     <div className="control">
                       <input
@@ -74,10 +72,7 @@ const Login = (props) => {
                   </div>
 
                   <br />
-                  <button
-                    className="button is-block is-fullwidth is-primary is-medium is-rounded"
-                    type="submit"
-                  >
+                  <button className="button is-block is-fullwidth is-primary is-medium is-rounded" form="formLogin">
                     Login
                   </button>
                 </form>

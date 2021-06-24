@@ -373,7 +373,6 @@ const getSale = function ({
     },
   };
   const totalCount = Sales.find({ userId: this.userId }).count();
-  const totalPages = Math.ceil(totalCount / itemsPerPage);
   // IF SEARCH IS DEFINED && SEARCH LENGTH != 0 THEN WE ADD SEARCH STEP TO QUERY OBJECT
   if (search && search.length) {
     query.$or = [
@@ -569,7 +568,7 @@ const deleteSale = function (_id) {
     Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
   const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
-  Customers.remove({
+  Sales.remove({
     _id,
     userId: isNotCompany ? me.profile?.companyId : this.userId,
   });

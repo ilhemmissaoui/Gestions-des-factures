@@ -188,13 +188,14 @@ const UpdatePurchase = () => {
                                                                                                 onChange={(e) => {
                                                                                                     if (e.target.value === "")
                                                                                                         setPickedCustomer(null);
-                                                                                                    setPickedCustomer(
-                                                                                                        list.filter(
-                                                                                                            (customer) =>
-                                                                                                                customer._id ===
-                                                                                                                e.target.value
-                                                                                                        )
-                                                                                                    );
+                                                                                                    else
+                                                                                                        setPickedCustomer(
+                                                                                                            list.filter(
+                                                                                                                (customer) =>
+                                                                                                                    customer._id ===
+                                                                                                                    e.target.value
+                                                                                                            )
+                                                                                                        );
                                                                                                     console.log(pickedCustomer);
                                                                                                 }}
                                                                                             >
@@ -204,7 +205,7 @@ const UpdatePurchase = () => {
                                                                                                 {list.map((e) => (
                                                                                                     <option
                                                                                                         key={e._id}
-                                                                                                        value={e._id}
+                                                                                                        value={e.name}
                                                                                                         selected={e.fullName === estimateInfo.customer}
                                                                                                     >
                                                                                                         {e.fullName}

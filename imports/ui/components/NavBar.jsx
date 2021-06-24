@@ -42,7 +42,7 @@ const NavBar = () => {
               <Link
                 to={`/${Meteor.userId() &&
                   Roles.getRolesForUser(Meteor.userId())[0]?.toLowerCase()
-                  }/contact_us`}
+                  }`}
                 className="fnavbar-item"
               >
                 Home
