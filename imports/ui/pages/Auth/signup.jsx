@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { SignUpSchema } from "../../../api/schemas/SignUpSchema";
+import { toastr } from "react-redux-toastr";
 
 const SingUp = (props) => {
   const { register, handleSubmit, errors } = useForm({
@@ -19,6 +20,7 @@ const SingUp = (props) => {
         setError(error.reason);
       } else {
         console.log(props);
+        toastr.success("", "Account Created Successfully");
         props.history.push("/login");
       }
     });

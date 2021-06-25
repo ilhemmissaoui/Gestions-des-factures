@@ -373,27 +373,6 @@ const AddProduct = (props) => {
                                   </div>
 
                                   <div className="column">
-                                    <div className="field">
-                                      <div className="column">
-                                        <div className="field">
-                                          <label className="label">BRAND</label>{" "}
-                                        </div>
-                                        <div className="control">
-                                          <div className="select">
-                                            <select name="type" ref={register}>
-                                              <option value="">
-                                                -- Select --
-                                              </option>
-                                              <option value="ff">ccc</option>
-                                              <option value="gg">hngg</option>
-                                            </select>
-                                          </div>
-                                          <div className="help is-danger d-block">
-                                            {errors.brand?.message}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
                                     <div className="column">
                                       <div className="field">
                                         <label className="label">TAX</label>{" "}

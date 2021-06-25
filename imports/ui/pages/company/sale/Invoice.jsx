@@ -43,6 +43,7 @@ const Invoice = () => {
     { name: "Date", field: "Date", sortable: true },
     { name: "Customer", field: "Customer", sortable: true },
     { name: "Amount INCL.taxes", field: "Amount INCL.taxes", sortable: true },
+    { name: "Payed Amount", field: "payedAmount", sortable: true },
     { name: "Status", field: "Status", sortable: true },
     { name: "Action", field: "Action", sortable: true },
   ];
@@ -54,12 +55,18 @@ const Invoice = () => {
       { page, itemsPerPage, search, sortBy: field, sortOrder: sortDirection },
       (err, { items, totalCount }) => {
         setList(items);
+        console.log(items);
         let total = 0;
+        let paid = 0;
+        let toPay = 0;
         items.map((e) => {
           total += e.totaleTaxeIncl;
+          paid += e?.payedAmount ?? 0;
         });
+        paid = paid.toFixed(2);
         total = total?.toFixed(2);
-        setinvoiceInfo({ ...invoiceInfo, total: total });
+        toPay = (total - paid).toFixed(2);
+        setinvoiceInfo({ ...invoiceInfo, total, paid, toPay });
         setTotalItems(totalCount);
       }
     );
@@ -91,7 +98,7 @@ const Invoice = () => {
                         </div>
                       </div>
                       <div className="card-content">
-                        <p className="is-size-3">{invoiceInfo.total}</p>
+                        <p className="is-size-3">{invoiceInfo.total} TND</p>
                       </div>
                     </div>
                   </div>
@@ -103,7 +110,7 @@ const Invoice = () => {
                         </div>
                       </div>
                       <div className="card-content">
-                        <p className="is-size-3">55%</p>
+                        <p className="is-size-3">{invoiceInfo.paid} TND</p>
                       </div>
                     </div>
                   </div>
@@ -115,19 +122,7 @@ const Invoice = () => {
                         </div>
                       </div>
                       <div className="card-content">
-                        <p className="is-size-3">78 %</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="column">
-                    <div className="card has-background-danger has-text-white">
-                      <div className="card-header">
-                        <div className="card-header-title has-text-white">
-                          Overdue
-                        </div>
-                      </div>
-                      <div className="card-content">
-                        <p className="is-size-3">425k</p>
+                        <p className="is-size-3">{invoiceInfo?.toPay} TND</p>
                       </div>
                     </div>
                   </div>
@@ -156,7 +151,7 @@ const Invoice = () => {
 
                     <div className="mr-4 mb-5">
                       <Link
-                        to="/company/invoice/add_sale"
+                        to={`/${Roles.getRolesForUser(Meteor.userId())[0]?.toLowerCase()}/invoice/add_sale`}
                         className="button is-primary is-rounded"
                       >
                         Add

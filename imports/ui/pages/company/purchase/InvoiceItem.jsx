@@ -16,13 +16,13 @@ const InvoiceItems = ({ sales, fetch }) => {
   const handleShow = () => setShow(true);
 
   const deleteSale = () => {
-    Meteor.call("deleteEstimate", sales._id, (e, _) => {
+    Meteor.call("deleteSUpplierOrder", sales._id, (e, _) => {
       if (!e) fetch();
     })
   }
 
   const updateProduct = (data) => {
-    Meteor.call("payAmount", { _id: sales._id, amount: data.amountToPay }, (err) => {
+    Meteor.call("paySupplierAmount", { _id: sales._id, amount: data.amountToPay }, (err) => {
       if (!err) {
         toastr.success("", "Amount has been Payed Successfully");
         fetch();
@@ -62,7 +62,7 @@ const InvoiceItems = ({ sales, fetch }) => {
       <tr>
         <td>{sales._id}</td>
         <td>{moment(sales.creationDate).format("MMM DD YYYY")}</td>
-        <td>{sales.customer}</td>
+        <td>{sales.supplier}</td>
         <td>{sales.totaleTaxeIncl} TND</td>
         <td>{(sales?.payedAmount)?.toFixed(2) ?? "0"} TND</td>
         <td

@@ -20,12 +20,12 @@ const CustomersList = () => {
   const { field, sortDirection } = sorting;
   const itemsPerPage = 4;
   const headers = [
-    { name: "Type", field: "customertype", sortable: true },
-    { name: "Reference", field: "customerreference", sortable: true },
-    { name: "Name", field: "customername", sortable: true },
-    { name: "Phone", field: "customerphone", sortable: true },
-    { name: "TurnOver", field: "customerturnover", sortable: true },
-    { name: "Creation Date", field: "customercreationdate", sortable: true },
+    { name: "Type", field: "customertype", sortable: false },
+    { name: "Reference", field: "customerreference", sortable: false },
+    { name: "Name", field: "customername", sortable: false },
+    { name: "Phone", field: "customerphone", sortable: false },
+    { name: "Email", field: "customerturnover", sortable: false },
+    { name: "Creation Date", field: "customercreationdate", sortable: false },
     { name: "Action", field: "customeraction", sortable: false },
   ];
 
@@ -44,6 +44,7 @@ const CustomersList = () => {
   useEffect(() => {
     fetch();
   }, [search, page, sorting]);
+
   const handleSort = (field, sortDirection) => {
     setSorting({
       field,
@@ -153,7 +154,7 @@ const CustomersList = () => {
                       {headers.map(({ name, sortable, field }) => (
                         <th
                           key={name}
-                          onClick={() =>
+                          onClick={_ =>
                             handleSort(
                               field,
                               sorting.field === field

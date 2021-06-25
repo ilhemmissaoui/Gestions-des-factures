@@ -458,7 +458,6 @@ const AddSales = () => {
                                       <td>Total T.Excl</td>
                                       <td>{totalInfo.totalTHA} TND</td>
                                     </tr>
-
                                     <tbody>
                                       <tr>
                                         <td>Total VAT</td>

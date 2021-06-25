@@ -1,7 +1,10 @@
 import clsx from "clsx";
 import moment from "moment";
 import React from "react";
+import { Trash2, Edit3 } from "react-feather";
 import { toastr } from "react-redux-toastr";
+import { Link } from "react-router-dom";
+
 
 const SupplyOrderItem = ({ supplyOrder, fetch }) => {
     const onChange = (e) => {
@@ -14,6 +17,12 @@ const SupplyOrderItem = ({ supplyOrder, fetch }) => {
             } else console.log(e);
         });
     };
+
+    const deleteSupplyOrder = () => {
+        Meteor.call("deleteSupplyOrder", supplyOrder._id, (e, r) => {
+            if (!e) fetch();
+        })
+    }
 
     return (
         <>
@@ -45,6 +54,9 @@ const SupplyOrderItem = ({ supplyOrder, fetch }) => {
                             </option>
                         </select>
                     </div>
+                    <Trash2 className="mx-3" onClick={_ => deleteSupplyOrder()} />
+                    <Link to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/purchase/update/${supplyOrder._id}`}> <Edit3 /> </Link>
+
                 </td>
             </tr>
         </>

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import ModalRoot from "../../../components/ModalView";
 import { Meteor } from "meteor/meteor";
-import moment from "moment";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UpdateProductSchema } from "../../../../api/schemas/ProductSchema";

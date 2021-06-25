@@ -36,6 +36,7 @@ import AddSupplier from "./pages/company/suppliers/AddSupplier";
 import UsersList from "./pages/company/company-users/list";
 import AddUser from "./pages/company/company-users/Adduser";
 import PrintForm from "./pages/company/sale/PrintForm";
+import DeliveryPrintForm from "./pages/company/purchase/deliveryPrint";
 import PurchaseStock from "./pages/company/Stock/PurchaseStock";
 import SalesStock from "./pages/company/Stock/SaleStock";
 import Messages from "./pages/company/messages/Messages";
@@ -44,6 +45,7 @@ import CompaniesList from "./pages/Admin/customers/list";
 import AdminMessages from "./pages/Admin/Messages/Messages";
 import Loader from "./components/Loader";
 import MessagePlaceHolder from "./pages/Admin/Messages/placeholder";
+import UpdateDeliveryNote from "./pages/company/purchase/UpdateDeliveryNote";
 
 const Routes = (props) => {
   let loggingIn = true;
@@ -145,6 +147,14 @@ const Routes = (props) => {
               path="/company/estimate/print/:id"
               pathAfterFailure="/401"
               component={PrintForm}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/delivery/print/:id"
+              pathAfterFailure="/401"
+              component={DeliveryPrintForm}
               {...props}
             />
             <Authorized
@@ -324,12 +334,36 @@ const Routes = (props) => {
               component={UpdatePurchase}
               {...props}
             />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/purchase/update/:id"
+              pathAfterFailure="/401"
+              component={UpdateDeliveryNote}
+              {...props}
+            />
           </Switch>
         </CompanyLayout>
 
         {/*  */}
         <CompanyLayout path="/sales_manager" {...props}>
           <Switch>
+            <Authorized
+              exact
+              allowedRoles={[SALES_MANAGER]}
+              path="/sales_manager/delivery/print/:id"
+              pathAfterFailure="/401"
+              component={DeliveryPrintForm}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SALES_MANAGER]}
+              path="/sales_manager/purchase/update/:id"
+              pathAfterFailure="/401"
+              component={UpdateDeliveryNote}
+              {...props}
+            />
             <Authorized
               exact
               allowedRoles={[SALES_MANAGER]}
@@ -447,7 +481,22 @@ const Routes = (props) => {
               component={ListSupplier}
               {...props}
             />
-
+            <Authorized
+              exact
+              allowedRoles={[PURCHASING_MANAGER]}
+              path="/purchasing_manager/delivery/print/:id"
+              pathAfterFailure="/401"
+              component={DeliveryPrintForm}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[PURCHASING_MANAGER]}
+              path="/purchasing_manager/purchase/update/:id"
+              pathAfterFailure="/401"
+              component={UpdateDeliveryNote}
+              {...props}
+            />
             <Authorized
               exact
               allowedRoles={[PURCHASING_MANAGER]}

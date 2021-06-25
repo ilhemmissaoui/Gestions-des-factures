@@ -121,6 +121,9 @@ const getMiniCustomers = function () {
 const getSingleEstimateInfo = function (id) {
   return Sales.findOne({ "_id": id });
 };
+const getSingleDelivery = function (id) {
+  return Purchases.findOne({ "_id": id });
+};
 const getMiniSuppliers = function () {
   const isNotCompany =
     Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
@@ -153,6 +156,16 @@ const updateSupplyordertatus = function (_id, status) {
     }
   );
 };
+
+const deleteSupplyOrder = function (_id) {
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
+  Purchases.remove({
+    _id,
+    userId: isNotCompany ? me.profile?.companyId : this.userId,
+  });
+}
 
 const updateDeliverySaleStatus = function (_id, status) {
   Sales.update(
@@ -210,6 +223,25 @@ const updateEstimate = function (id, data, oldData) {
   Sales.update(id, { $set: { "productList": data.productList } });
   console.log(Sales.findOne({ _id: id }));
 };
+const updateDelivery = function (id, data, oldData) {
+  // console.log(data);
+  Purchases.update(id, { $set: { "productList": [] } });
+  const isNotCompany =
+    Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
+  const me = Meteor.users.findOne({ _id: this.userId });
+  Purchases.update(data._id, {
+    $set: {
+      ...data,
+      status: oldData.status,
+      deliverStatus: oldData.deliverStatus,
+      invoiceStatus: oldData.invoiceStatus,
+      userId: isNotCompany ? me.profile?.companyId : this.userId,
+      creationDate: new Date(),
+    }
+  });
+  Purchases.update(id, { $set: { "productList": data.productList } });
+  console.log(Purchases.findOne({ _id: id }));
+};
 
 const addSupplierOrders = function (data) {
   const isNotCompany =
@@ -228,6 +260,9 @@ const addSupplierOrders = function (data) {
 
 const getEstimateInfo = function (id) {
   return Sales.findOne({ _id: id });
+};
+const getDeliveryeInfo = function (id) {
+  return Purchases.findOne({ _id: id });
 };
 
 const getCustomers = function ({
@@ -563,6 +598,35 @@ const updateSale = async function ({ id, data }) {
 const deleteEstimate = function (_id) {
   Sales.remove({ _id });
 };
+const deleteSUpplierOrder = function (_id) {
+  Purchases.remove({ _id });
+};
+const payAmount = function ({ _id, amount }) {
+  let singleSale = Sales.findOne({ _id });
+  let sale = parseFloat(singleSale.payedAmount ?? 0);
+
+  if (parseFloat(singleSale.totaleTaxeIncl) - sale <= 0)
+    throw new Meteor.Error('paying', 'Amount Already Paid')
+  if (parseFloat(singleSale.totaleTaxeIncl) - sale < amount)
+    throw new Meteor.Error('paying', 'Amount Bigger than the needed to pay')
+
+  sale += parseFloat(amount);
+  Sales.update({ _id }, { $set: { payedAmount: sale } });
+  console.log(Sales.findOne({ _id }));
+};
+const paySupplierAmount = function ({ _id, amount }) {
+  let singleSale = Purchases.findOne({ _id });
+  let sale = parseFloat(singleSale.payedAmount ?? 0);
+
+  if (parseFloat(singleSale.totaleTaxeIncl) - sale <= 0)
+    throw new Meteor.Error('paying', 'Amount Already Paid')
+  if (parseFloat(singleSale.totaleTaxeIncl) - sale < amount)
+    throw new Meteor.Error('paying', 'Amount Bigger than the needed to pay')
+
+  sale += parseFloat(amount);
+  Purchases.update({ _id }, { $set: { payedAmount: sale } });
+  console.log(Purchases.findOne({ _id }));
+};
 const deleteSale = function (_id) {
   const isNotCompany =
     Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
@@ -778,5 +842,11 @@ Meteor.methods({
   getSingleEstimateInfo,
   updateEstimate,
   sendMessage,
-  
+  payAmount,
+  deleteSupplyOrder,
+  getSingleDelivery,
+  updateDelivery,
+  deleteSUpplierOrder,
+  paySupplierAmount,
+  getDeliveryeInfo
 });
