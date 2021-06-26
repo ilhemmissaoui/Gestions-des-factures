@@ -12,6 +12,12 @@ Accounts.validateNewUser((user) => {
   return true;
 });
 
+Accounts.validateLoginAttempt(function (attemptObj) {
+  if (typeof attemptObj.user?.isActive !== "undefined" && !attemptObj.user?.isActive)
+    throw new Meteor.Error(405, "Your account is inactive. Please contact our support department.");
+  return true;
+});
+
 Meteor.startup(() => {
   WebApp.connectHandlers.use((req, res, next) => {
     const _id = req.url.slice(1);

@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { UpdateCustomerSchema } from "../../../../api/schemas/CustomerSchema";
 import { toastr } from "react-redux-toastr";
 import { Link } from "react-router-dom";
-import { Lock, Send, Trash2 } from "react-feather";
+import { Lock, Send, Unlock } from "react-feather";
 
 const Customer = ({ customer, fetch }) => {
   const { register, handleSubmit, errors } = useForm({
@@ -21,7 +21,7 @@ const Customer = ({ customer, fetch }) => {
     Meteor.call("activateDesactivateCompany", customer._id, (err, r) => {
       if (!err) {
         console.log(r);
-        toastr.success("", "Company Status Has been Successfully" );
+        toastr.success("", "Company Status Has been Changed");
         fetch();
         setShow(false);
       } else {
@@ -42,7 +42,7 @@ const Customer = ({ customer, fetch }) => {
         <td>{customer.emails[0].address}</td>
         <td>{moment(customer.creationDate).format("MMM DD YYYY")}</td>
         <td>
-          <Lock onClick={handleCompany} className="mx-2" />
+          {(customer.isActive ?? true) ? <Lock onClick={handleCompany} className="mx-2 has-text-danger" /> : <Unlock onClick={handleCompany} className="mx-2 has-text-success" />}
           {/* <Trash2 onClick={deleteCustomer} className="mx-2" /> */}
           <Link to={`/super_admin/messages/${customer._id}`}><Send className="mx-2" /></Link>
         </td>

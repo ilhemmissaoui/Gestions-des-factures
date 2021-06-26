@@ -14,7 +14,7 @@ const CompaniesList = () => {
     sortDirection: "asc",
   });
   const { field, sortDirection } = sorting;
-  const itemsPerPage = 4;
+  const itemsPerPage = 6;
   const headers = [
     { name: "Type", field: "customertype", sortable: true },
     { name: "Reference", field: "customerreference", sortable: true },
