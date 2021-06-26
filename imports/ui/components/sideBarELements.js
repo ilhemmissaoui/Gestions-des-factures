@@ -4,6 +4,8 @@ import {
   ShoppingBag,
   Box,
   MessageSquare,
+  Globe,
+  Activity
 } from "react-feather";
 import React from "react";
 
@@ -66,27 +68,14 @@ const companyItems = [
   {
     label: "Supplier",
     path: "suppliers",
-    icon: <Box className="icon icon-sm mr-2" />,
+    icon: <Activity className="icon icon-sm mr-2" />,
     role: ["COMPANY", "PURCHASING_MANAGER"],
   },
   {
     label: "Product And Service",
     path: "product_service",
-    icon: <Box className="icon icon-sm mr-2" />,
+    icon: <Globe className="icon icon-sm mr-2" />,
     role: ["COMPANY", "SALES_MANAGER"],
-  },
-
-  {
-    label: "Accounting",
-    path: "accounting",
-    icon: <ShoppingBag className="icon icon-sm mr-2" />,
-    role: ["COMPANY", "STORE_KEEPER"],
-    children: [
-      {
-        path: "balance_supplier",
-        label: "Balance Supplier",
-      },
-    ],
   },
 
   {
