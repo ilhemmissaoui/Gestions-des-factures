@@ -80,11 +80,11 @@ const InvoiceItems = ({ sales, fetch }) => {
         <td>
           <Link to={`/${Roles.getRolesForUser(
             Meteor.userId()
-          )[0]?.toLowerCase()}/estimate/print/${sales._id}`}>
+          )[0]?.toLowerCase()}/delivery/print/${sales._id}`}>
             <File className="mr-2" /></Link>
           <DollarSign onClick={handleShow} />
           <Trash2 className="mx-3" onClick={_ => deleteSale()} />
-          <Link to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/estimate/update/${sales._id}`}> <Edit3 /> </Link>
+          <Link to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/purchase/update/${sales._id}`}> <Edit3 /> </Link>
         </td>
       </tr>
     </>
