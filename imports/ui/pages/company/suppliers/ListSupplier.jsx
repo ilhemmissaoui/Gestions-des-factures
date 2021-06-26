@@ -25,7 +25,7 @@ const ListSupplier = () => {
     { name: "Reference", field: "supplierreference", sortable: true },
     { name: "Name", field: "suppliername", sortable: true },
     { name: "Phone", field: "supplierphone", sortable: true },
-    { name: "TurnOver", field: "supplierturnover", sortable: true },
+    { name: "Email", field: "supplierturnover", sortable: true },
     { name: "Creation Date", field: "suppliercreationdate", sortable: true },
     { name: "Action", field: "supplieraction", sortable: true },
   ];
