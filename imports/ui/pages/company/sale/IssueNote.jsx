@@ -3,11 +3,9 @@ import { Meteor } from "meteor/meteor";
 import { Link } from "react-router-dom";
 import "flatpickr/dist/themes/material_green.css";
 import Pager from "../../../components/Pagination";
-import Flatpickr from "react-flatpickr";
-import { Notyf } from "notyf";
 import TableCol from "../../../utils/TableCols";
 import Search from "../../../components/Search";
-import Customer from "../customers/Customer";
+import IssueItem from "./IssueNoteItem";
 
 const IssueNote = () => {
   const [page, setPage] = useState(1);
@@ -19,7 +17,6 @@ const IssueNote = () => {
   });
   const { field, sortDirection } = sorting;
   const itemsPerPage = 8;
-  const [value, onChange] = useState(new Date());
   const headers = [
     { name: "January", field: "January", sortable: true },
     { name: "February", field: "February", sortable: true },
@@ -41,14 +38,12 @@ const IssueNote = () => {
     { name: "Amount INCL.taxes", field: "Amount INCL.taxes", sortable: true },
     { name: "Status", field: "Status", sortable: true },
     { name: "Action", field: "Action", sortable: true },
-  
-   
   ];
 
   const [list, setList] = useState([]);
   const fetch = () => {
     Meteor.call(
-      "getCustomers",
+      "getSale",
       { page, itemsPerPage, search, sortBy: field, sortOrder: sortDirection },
       (err, { items, totalCount }) => {
         setList(items);
@@ -65,20 +60,8 @@ const IssueNote = () => {
       sortDirection,
     });
   };
-  const notyf = new Notyf({
-    duration: 2000,
-    position: {
-      x: "center",
-      y: "top",
-    },
-  });
 
-  useEffect(() => {
-    Meteor.call("getCustomers", (e, r) => {
-      if (!e) setList(r);
-      else console.log(e);
-    });
-  }, []);
+
   return (
     <div>
       <div className="container">
@@ -89,18 +72,6 @@ const IssueNote = () => {
                 {/* Left side */}
                 <div className="level-right">
                   <div className="level-item">
-                    <Flatpickr
-                      className="mr-5"
-                      placeholder="Start Date "
-                      data-enable-time
-                      onChange={(date) => setState(date)}
-                    />
-                    <Flatpickr
-                      className="mr-4"
-                      placeholder="End Date"
-                      data-enable-time
-                      onChange={(date) => setState(date)}
-                    />
                     <Search
                       onSearch={(value) => {
                         setSearch(value);
@@ -110,88 +81,101 @@ const IssueNote = () => {
 
                     <div className="mr-4 mb-5">
                       <Link
-                        to="/company/issue_note/add_sale"
+                        to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/estimate/add_sale`}
                         className="button is-primary is-rounded"
                       >
                         Add
                       </Link>
                     </div>
                   </div>
-                </div></div>
                 </div>
-                <div className="table-container">
-                  <table className="table is-bordered is-striped is-fullwidth">
-                    <tbody>
-                      <tr className="th is-selected">
-                        {headers.map(({ name, sortable, field }) => (
-                          <th
-                            key={name}
-                            onClick={() =>
-                              handleSort(
-                                field,
-                                sorting.field === field
-                                  ? sorting.sortDirection == "asc"
-                                    ? "desc"
-                                    : "asc"
-                                  : "asc"
-                              )
-                            }
-                          >
-                            {sorting.field === field ? (
-                              sorting.sortDirection === "asc" ? (
-                                <i className="fas fa-arrow-up"></i>
-                              ) : (
-                                <i className="fas fa-arrow-down"></i>
-                              )
-                            ) : null}{" "}
-                            {name}
-                          </th> 
-                        ))} 
-                      </tr> </tbody>
-                  </table>
-                </div> <div className="table-container">
-                  <table className="table is-bordered is-striped is-fullwidth">
-                    <tbody>
-                      <tr>
-                      {informations.map(({ name, sortable, field }) => (
-                          <th
-                            key={name}
-                            onClick={() =>
-                              handleSort(
-                                field,
-                                sorting.field === field
-                                  ? sorting.sortDirection == "asc"
-                                    ? "desc"
-                                    : "asc"
-                                  : "asc"
-                              )
-                            }
-                          >
-                            {sorting.field === field ? (
-                              sorting.sortDirection === "asc" ? (
-                                <i className="fas fa-arrow-up"></i>
-                              ) : (
-                                <i className="fas fa-arrow-down"></i>
-                              )
-                            ) : null}{" "}
-                            {name}
-                          </th>
-                        ))} </tr> 
-                 
-                    
-                      </tbody>
-                  </table>
-                </div>
-         
-          
-          <Pager
-            total={totalItems}
-            itemsPerPage={itemsPerPage}
-            currentPage={page}
-            onPageChange={(page) => setPage(page)}
-          />
-        </div></div></div>   </div>
-     
+              </div>
+            </div>
+            <div className="table-container">
+              <table className="table is-bordered is-striped is-fullwidth">
+                <tbody>
+                  <tr className="th is-selected">
+                    {headers.map(({ name, field }) => (
+                      <th
+                        key={name}
+                        onClick={() =>
+                          handleSort(
+                            field,
+                            sorting.field === field
+                              ? sorting.sortDirection == "asc"
+                                ? "desc"
+                                : "asc"
+                              : "asc"
+                          )
+                        }
+                      >
+                        {sorting.field === field ? (
+                          sorting.sortDirection === "asc" ? (
+                            <i className="fas fa-arrow-up"></i>
+                          ) : (
+                            <i className="fas fa-arrow-down"></i>
+                          )
+                        ) : null}{" "}
+                        {name}
+                      </th>
+                    ))}
+                  </tr>{" "}
+                </tbody>
+              </table>
+            </div>{" "}
+            <div className="table-container">
+              <table className="table is-bordered is-striped is-fullwidth">
+                <tbody>
+                  <tr>
+                    {informations.map(({ name, field }) => (
+                      <th
+                        key={name}
+                        onClick={() =>
+                          handleSort(
+                            field,
+                            sorting.field === field
+                              ? sorting.sortDirection == "asc"
+                                ? "desc"
+                                : "asc"
+                              : "asc"
+                          )
+                        }
+                      >
+                        {sorting.field === field ? (
+                          sorting.sortDirection === "asc" ? (
+                            <i className="fas fa-arrow-up"></i>
+                          ) : (
+                            <i className="fas fa-arrow-down"></i>
+                          )
+                        ) : null}{" "}
+                        {name}
+                      </th>
+                    ))}{" "}
+                  </tr>
+                  {list?.length === 0 ? (
+                    <TableCol col={6} />
+                  ) : (
+                    list?.map((sale) => (
+                      <IssueItem
+                        key={sale._id}
+                        sales={sale}
+                        fetch={fetch}
+                      />
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+            <Pager
+              total={totalItems}
+              itemsPerPage={itemsPerPage}
+              currentPage={page}
+              onPageChange={(page) => setPage(page)}
+            />
+          </div>
+        </div>
+      </div>{" "}
+    </div>
   );
 };
 export default IssueNote;
