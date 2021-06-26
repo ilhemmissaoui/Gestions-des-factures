@@ -4,7 +4,6 @@ import Flatpickr from "react-flatpickr";
 import { Plus } from "react-feather";
 import { toastr } from "react-redux-toastr";
 
-
 const AddSales = () => {
   const componentRef = useRef();
 
@@ -22,7 +21,6 @@ const AddSales = () => {
     { name: "Total Ht", field: "Total Ht" },
   ];
 
-
   const [list, setList] = useState([]);
   const [totalInfo, setTotalInfo] = useState({
     totalTHA: 0,
@@ -37,7 +35,6 @@ const AddSales = () => {
     project: "",
     note: "",
   });
-
 
   const fetch = () => {
     Meteor.call("getMiniCustomers", (e, r) => {
@@ -84,10 +81,12 @@ const AddSales = () => {
   handleChange = (e, index) => {
     const values = [...productListForm];
     values[index][e.target.name] = e.target.value;
-    if (e.target.name === 'name') {
-      const product = productNameList.filter(product => product.name === e.target.value)[0];
-      values[index]['imageUrl'] = product?.imageUrl;
-      values[index]['price'] = parseFloat(product?.publicPrice ?? 0);
+    if (e.target.name === "name") {
+      const product = productNameList.filter(
+        (product) => product.name === e.target.value
+      )[0];
+      values[index]["imageUrl"] = product?.imageUrl;
+      values[index]["price"] = parseFloat(product?.publicPrice ?? 0);
     }
     values[index]["total"] =
       parseFloat(values[index]["price"]) * parseInt(values[index]["quantity"]);
@@ -140,9 +139,6 @@ const AddSales = () => {
                   <div className="container">
                     <div className="bd-hero-body">
                       <div className="bd-hero-heading">
-                        <h1 className="title algolia-lvl0">
-                          <p>Add Estimate</p>
-                        </h1>
                         <section class="section">
                           <h1 class="subtitle">Informations</h1>
                           <div className="card pb-5">
@@ -306,8 +302,7 @@ const AddSales = () => {
                                       {informations.map(({ name, field }) => (
                                         <th key={name}>
                                           {sorting.field === field ? (
-                                            sorting.sortDirection ===
-                                              "asc" ? (
+                                            sorting.sortDirection === "asc" ? (
                                               <i className="fas fa-arrow-up"></i>
                                             ) : (
                                               <i className="fas fa-arrow-down"></i>
@@ -321,7 +316,13 @@ const AddSales = () => {
                                         <tr>
                                           <td>
                                             <figure className="image is-48x48">
-                                              <img src={productListForm[i]?.imageUrl ?? "https://bulma.io/images/placeholders/48x48.png"} />
+                                              <img
+                                                src={
+                                                  productListForm[i]
+                                                    ?.imageUrl ??
+                                                  "https://bulma.io/images/placeholders/48x48.png"
+                                                }
+                                              />
                                             </figure>
                                           </td>
                                           <td className="mx-5">
@@ -333,21 +334,24 @@ const AddSales = () => {
                                                       name="name"
                                                       onChange={(e) => {
                                                         handleChange(e, i);
-                                                        console.log(productListForm);
-                                                      }
-                                                      }
+                                                        console.log(
+                                                          productListForm
+                                                        );
+                                                      }}
                                                     >
                                                       <option value="">
                                                         --- Select ---
                                                       </option>
-                                                      {productNameList.map((e) => (
-                                                        <option
-                                                          key={e._id}
-                                                          value={e.name}
-                                                        >
-                                                          {e.name}
-                                                        </option>
-                                                      ))}
+                                                      {productNameList.map(
+                                                        (e) => (
+                                                          <option
+                                                            key={e._id}
+                                                            value={e.name}
+                                                          >
+                                                            {e.name}
+                                                          </option>
+                                                        )
+                                                      )}
                                                     </select>
                                                   </div>
                                                 </div>
@@ -369,7 +373,6 @@ const AddSales = () => {
                                               />
                                             </div>
                                           </td>
-
 
                                           <td className="mx-5">
                                             <div className="field">
@@ -422,7 +425,6 @@ const AddSales = () => {
                                   </table>
                                 </div>
 
-
                                 <button className="button">
                                   <span className="icon is-small">
                                     <i />
@@ -445,11 +447,7 @@ const AddSales = () => {
                                   <span>Add Sub-Total</span>
                                 </button>
                                 <hr className="solid" />
-                                <div className="level-right">
-
-
-
-                                </div>
+                                <div className="level-right"></div>
                                 <div class="column is-half">
                                   <label className="label">NET TO PAY</label>
 
@@ -461,7 +459,9 @@ const AddSales = () => {
                                     <tbody>
                                       <tr>
                                         <td>Total VAT</td>
-                                        <td>{totalInfo.totaleVTA?.toFixed(2)} TND</td>
+                                        <td>
+                                          {totalInfo.totaleVTA?.toFixed(2)} TND
+                                        </td>
                                       </tr>
                                       <tr>
                                         <td>Fodec</td>
@@ -486,11 +486,8 @@ const AddSales = () => {
                                       Submit
                                     </button>
 
-                                    <div>
-
-                                    </div>
+                                    <div></div>
                                   </div>
-
                                 </div>
                               </form>
                             </div>

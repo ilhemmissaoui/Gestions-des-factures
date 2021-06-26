@@ -16,7 +16,7 @@ import {
   PURCHASING_MANAGER,
 } from "../api/roles";
 import CompanyLayout from "../ui/layouts/CompanyLayout";
-import { withTracker } from 'meteor/react-meteor-data';
+import { withTracker } from "meteor/react-meteor-data";
 import CustomersList from "./pages/company/customers/list";
 import AddCustomer from "./pages/company/customers/AddCustomer";
 import Estimate from "./pages/company/sale/Estimate";
@@ -46,6 +46,10 @@ import AdminMessages from "./pages/Admin/Messages/Messages";
 import Loader from "./components/Loader";
 import MessagePlaceHolder from "./pages/Admin/Messages/placeholder";
 import UpdateDeliveryNote from "./pages/company/purchase/UpdateDeliveryNote";
+import Home from "./pages/company/Home";
+import SaleHome from "./pages/company/sale/SaleHome";
+import PurchaseHome from "./pages/company/purchase/PurchaseHome";
+import StockHome from "./pages/company/Stock/StockHome";
 
 const Routes = (props) => {
   let loggingIn = true;
@@ -93,6 +97,38 @@ const Routes = (props) => {
 
         <CompanyLayout path="/company" {...props}>
           <Switch>
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company"
+              pathAfterFailure="/401"
+              component={Home}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/sale"
+              pathAfterFailure="/401"
+              component={SaleHome}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/purchase"
+              pathAfterFailure="/401"
+              component={PurchaseHome}
+              {...props}
+            />
+             <Authorized
+              exact
+              allowedRoles={[COMPANY]}
+              path="/company/stock"
+              pathAfterFailure="/401"
+              component={StockHome}
+              {...props}
+            />
             <Authorized
               exact
               allowedRoles={[COMPANY]}
