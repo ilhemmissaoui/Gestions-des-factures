@@ -86,7 +86,7 @@ const UpdatePurchase = () => {
         e.preventDefault();
         const data = {
             ...totalInfo,
-            customer: pickedCustomer[0].fullName,
+            customer: pickedCustomer[0]?.fullName,
             phoneNumber: pickedCustomer[0]?.phoneNumber,
             email: pickedCustomer[0]?.email,
             date: pickedDate[0],
@@ -166,7 +166,7 @@ const UpdatePurchase = () => {
                                         <div className="bd-hero-body">
                                             <div className="bd-hero-heading">
                                                 <h1 className="title algolia-lvl0">
-                                                    <p>Add Estimate</p>
+                                                    <p>Update Sale</p>
                                                 </h1>
                                                 <section class="section">
                                                     <h1 class="subtitle">Informations</h1>
@@ -206,9 +206,9 @@ const UpdatePurchase = () => {
                                                                                                     <option
                                                                                                         key={e._id}
                                                                                                         value={e.name}
-                                                                                                        selected={e.fullName === estimateInfo.customer}
+                                                                                                        selected={e?.fullName === estimateInfo.customer}
                                                                                                     >
-                                                                                                        {e.fullName}
+                                                                                                        {e?.fullName}
                                                                                                     </option>
                                                                                                 ))}
                                                                                             </select>
