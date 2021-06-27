@@ -61,7 +61,7 @@ const AddSales = () => {
       productList: [...productListForm],
       ...form,
     };
-    Meteor.call("addSale", data, (e, r) => {
+    Meteor.call("addSale", data, (e, _) => {
       if (!e) toastr.success("", "Sales Has Been added");
     });
   };

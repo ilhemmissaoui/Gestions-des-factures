@@ -25,12 +25,11 @@ const ListProducts = () => {
     { name: "Image", field: "imageUrl" },
     { name: "Type", field: "producttype", sortable: true },
     { name: "Name", field: "picture", sortable: true },
-    { name: "In Stock", field: "In Stock", sortable: true },
+    { name: "Result", field: "result", sortable: true },
     { name: "Selling Price", field: "Selling Price", sortable: true },
     { name: "manufactrurer Reference", field: "Internal Reference", sortable: true },
     { name: "Categories", field: "Categories", sortable: true },
     { name: "BRAND", field: "BRAND", sortable: true },
-    { name: "TAX", field: "TAX", sortable: true },
     { name: "VAT", field: "VAT", sortable: true },
     { name: "Action", field: "Action", sortable: true },
   ];

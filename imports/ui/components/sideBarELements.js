@@ -77,7 +77,6 @@ const companyItems = [
     icon: <Globe className="icon icon-sm mr-2" />,
     role: ["COMPANY", "SALES_MANAGER"],
   },
-
   {
     label: "Stock",
     path: "stock",

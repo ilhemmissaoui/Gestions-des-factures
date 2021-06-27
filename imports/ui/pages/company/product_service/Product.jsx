@@ -105,12 +105,11 @@ const Product = ({ product, fetch }) => {
         </td>
         <td>{product.productType ? "Material" : "Service"}</td>
         <td>{product.name}</td>
-        <td>0</td>
+        <td>{product.result ?? "N/A"}</td>
         <td>{product.publicPrice}</td>
         <td>{product.internalReference}</td>
         <td>{product.category}</td>
         <td>{product.brand}</td>
-        <td>{product.tax}</td>
         <td>{product.vat}</td>
         <td>
           <Edit className="is-info" onClick={handleShow} />

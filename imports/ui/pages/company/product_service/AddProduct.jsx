@@ -1,19 +1,12 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Trash2 } from "react-feather";
 import { useForm } from "react-hook-form";
 import { toastr } from "react-redux-toastr";
 import Images from '../../../../../collections/images';
 const AddProduct = (props) => {
-  const [isOpened, setIsOpened] = useState(false);
 
-
-  const { register, handleSubmit, errors } = useForm({
-    //resolver: yupResolver(AddProductSchema),
-  });
+  const { register, handleSubmit, errors, watch } = useForm({});
   const onSubmit = (data) => {
-    console.log(data);
-
     if (image) {
       uploadImage(data)
       return;
@@ -24,12 +17,18 @@ const AddProduct = (props) => {
         console.log(e);
       } else {
         toastr.success("", "Product has Been Added");
-        props.history.push("/company/product_service");
+        props.history.push(`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/product_service`);
       }
     });
   };
 
   const [image, setImage] = useState(null);
+
+  const VTA = watch('vat');
+  const publicPrice = watch('publicPrice');
+  const result = (parseFloat(VTA) / 100) + parseFloat(publicPrice);
+  console.log(result);
+
 
   const handleFile = (e) => {
     const file = e.target.files[0];
@@ -67,7 +66,7 @@ const AddProduct = (props) => {
           console.log(e);
         } else {
           toastr.success("", "Product has Been Added");
-          props.history.push("/company/product_service");
+          props.history.push(`${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/product_service`);
         }
       });
     })
@@ -76,8 +75,11 @@ const AddProduct = (props) => {
       console.log(`Upload Percentage: ${progress}`)
     });
 
-    uploadInstance.start(); // Must manually start the upload
+    uploadInstance.start();
   }
+
+  useEffect(() => {
+  }, [result])
 
   return (
     <>
@@ -224,16 +226,17 @@ const AddProduct = (props) => {
 
                                   <div className="column">
                                     <div className="field">
-                                      <label className="label">BRAND</label>{" "}
-                                    </div>
-                                    <div className="control">
-                                      <div className="select">
-                                        <select name="brand" ref={register}>
-                                          <option value="">-- Select --</option>
-                                          <option value="Marque generale">
-                                            General brand
-                                          </option>
-                                        </select>
+                                      <label className="label">
+                                        BRAND
+                                      </label>
+                                      <div className="control">
+                                        <input
+                                          ref={register}
+                                          className="input"
+                                          name="brand"
+                                          type="text"
+                                          placeholder="EX: Geerale brand"
+                                        />
                                       </div>
                                       <div className="help is-danger d-block">
                                         {errors.brand?.message}
@@ -336,11 +339,35 @@ const AddProduct = (props) => {
                                     </div>{" "}
                                     <div className="column">
                                       <div className="field">
+                                        <label className="label">Result</label>
+                                        <div className="control">
+                                          <input
+                                            ref={register}
+                                            className="input"
+                                            name="result"
+                                            type="number"
+                                            readOnly={true}
+                                            value={result}
+                                          />
+                                        </div>
+                                        <div className="help is-danger d-block">
+                                          {errors.result?.message}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div className="column">
+                                    <div className="column">
+                                      <div className="field">
                                         <label className="label">
                                           Public Price
                                         </label>
                                         <div className="control">
                                           <input
+                                            // onChange={_ => {
+                                            //   setResult(parseFloat(publicPrice) + parseFloat(VTA))
+                                            // }}
                                             ref={register}
                                             className="input"
                                             name="publicPrice"
@@ -355,47 +382,13 @@ const AddProduct = (props) => {
                                     </div>
                                     <div className="column">
                                       <div className="field">
-                                        <label className="label">Result</label>
-                                        <div className="control">
-                                          <input
-                                            ref={register}
-                                            className="input"
-                                            name="result"
-                                            type="number"
-                                            placeholder="Product"
-                                          />
-                                        </div>
-                                        <div className="help is-danger d-block">
-                                          {errors.result?.message}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <div className="column">
-                                    <div className="column">
-                                      <div className="field">
-                                        <label className="label">TAX</label>{" "}
-                                      </div>
-                                      <div className="control">
-                                        <input
-                                          ref={register}
-                                          className="input"
-                                          name="tax"
-                                          type="number"
-                                          placeholder="Product"
-                                        />
-                                        <div className="help is-danger d-block">
-                                          {errors.tax?.message}
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="column">
-                                      <div className="field">
                                         <label className="label">VAT</label>{" "}
                                       </div>
                                       <div className="control">
                                         <input
+                                          // onChange={_ => {
+                                          //   setResult(parseFloat(publicPrice) + parseFloat(VTA))
+                                          // }}
                                           ref={register}
                                           className="input"
                                           name="vat"
