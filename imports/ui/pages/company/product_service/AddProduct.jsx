@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Trash2 } from "react-feather";
 import { useForm } from "react-hook-form";
 import { toastr } from "react-redux-toastr";
-import Images from '../../../../../collections/images';
+import Images from "../../../../../collections/images";
 const AddProduct = (props) => {
-
   const { register, handleSubmit, errors, watch } = useForm({});
   const onSubmit = (data) => {
     if (image) {
-      uploadImage(data)
+      uploadImage(data);
       return;
     }
     Meteor.call("addProduct", data, (e, _) => {
@@ -17,48 +16,54 @@ const AddProduct = (props) => {
         console.log(e);
       } else {
         toastr.success("", "Product has Been Added");
-        props.history.push(`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/product_service`);
+        props.history.push(
+          `/${Roles.getRolesForUser(
+            Meteor.userId()
+          )[0]?.toLowerCase()}/product_service`
+        );
       }
     });
   };
 
   const [image, setImage] = useState(null);
 
-  const VTA = watch('vat');
-  const publicPrice = watch('publicPrice');
-  const result = (parseFloat(VTA) / 100) + parseFloat(publicPrice);
+  const VTA = watch("vat");
+  const publicPrice = watch("publicPrice");
+  const result = parseFloat(VTA) / 100 + parseFloat(publicPrice);
   console.log(result);
-
 
   const handleFile = (e) => {
     const file = e.target.files[0];
     setImage(file);
-  }
+  };
 
   const uploadImage = (data) => {
     let file = image;
     if (!file) {
-      toastr.error('', 'Pick an image to upload')
+      toastr.error("", "Pick an image to upload");
       return;
     }
-    const uploadInstance = Images.insert({
-      file,
-      meta: {
-        creationDate: new Date(),
-        fileSize: file.size,
-        fileName: file.name
+    const uploadInstance = Images.insert(
+      {
+        file,
+        meta: {
+          creationDate: new Date(),
+          fileSize: file.size,
+          fileName: file.name,
+        },
+        streams: "dynamic",
+        chunkSize: "dynamic",
+        allowWebWorkers: true,
       },
-      streams: 'dynamic',
-      chunkSize: 'dynamic',
-      allowWebWorkers: true
-    }, false);
+      false
+    );
 
-    uploadInstance.on('start', function () {
-      console.log('Starting');
-    })
+    uploadInstance.on("start", function () {
+      console.log("Starting");
+    });
 
-    uploadInstance.on('end', function (_, fileObj) {
-      console.log('On end File Object: ');
+    uploadInstance.on("end", function (_, fileObj) {
+      console.log("On end File Object: ");
       console.log(fileObj._id);
       Meteor.call("addProduct", data, fileObj._id, (e, _) => {
         if (e) {
@@ -66,20 +71,23 @@ const AddProduct = (props) => {
           console.log(e);
         } else {
           toastr.success("", "Product has Been Added");
-          props.history.push(`${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/product_service`);
+          props.history.push(
+            `${Roles.getRolesForUser(
+              Meteor.userId()
+            )[0]?.toLowerCase()}/product_service`
+          );
         }
       });
-    })
+    });
 
-    uploadInstance.on('progress', function (progress, _) {
-      console.log(`Upload Percentage: ${progress}`)
+    uploadInstance.on("progress", function (progress, _) {
+      console.log(`Upload Percentage: ${progress}`);
     });
 
     uploadInstance.start();
-  }
+  };
 
-  useEffect(() => {
-  }, [result])
+  useEffect(() => {}, [result]);
 
   return (
     <>
@@ -172,7 +180,9 @@ const AddProduct = (props) => {
                                       <div className="select">
                                         <select name="category" ref={register}>
                                           <option value="">-- Select --</option>
-                                          <option value="Mr">Generale</option>
+                                          <option value="Generale">
+                                            Generale
+                                          </option>
                                         </select>
                                       </div>
                                       <div className="help is-danger d-block">
@@ -226,9 +236,7 @@ const AddProduct = (props) => {
 
                                   <div className="column">
                                     <div className="field">
-                                      <label className="label">
-                                        BRAND
-                                      </label>
+                                      <label className="label">BRAND</label>
                                       <div className="control">
                                         <input
                                           ref={register}
@@ -266,42 +274,48 @@ const AddProduct = (props) => {
                                     </div>
                                   </div>
                                   <div className="column">
-                                    {image ? <div className="mx-auto">
-                                      <span className="form-image-figure">
-                                        <img
-                                          height={250}
-                                          width={250}
-                                          src={URL.createObjectURL(image)}
-                                          className="mt-5" />
-                                        <a
-                                          onClick={_ => setImage(null)}
-                                          className="btn btn-icon btn-sm">
-                                          <Trash2 className="text-danger" />
-                                        </a>
-                                      </span>
-                                    </div> : <div className="field">
-                                      <label className="label">
-                                        Upload your product picture
-                                      </label>
-                                      <div className="file is-boxed">
-                                        <label className="file-label">
-                                          <input
-                                            className="file-input"
-                                            onChange={handleFile}
-                                            type="file"
-                                            name="resume"
+                                    {image ? (
+                                      <div className="mx-auto">
+                                        <span className="form-image-figure">
+                                          <img
+                                            height={250}
+                                            width={250}
+                                            src={URL.createObjectURL(image)}
+                                            className="mt-5"
                                           />
-                                          <span className="file-cta">
-                                            <span className="file-icon">
-                                              <i className="fas fa-upload" />
-                                            </span>
-                                            <span className="file-label">
-                                              Choose a file…
-                                            </span>
-                                          </span>
-                                        </label>
+                                          <a
+                                            onClick={(_) => setImage(null)}
+                                            className="btn btn-icon btn-sm"
+                                          >
+                                            <Trash2 className="text-danger" />
+                                          </a>
+                                        </span>
                                       </div>
-                                    </div>}
+                                    ) : (
+                                      <div className="field">
+                                        <label className="label">
+                                          Upload your product picture
+                                        </label>
+                                        <div className="file is-boxed">
+                                          <label className="file-label">
+                                            <input
+                                              className="file-input"
+                                              onChange={handleFile}
+                                              type="file"
+                                              name="resume"
+                                            />
+                                            <span className="file-cta">
+                                              <span className="file-icon">
+                                                <i className="fas fa-upload" />
+                                              </span>
+                                              <span className="file-label">
+                                                Choose a file…
+                                              </span>
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
 

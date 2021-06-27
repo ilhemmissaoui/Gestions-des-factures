@@ -40,39 +40,33 @@ const NavBar = () => {
           <div className="navbar-start">
             <div className="navbar-item">
               <Link
-                to={`/${Meteor.userId() &&
+                to={`/${
+                  Meteor.userId() &&
                   Roles.getRolesForUser(Meteor.userId())[0]?.toLowerCase()
-                  }`}
+                }`}
                 className="fnavbar-item"
               >
                 Home
               </Link>
-
-              <Link to="/contact_us" className="navbar-item">
-                About
-              </Link>
-              <Link to="/super_admin/print" className="navbar-item">
-                Payment
-              </Link>
             </div>
           </div>
           <div className="navbar-end">
-            <Link to="/super_admin/notification" className="navbar-item">
-              Notification
-            </Link>
-
             <div className="navbar-item has-dropdown is-hoverable">
               <a href="#" className="navbar-link">
                 {Meteor.userId() && Roles.getRolesForUser(Meteor.userId())[0]}{" "}
               </a>
               <div className="navbar-dropdown is-right">
-                <Link to="/super_admin/profile" className="navbar-item">
-                  Profile
-                </Link>
-                {(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase() === "company" &&
-                  <Link to={`/${(Roles.getRolesForUser(Meteor.userId())[0])?.toLowerCase()}/users`} className="navbar-item">
+                {Roles.getRolesForUser(Meteor.userId())[0]?.toLowerCase() ===
+                  "company" && (
+                  <Link
+                    to={`/${Roles.getRolesForUser(
+                      Meteor.userId()
+                    )[0]?.toLowerCase()}/users`}
+                    className="navbar-item"
+                  >
                     <Users className="mr-2" /> Manage Users
-                </Link>}
+                  </Link>
+                )}
                 <hr className="navbar-divider" />
                 <a onClick={(_) => Meteor.logout()} className="navbar-item">
                   Log Out
