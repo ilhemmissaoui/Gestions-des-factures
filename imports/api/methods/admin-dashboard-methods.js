@@ -73,6 +73,10 @@ const getCompanies = function ({
           $regex: `.*${search}.*`,
           $options: "i",
         },
+        _id: {
+          $regex: `.*${search}.*`,
+          $options: "i",
+        },
       },
     ];
   }

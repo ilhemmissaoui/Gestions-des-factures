@@ -210,18 +210,25 @@ const updateEstimate = function (id, data, oldData) {
   const isNotCompany =
     Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
   const me = Meteor.users.findOne({ _id: this.userId });
-  Sales.update(data._id, {
+  Sales.update(id, {
     $set: {
-      ...data,
+      totalTHA: data.totalTHA,
+      totalTVA: data.totalTVA,
+      totaleVTA: data.totaleVTA,
+      totaleTaxeIncl: data.totaleTaxeIncl,
+      customer: data.customer,
+      phoneNumber: data.phoneNumber,
+      email: data.email,
+      date: data.date,
+      project: data.project,
+      note: data.note,
       status: oldData.status,
       deliverStatus: oldData.deliverStatus,
       invoiceStatus: oldData.invoiceStatus,
-      userId: isNotCompany ? me.profile?.companyId : this.userId,
-      creationDate: new Date(),
     }
   });
   Sales.update(id, { $set: { "productList": data.productList } });
-  console.log(Sales.findOne({ _id: id }));
+  console.log(data);
 };
 const updateDelivery = function (id, data, oldData) {
   // console.log(data);
@@ -229,18 +236,25 @@ const updateDelivery = function (id, data, oldData) {
   const isNotCompany =
     Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
   const me = Meteor.users.findOne({ _id: this.userId });
-  Purchases.update(data._id, {
+  Purchases.update(id, {
     $set: {
-      ...data,
+      totalTHA: data.totalTHA,
+      totalTVA: data.totalTVA,
+      totaleVTA: data.totaleVTA,
+      totaleTaxeIncl: data.totaleTaxeIncl,
+      supplier: data.customer,
+      phoneNumber: data.phoneNumber,
+      email: data.email,
+      date: data.date,
+      project: data.project,
+      note: data.note,
       status: oldData.status,
       deliverStatus: oldData.deliverStatus,
       invoiceStatus: oldData.invoiceStatus,
-      userId: isNotCompany ? me.profile?.companyId : this.userId,
-      creationDate: new Date(),
     }
   });
   Purchases.update(id, { $set: { "productList": data.productList } });
-  console.log(Purchases.findOne({ _id: id }));
+  console.log(data);
 };
 
 const addSupplierOrders = function (data) {
@@ -297,7 +311,7 @@ const getCustomers = function ({
         },
       },
       {
-        country: {
+        _id: {
           $regex: `.*${search}.*`,
           $options: "i",
         },
@@ -336,7 +350,7 @@ const getCompanyUsers = function ({
         },
       },
       {
-        country: {
+        _id: {
           $regex: `.*${search}.*`,
           $options: "i",
         },
@@ -377,7 +391,7 @@ const getSuppliers = function ({
         },
       },
       {
-        country: {
+        _id: {
           $regex: `.*${search}.*`,
           $options: "i",
         },
@@ -412,13 +426,13 @@ const getSale = function ({
   if (search && search.length) {
     query.$or = [
       {
-        fullName: {
+        customer: {
           $regex: `.*${search}.*`,
           $options: "i",
         },
       },
       {
-        country: {
+        _id: {
           $regex: `.*${search}.*`,
           $options: "i",
         },
@@ -452,13 +466,13 @@ const getSupplyOrder = function ({
   if (search && search.length) {
     query.$or = [
       {
-        fullName: {
+        supplier: {
           $regex: `.*${search}.*`,
           $options: "i",
         },
       },
       {
-        country: {
+        _id: {
           $regex: `.*${search}.*`,
           $options: "i",
         },
@@ -513,6 +527,12 @@ const getProducts = function ({
     query.$or = [
       {
         manufacturerreference: {
+          $regex: `.*${search}.*`,
+          $options: "i",
+        },
+      },
+      {
+        name: {
           $regex: `.*${search}.*`,
           $options: "i",
         },

@@ -6,7 +6,7 @@ import { toastr } from "react-redux-toastr";
 import { useParams } from "react-router";
 
 
-const UpdatePurchase = () => {
+const UpdatePurchase = (props) => {
     const componentRef = useRef();
     const { id } = useParams();
 
@@ -95,7 +95,10 @@ const UpdatePurchase = () => {
         };
         console.log(data);
         Meteor.call("updateEstimate", id, data, estimateInfo, (e, _) => {
-            if (!e) toastr.success("", "Sales Has Been added");
+            if (!e){
+                toastr.success("", "Sales Has Been added");
+                props.history.goBack();
+            }
         });
     };
 
@@ -192,7 +195,7 @@ const UpdatePurchase = () => {
                                                                                                         setPickedCustomer(
                                                                                                             list.filter(
                                                                                                                 (customer) =>
-                                                                                                                    customer._id ===
+                                                                                                                    customer.fullName ===
                                                                                                                     e.target.value
                                                                                                             )
                                                                                                         );
@@ -276,7 +279,7 @@ const UpdatePurchase = () => {
                                                                                                     <input
                                                                                                         className="input is-small"
                                                                                                         type="text"
-                                                                                                        value={estimateInfo?.project}
+                                                                                                        defaultValue={estimateInfo?.project}
                                                                                                         name="project"
                                                                                                         placeholder="Small input"
                                                                                                         onChange={handleFormChange}
@@ -300,7 +303,7 @@ const UpdatePurchase = () => {
                                                                                                         className="textarea is-small"
                                                                                                         placeholder="Small textarea"
                                                                                                         name="note"
-                                                                                                        value={estimateInfo?.note}
+                                                                                                        defaultValue={estimateInfo?.note}
                                                                                                         onChange={handleFormChange}
                                                                                                     />
                                                                                                 </div>
@@ -371,8 +374,8 @@ const UpdatePurchase = () => {
                                                                                                             {productNameList.map((e) => (
                                                                                                                 <option
                                                                                                                     key={e._id}
-                                                                                                                    value={e.name}
-                                                                                                                    selected={e.name === productNameList[i].name}
+                                                                                                                    value={e?.name}
+                                                                                                                    selected={e?.name === productNameList[i]?.name}
                                                                                                                 >
                                                                                                                     {e.name}
                                                                                                                 </option>
