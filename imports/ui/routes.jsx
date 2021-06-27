@@ -388,9 +388,25 @@ const Routes = (props) => {
             <Authorized
               exact
               allowedRoles={[SALES_MANAGER]}
+              path="/sales_manager"
+              pathAfterFailure="/401"
+              component={Home}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SALES_MANAGER]}
               path="/sales_manager/delivery/print/:id"
               pathAfterFailure="/401"
               component={DeliveryPrintForm}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[SALES_MANAGER]}
+              path="/sales_manager/sale"
+              pathAfterFailure="/401"
+              component={SaleHome}
               {...props}
             />
             <Authorized
@@ -513,9 +529,25 @@ const Routes = (props) => {
             <Authorized
               exact
               allowedRoles={[PURCHASING_MANAGER]}
+              path="/purchasing_manager"
+              pathAfterFailure="/401"
+              component={Home}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[PURCHASING_MANAGER]}
               path="/purchasing_manager/suppliers"
               pathAfterFailure="/401"
               component={ListSupplier}
+              {...props}
+            />
+            <Authorized
+              exact
+              allowedRoles={[PURCHASING_MANAGER]}
+              path="/purchasing_manager/purchase"
+              pathAfterFailure="/401"
+              component={PurchaseHome}
               {...props}
             />
             <Authorized
@@ -642,7 +674,22 @@ const Routes = (props) => {
             component={SalesStock}
             {...props}
           />
-
+          <Authorized
+            exact
+            allowedRoles={[STORE_KEEPER]}
+            path="/store_keeper/product_service/add"
+            pathAfterFailure="/401"
+            component={AddProduct}
+            {...props}
+          />
+          <Authorized
+            exact
+            allowedRoles={[STORE_KEEPER]}
+            path="/store_keeper/product_service"
+            pathAfterFailure="/401"
+            component={ListProducts}
+            {...props}
+          />
         </CompanyLayout>
         {/*  */}
 
