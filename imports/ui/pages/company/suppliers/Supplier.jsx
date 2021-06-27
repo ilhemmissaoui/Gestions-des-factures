@@ -17,7 +17,7 @@ const Supplier = ({ supplier, fetch }) => {
   const handleShow = () => setShow(true);
 
   const deleteSupplier = () => {
-    Meteor.call("deleteSupplier", supplier._id, (e, r) => {
+    Meteor.call("deleteSupplier", supplier._id, (e, _) => {
       if (!e) fetch();
     });
   };
@@ -25,28 +25,26 @@ const Supplier = ({ supplier, fetch }) => {
     console.log(data);
     Meteor.call("updateSupplier", { id: supplier._id, data }, (err) => {
       if (!err) {
-        toastr.success("", "Supplier Updated Successfully");
         fetch();
+        toastr.success("", "Supplier Updated Successfully");
         setShow(false);
       } else {
         console.log(err);
         toastr.error("unable to update Supplier check this inputs ");
         setShow(false);
-        console.log(supplier.email);
-        console.log(supplier.creationDate);
       }
     });
   };
 
   return (
     <>
-      <ModalRoot
+      {show && <ModalRoot
         title="Modify Supplier"
         refuse={handleClose}
-        formId="update"
+        formId="updateSupplier"
         isActive={show}
       >
-        <form onSubmit={handleSubmit(updateSupplier)} id="update">
+        <form onSubmit={handleSubmit(updateSupplier)} id="updateSupplier">
           <section className="modal-card-body">
             <label htmlFor="suppliername" className="label">
               Supplier Name
@@ -114,20 +112,22 @@ const Supplier = ({ supplier, fetch }) => {
             )}
           </section>
         </form>
-      </ModalRoot>
+      </ModalRoot>}
       <tr>
-      <td> Active</td>
+        <td> Active</td>
         <td> {supplier._id}</td>
         <td>{supplier.fullName}</td>
         <td>{supplier.phoneNumber}</td>
-       <td> {supplier.postalCode}</td> 
-       <td> {moment(supplier.creationDate).format("MMM DD YYYY")}</td> 
-    
-        <td><Edit className="is-info" onClick={handleShow} />
-        <Trash2 className="is-danger" onClick={deleteSupplier} /></td>
+        <td>{supplier.email}</td>
+        <td>{moment(supplier.creationDate).format("MMM DD YYYY")}</td>
+
+        <td>
+          <Edit className="is-info" onClick={handleShow} />
+          <Trash2 className="is-danger" onClick={deleteSupplier} />
+        </td>
       </tr>
 
-     
+
     </>
   );
 };

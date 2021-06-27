@@ -38,7 +38,7 @@ const Product = ({ product, fetch }) => {
 
   return (
     <>
-      <ModalRoot
+      {show && <ModalRoot
         title="Modify Product"
         refuse={handleClose}
         formId="update"
@@ -67,7 +67,7 @@ const Product = ({ product, fetch }) => {
             </label>
             <p className="control">
               <input
-                defaultValue={product.type}
+                defaultValue={product.category}
                 type="text"
                 name="category"
                 ref={register}
@@ -83,7 +83,7 @@ const Product = ({ product, fetch }) => {
             </label>
             <p className="control">
               <input
-                defaultValue={product.price}
+                defaultValue={product.publicPrice}
                 type="text"
                 name="price"
                 ref={register}
@@ -96,7 +96,7 @@ const Product = ({ product, fetch }) => {
             )}
           </section>
         </form>
-      </ModalRoot>
+      </ModalRoot>}
       <tr>
         <td>
           <figure className="image is-48x48">

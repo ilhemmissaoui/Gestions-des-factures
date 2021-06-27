@@ -36,7 +36,7 @@ const InvoiceItems = ({ sales, fetch }) => {
 
   return (
     <>
-      <ModalRoot
+      {show && <ModalRoot
         title="Add amount"
         refuse={handleClose}
         formId="update"
@@ -58,7 +58,7 @@ const InvoiceItems = ({ sales, fetch }) => {
             </p>{" "}
           </section>
         </form>
-      </ModalRoot>
+      </ModalRoot>}
       <tr>
         <td>{sales._id}</td>
         <td>{moment(sales.creationDate).format("MMM DD YYYY")}</td>

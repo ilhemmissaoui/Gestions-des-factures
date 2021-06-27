@@ -41,8 +41,8 @@ const Users = ({ customer, fetch }) => {
 
   return (
     <>
-      <ModalRoot
-        title="Modify Customer"
+      {show && <ModalRoot
+        title="Modify User"
         refuse={handleClose}
         formId="customer-update"
         isActive={show}
@@ -115,7 +115,7 @@ const Users = ({ customer, fetch }) => {
             )}
           </section>
         </form>
-      </ModalRoot>
+      </ModalRoot>}
       <tr>
         <td>active</td>
         <td>{customer._id}</td>
@@ -125,8 +125,8 @@ const Users = ({ customer, fetch }) => {
         <td>{customer.emails[0]?.address}</td>
         <td>{moment(customer.creationDate).format("MMM DD YYYY")}</td>
         <td>
-          <Edit3 onClick={handleShow} className="mr-3"/>
-          <Trash2 onClick={deleteCompanyUser} className="has-text-danger"/>
+          <Edit3 onClick={handleShow} className="mr-3" />
+          <Trash2 onClick={deleteCompanyUser} className="has-text-danger" />
         </td>
       </tr>
     </>

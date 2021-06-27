@@ -7,10 +7,8 @@ const ModalWrapper = ({
   isActive = false,
   children,
   title,
-  confirm,
   refuse,
   formId,
-  form,
 }) => {
   return (
     <div id="modal-ter" className={clsx("modal", { "is-active": isActive })}>
@@ -22,7 +20,7 @@ const ModalWrapper = ({
         </header>
         <section className="modal-card-body">{children}</section>
         <footer className="modal-card-foot">
-          <button className="button is-success" form={formId} type="submit">
+          <button className="button is-success" form={formId}>
             Save changes
           </button>
           <button className="button" onClick={refuse}>

@@ -39,7 +39,7 @@ const Customer = ({ customer, fetch }) => {
 
   return (
     <>
-      <ModalRoot
+      {show && <ModalRoot
         title="Modify Customer"
         refuse={handleClose}
         formId="customer-update"
@@ -53,7 +53,7 @@ const Customer = ({ customer, fetch }) => {
             </label>
             <p className="control">
               <input
-                defaultvalue={customer.fullName}
+                defaultValue={customer.fullName}
                 type="text"
                 name="fullName"
                 ref={register}
@@ -69,7 +69,7 @@ const Customer = ({ customer, fetch }) => {
             </label>
             <p className="control">
               <input
-                defaultvalue={customer.email}
+                defaultValue={customer.email}
                 type="text"
                 name="email"
                 ref={register}
@@ -85,7 +85,7 @@ const Customer = ({ customer, fetch }) => {
             </label>
             <p className="control">
               <input
-                defaultvalue={customer.phoneNumber}
+                defaultValue={customer.phoneNumber}
                 type="text"
                 name="phoneNumber"
                 ref={register}
@@ -101,7 +101,7 @@ const Customer = ({ customer, fetch }) => {
             </label>
             <p className="control">
               <input
-                defaultvalue={customer.region}
+                defaultValue={customer.region}
                 type="text"
                 name="region"
                 ref={register}
@@ -114,7 +114,7 @@ const Customer = ({ customer, fetch }) => {
             )}
           </section>
         </form>
-      </ModalRoot>
+      </ModalRoot>}
       <tr>
         <td>active</td>
         <td> {customer._id}</td>
