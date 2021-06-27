@@ -75,10 +75,10 @@ const Invoice = () => {
     fetch();
   }, [search, page, sorting]);
   const handleSort = (field, sortDirection) => {
-    setSorting({
-      field,
-      sortDirection,
-    });
+    // setSorting({
+    //   field,
+    //   sortDirection,
+    // });
   };
 
   return (

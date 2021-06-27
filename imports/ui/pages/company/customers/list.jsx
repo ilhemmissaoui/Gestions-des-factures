@@ -46,10 +46,10 @@ const CustomersList = () => {
   }, [search, page, sorting]);
 
   const handleSort = (field, sortDirection) => {
-    setSorting({
-      field,
-      sortDirection,
-    });
+    // setSorting({
+    //   field,
+    //   sortDirection,
+    // });
   };
 
   const fileRef = React.useRef(null);

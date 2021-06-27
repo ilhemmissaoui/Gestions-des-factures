@@ -46,10 +46,10 @@ const CompaniesList = () => {
 
 
   const handleSort = (field, sortDirection) => {
-    setSorting({
-      field,
-      sortDirection,
-    });
+    // setSorting({
+    //   field,
+    //   sortDirection,
+    // });
   };
 
 

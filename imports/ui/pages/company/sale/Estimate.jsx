@@ -55,10 +55,10 @@ const Estimate = () => {
     fetch();
   }, [search, page, sorting]);
   const handleSort = (field, sortDirection) => {
-    setSorting({
-      field,
-      sortDirection,
-    });
+    // setSorting({
+    //   field,
+    //   sortDirection,
+    // });
   };
 
 

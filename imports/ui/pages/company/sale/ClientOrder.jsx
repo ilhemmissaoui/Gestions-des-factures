@@ -56,10 +56,10 @@ const ClientOrder = () => {
     fetch();
   }, [search, page, sorting]);
   const handleSort = (field, sortDirection) => {
-    setSorting({
-      field,
-      sortDirection,
-    });
+    // setSorting({
+    //   field,
+    //   sortDirection,
+    // });
   };
 
   useEffect(() => {
