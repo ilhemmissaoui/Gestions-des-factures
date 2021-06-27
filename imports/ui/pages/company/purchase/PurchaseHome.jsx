@@ -16,26 +16,25 @@ const PurchaseHome = () => {
               </h1>
             </div>
           </div>
+          <div className="p-1">
+          <div className="columns is-variable is-desktop">
+            <div className="column">
+            <section class="hero is-primary">
+  <div class="hero-body">
+    <p class="title">
+      let's start managing purchases
+    </p>
+    <p class="subtitle">
+      
 
-          <div className="column is-4-desktop is-6-tablet">
-            <article className="message is-success">
-              <div className="message-header">
-                <p>Info</p>
-                <button className="delete" aria-label="delete" />
-              </div>
-              <div className="message-body">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                <strong>Pellentesque risus mi</strong>, tempus quis placerat ut,
-                porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla.
-                Nullam gravida purus diam, et dictum
-                <a>felis venenatis</a> efficitur. Aenean ac
-                <em>eleifend lacus</em>, in mollis lectus. Donec sodales, arcu
-                et sollicitudin porttitor, tortor urna tempor ligula, id
-                porttitor mi magna a neque. Donec dui urna, vehicula et sem
-                eget, facilisis sodales sem.
-              </div>
-            </article>
-          </div>
+    opportunity management, purchases forecasting, and reporting and management techniques that empower purchases representatives to meet and surpass their targets.
+    </p>
+  </div>
+</section>
+             </div> </div>
+            </div>
+          
+        
         </div>
       </div>
     </div>

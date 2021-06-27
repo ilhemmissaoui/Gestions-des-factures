@@ -21,50 +21,34 @@ const Home = () => {
               </h1>
             </div>
           </div>
+         
+          <h1 className="title is-1"> Paying invoices made easy </h1>
 
-          <div className="columns is-variable">
-            <div className="column is-4-desktop is-6-tablet">
-              <article className="message is-info">
-                <div className="message-header">
-                  <p>Info</p>
-                  <button className="delete" aria-label="delete" />
-                </div>
-                <div className="message-body">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  <strong>Pellentesque risus mi</strong>, tempus quis placerat
-                  ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet
-                  fringilla. Nullam gravida purus diam, et dictum
-                  <a>felis venenatis</a> efficitur. Aenean ac
-                  <em>eleifend lacus</em>, in mollis lectus. Donec sodales, arcu
-                  et sollicitudin porttitor, tortor urna tempor ligula, id
-                  porttitor mi magna a neque. Donec dui urna, vehicula et sem
-                  eget, facilisis sodales sem.
-                </div>
-              </article>
-            </div>
-            <div className="column is-4-desktop is-6-tablet">
-              <article className="message is-success">
-                <div className="message-header">
-                  <p>Info</p>
-                  <button className="delete" aria-label="delete" />
-                </div>
-                <div className="message-body">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  <strong>Pellentesque risus mi</strong>, tempus quis placerat
-                  ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet
-                  fringilla. Nullam gravida purus diam, et dictum
-                  <a>felis venenatis</a> efficitur. Aenean ac
-                  <em>eleifend lacus</em>, in mollis lectus. Donec sodales, arcu
-                  et sollicitudin porttitor, tortor urna tempor ligula, id
-                  porttitor mi magna a neque. Donec dui urna, vehicula et sem
-                  eget, facilisis sodales sem.
-                </div>
-              </article>
+         
+        <div className="p-1">
+          <div className="columns is-variable is-desktop">
+            <div className="column">
+            <section class="hero is-primary">
+  <div class="hero-body">
+    <p class="title">
+      E-Bill
+    </p>
+    <p class="subtitle">
+      
+
+eBill is the digital invoice for Switzerland. With eBill, you no longer receive your invoices by mail or e-mail but direct in your e-banking – where you can also pay them. With just a few clicks, you can check and pay with full control over all transactions.
+
+Over two million Swiss invoice recipients currently use eBill. Make it easier for yourself and register for eBill here.
+
+    </p>
+  </div>
+</section>
+             </div> </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
   );
 };
 
