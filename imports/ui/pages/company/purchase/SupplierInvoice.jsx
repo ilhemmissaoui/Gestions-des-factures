@@ -223,7 +223,7 @@ const SupplierInvoice = () => {
                     ))}{" "}
                   </tr>
                   {list?.length === 0 ? (
-                    <TableCol col={5} />
+                    <TableCol col={7} />
                   ) : (
                     list?.map((sale) => (
                       <InvoiceItems key={sale._id} sales={sale} fetch={fetch} />

@@ -16,11 +16,7 @@ const AddProduct = (props) => {
         console.log(e);
       } else {
         toastr.success("", "Product has Been Added");
-        props.history.push(
-          `/${Roles.getRolesForUser(
-            Meteor.userId()
-          )[0]?.toLowerCase()}/product_service`
-        );
+        props.history.push(`/${Roles.getRolesForUser(Meteor.userId())[0]?.toLowerCase()}/product_service`);
       }
     });
   };
@@ -87,7 +83,7 @@ const AddProduct = (props) => {
     uploadInstance.start();
   };
 
-  useEffect(() => {}, [result]);
+  useEffect(() => { }, [result]);
 
   return (
     <>
