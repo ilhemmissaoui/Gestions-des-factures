@@ -5,7 +5,7 @@ import { Plus, Printer } from "react-feather";
 import { toastr } from "react-redux-toastr";
 import ReactToPrint from "react-to-print";
 
-const AddPurchases = () => {
+const AddPurchases = (props) => {
   const componentRef = useRef();
 
   const [sorting, setSorting] = useState({
@@ -64,7 +64,10 @@ const AddPurchases = () => {
       ...form,
     };
     Meteor.call("addSupplierOrders", data, (e, r) => {
-      if (!e) toastr.success("", "Supplier Order Has Been added");
+      if (!e) {
+        toastr.success("", "Supplier Order Has Been added");
+        props.history.goBack();
+      }
     });
   };
 

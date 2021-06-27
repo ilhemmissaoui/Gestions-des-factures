@@ -4,7 +4,7 @@ import Flatpickr from "react-flatpickr";
 import { Plus } from "react-feather";
 import { toastr } from "react-redux-toastr";
 
-const AddSales = () => {
+const AddSales = (props) => {
   const componentRef = useRef();
 
   const [sorting, setSorting] = useState({
@@ -62,7 +62,10 @@ const AddSales = () => {
       ...form,
     };
     Meteor.call("addSale", data, (e, _) => {
-      if (!e) toastr.success("", "Sales Has Been added");
+      if (!e) {
+        toastr.success("", "Sales Has Been added");
+        props.history.goBack();
+      }
     });
   };
 
