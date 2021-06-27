@@ -4,8 +4,6 @@ const StockHome = () => {
   
  
 
-  
-
   return (
     <div>
       <div className="column is-10-desktop is-offset-2-desktop is-9-tablet is-offset-3-tablet is-12-mobile">

@@ -14,6 +14,7 @@ import {
   COMPANY,
   SALES_MANAGER,
   PURCHASING_MANAGER,
+  STORE_KEEPER,
 } from "../api/roles";
 import CompanyLayout from "../ui/layouts/CompanyLayout";
 import { withTracker } from "meteor/react-meteor-data";
@@ -121,7 +122,7 @@ const Routes = (props) => {
               component={PurchaseHome}
               {...props}
             />
-             <Authorized
+            <Authorized
               exact
               allowedRoles={[COMPANY]}
               path="/company/stock"
@@ -608,7 +609,41 @@ const Routes = (props) => {
           </Switch>
         </CompanyLayout>
         {/*  */}
-        <CompanyLayout path="/store_keeper" {...props}></CompanyLayout>
+        <CompanyLayout path="/store_keeper" {...props}>
+          <Authorized
+            exact
+            allowedRoles={[STORE_KEEPER]}
+            path="/store_keeper"
+            pathAfterFailure="/401"
+            component={Home}
+            {...props}
+          />
+          <Authorized
+            exact
+            allowedRoles={[STORE_KEEPER]}
+            path="/store_keeper/stock"
+            pathAfterFailure="/401"
+            component={StockHome}
+            {...props}
+          />
+          <Authorized
+            exact
+            allowedRoles={[STORE_KEEPER]}
+            path="/store_keeper/prchase_stock"
+            pathAfterFailure="/401"
+            component={PurchaseStock}
+            {...props}
+          />
+          <Authorized
+            exact
+            allowedRoles={[STORE_KEEPER]}
+            path="/store_keeper/sale_stock"
+            pathAfterFailure="/401"
+            component={SalesStock}
+            {...props}
+          />
+
+        </CompanyLayout>
         {/*  */}
 
         <AdminLayout path="/super_admin" {...props}>
