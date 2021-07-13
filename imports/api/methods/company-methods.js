@@ -3,14 +3,10 @@ import CompanyCollection from "../../../collections/company";
 import Customers from "../../../collections/customers";
 import Sales from "../../../collections/sales";
 import Products from "../../../collections/product";
-import {
-  UpdateCustomerSchema,
-} from "../schemas/CustomerSchema";
+import { UpdateCustomerSchema } from "../schemas/CustomerSchema";
 import { UpdateProductSchema } from "../schemas/ProductSchema";
 import SaleSchema from "../schemas/SaleSchema";
-import {
-  UpdateSupplierrSchema,
-} from "../schemas/SupplierSchema";
+import { UpdateSupplierrSchema } from "../schemas/SupplierSchema";
 import Suppliers from "../../../collections/Supplier";
 import customers from "../../../collections/customers";
 import Images from "../../../collections/images";
@@ -119,19 +115,19 @@ const getMiniCustomers = function () {
     .fetch();
 };
 const getSingleEstimateInfo = function (id) {
-  return Sales.findOne({ "_id": id });
+  return Sales.findOne({ _id: id });
 };
 const getSingleDelivery = function (id) {
-  return Purchases.findOne({ "_id": id });
+  return Purchases.findOne({ _id: id });
 };
 const getMiniSuppliers = function () {
   const isNotCompany =
     Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
   const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
-  return Supplier
-    .find({ userId: isNotCompany ? me.profile?.companyId : this.userId })
-    .fetch();
+  return Supplier.find({
+    userId: isNotCompany ? me.profile?.companyId : this.userId,
+  }).fetch();
 };
 
 const updateSaleStatus = function (_id, status) {
@@ -144,7 +140,6 @@ const updateSaleStatus = function (_id, status) {
     }
   );
 };
-
 
 const updateSupplyordertatus = function (_id, status) {
   Purchases.update(
@@ -165,7 +160,7 @@ const deleteSupplyOrder = function (_id) {
     _id,
     userId: isNotCompany ? me.profile?.companyId : this.userId,
   });
-}
+};
 
 const updateDeliverySaleStatus = function (_id, status) {
   Sales.update(
@@ -206,7 +201,7 @@ const addSale = function (data) {
 
 const updateEstimate = function (id, data, oldData) {
   // console.log(data);
-  Sales.update(id, { $set: { "productList": [] } });
+  Sales.update(id, { $set: { productList: [] } });
   const isNotCompany =
     Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
   const me = Meteor.users.findOne({ _id: this.userId });
@@ -225,14 +220,14 @@ const updateEstimate = function (id, data, oldData) {
       status: oldData.status,
       deliverStatus: oldData.deliverStatus,
       invoiceStatus: oldData.invoiceStatus,
-    }
+    },
   });
-  Sales.update(id, { $set: { "productList": data.productList } });
+  Sales.update(id, { $set: { productList: data.productList } });
   console.log(data);
 };
 const updateDelivery = function (id, data, oldData) {
   // console.log(data);
-  Purchases.update(id, { $set: { "productList": [] } });
+  Purchases.update(id, { $set: { productList: [] } });
   const isNotCompany =
     Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
   const me = Meteor.users.findOne({ _id: this.userId });
@@ -251,9 +246,9 @@ const updateDelivery = function (id, data, oldData) {
       status: oldData.status,
       deliverStatus: oldData.deliverStatus,
       invoiceStatus: oldData.invoiceStatus,
-    }
+    },
   });
-  Purchases.update(id, { $set: { "productList": data.productList } });
+  Purchases.update(id, { $set: { productList: data.productList } });
   console.log(data);
 };
 
@@ -320,8 +315,6 @@ const getCustomers = function ({
   }
   return { items: Customers.find(query, options).fetch(), totalCount };
 };
-
-
 
 const getCompanyUsers = function ({
   page,
@@ -400,7 +393,6 @@ const getSuppliers = function ({
   }
   return { items: Suppliers.find(query, options).fetch(), totalCount };
 };
-
 
 const getSale = function ({
   page,
@@ -481,7 +473,6 @@ const getSupplyOrder = function ({
   }
   return { items: Purchases.find(query, options).fetch(), totalCount };
 };
-
 
 const addProduct = function (data, imageId) {
   let url;
@@ -575,7 +566,10 @@ const updateCustomer = async function ({ id, data }) {
     Roles.getRolesForUser(this.userId)[0]?.toLowerCase() !== "company";
   const me = Meteor.users.findOne({ _id: this.userId });
   // isNotCompany ? me.profile?.companyId : this.userId,
-  const customer = Customers.findOne({ _id: id, userId: isNotCompany ? me.profile?.companyId : this.userId, });
+  const customer = Customers.findOne({
+    _id: id,
+    userId: isNotCompany ? me.profile?.companyId : this.userId,
+  });
   if (!customer) {
     throw new Meteor.Error("Customer not found");
   }
@@ -626,9 +620,9 @@ const payAmount = function ({ _id, amount }) {
   let sale = parseFloat(singleSale.payedAmount ?? 0);
 
   if (parseFloat(singleSale.totaleTaxeIncl) - sale <= 0)
-    throw new Meteor.Error('paying', 'Amount Already Paid')
+    throw new Meteor.Error("paying", "Amount Already Paid");
   if (parseFloat(singleSale.totaleTaxeIncl) - sale < amount)
-    throw new Meteor.Error('paying', 'Amount Bigger than the needed to pay')
+    throw new Meteor.Error("paying", "Amount Bigger than the needed to pay");
 
   sale += parseFloat(amount);
   Sales.update({ _id }, { $set: { payedAmount: sale } });
@@ -639,9 +633,9 @@ const paySupplierAmount = function ({ _id, amount }) {
   let sale = parseFloat(singleSale.payedAmount ?? 0);
 
   if (parseFloat(singleSale.totaleTaxeIncl) - sale <= 0)
-    throw new Meteor.Error('paying', 'Amount Already Paid')
+    throw new Meteor.Error("paying", "Amount Already Paid");
   if (parseFloat(singleSale.totaleTaxeIncl) - sale < amount)
-    throw new Meteor.Error('paying', 'Amount Bigger than the needed to pay')
+    throw new Meteor.Error("paying", "Amount Bigger than the needed to pay");
 
   sale += parseFloat(amount);
   Purchases.update({ _id }, { $set: { payedAmount: sale } });
@@ -685,43 +679,47 @@ const getSalesStock = async function () {
   const me = Meteor.users.findOne({ _id: this.userId });
   const aggregation = [
     {
-      '$match': {
-        'userId': isNotCompany ? me.profile?.companyId : this.userId,
-      }
-    }, {
-      '$unwind': {
-        'path': '$productList',
-        'preserveNullAndEmptyArrays': true
-      }
-    }, {
-      '$project': {
-        'productList': 1
-      }
-    }, {
-      '$group': {
-        '_id': '$productList.name',
-        'count': {
-          '$sum': 1
+      $match: {
+        userId: isNotCompany ? me.profile?.companyId : this.userId,
+      },
+    },
+    {
+      $unwind: {
+        path: "$productList",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $project: {
+        productList: 1,
+      },
+    },
+    {
+      $group: {
+        _id: "$productList.name",
+        count: {
+          $sum: 1,
         },
-        'quantity': {
-          '$sum': {
-            '$toInt': '$productList.quantity'
-          }
+        quantity: {
+          $sum: {
+            $toInt: "$productList.quantity",
+          },
         },
-        'total_TND': {
-          '$sum': '$productList.total'
-        }
-      }
-    }, {
-      '$project': {
-        '_id': 1,
-        'quantity': 1,
-        'total': '$total_TND'
-      }
-    }
+        total_TND: {
+          $sum: "$productList.total",
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        quantity: 1,
+        total: "$total_TND",
+      },
+    },
   ];
   return await Sales.rawCollection().aggregate(aggregation).toArray();
-}
+};
 
 const getPurchaseStocks = async function () {
   const isNotCompany =
@@ -729,43 +727,47 @@ const getPurchaseStocks = async function () {
   const me = Meteor.users.findOne({ _id: this.userId });
   const aggregation = [
     {
-      '$match': {
-        'userId': isNotCompany ? me.profile?.companyId : this.userId,
-      }
-    }, {
-      '$unwind': {
-        'path': '$productList',
-        'preserveNullAndEmptyArrays': true
-      }
-    }, {
-      '$project': {
-        'productList': 1
-      }
-    }, {
-      '$group': {
-        '_id': '$productList.name',
-        'count': {
-          '$sum': 1
+      $match: {
+        userId: isNotCompany ? me.profile?.companyId : this.userId,
+      },
+    },
+    {
+      $unwind: {
+        path: "$productList",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $project: {
+        productList: 1,
+      },
+    },
+    {
+      $group: {
+        _id: "$productList.name",
+        count: {
+          $sum: 1,
         },
-        'quantity': {
-          '$sum': {
-            '$toInt': '$productList.quantity'
-          }
+        quantity: {
+          $sum: {
+            $toInt: "$productList.quantity",
+          },
         },
-        'total_TND': {
-          '$sum': '$productList.total'
-        }
-      }
-    }, {
-      '$project': {
-        '_id': 1,
-        'quantity': 1,
-        'total': '$total_TND'
-      }
-    }
+        total_TND: {
+          $sum: "$productList.total",
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        quantity: 1,
+        total: "$total_TND",
+      },
+    },
   ];
   return await Purchases.rawCollection().aggregate(aggregation).toArray();
-}
+};
 
 const getCustomerInfo = async function () {
   return await Customers.rawCollection()
@@ -795,30 +797,32 @@ const addProdutsFromExcel = function ({ data }) {
 };
 
 const sendMessage = function ({ message }) {
+  const adminId = Meteor.users.findOne({
+    "emails.0.address": "admin@mail.com",
+  })._id;
 
-  const adminId = Meteor.users.findOne({ 'emails.0.address': "admin@mail.com" })._id;
+  if (!adminId) throw new Meteor.Error("sendMessage", "admin not found ");
 
   if (!message || !message.trim().length)
-    throw new Meteor.Error('sendMessage', 'invalid info')
+    throw new Meteor.Error("sendMessage", "invalid info");
 
   let conversation = Conversations.findOne({
-    participants: { $all: [adminId, this.userId] }
+    participants: { $all: [adminId, this.userId] },
   });
   if (!conversation) {
-    conversation = Conversations.findOne(Conversations.insert({
-      participants: [
-        adminId,
-        this.userId
-      ],
-    }))
+    conversation = Conversations.findOne(
+      Conversations.insert({
+        participants: [adminId, this.userId],
+      })
+    );
   }
   Messages.insert({
     conversationId: conversation._id,
     createdAt: new Date(),
     content: message,
-    sender: this.userId
-  })
-}
+    sender: this.userId,
+  });
+};
 
 Meteor.methods({
   addInfo,
@@ -868,5 +872,5 @@ Meteor.methods({
   updateDelivery,
   deleteSUpplierOrder,
   paySupplierAmount,
-  getDeliveryeInfo
+  getDeliveryeInfo,
 });
